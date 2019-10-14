@@ -1,0 +1,99 @@
+{% extends 'main/parent.html.twig' %}
+
+
+    {% block stylesheets %}
+        <link href="{{ asset('web/styles/search_projects.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+        <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+
+    {% endblock %}
+
+{% block left %}
+    <form action=" " method="get">
+
+        <div class="filter">
+            <div class="title">Filtruj zespoły</div>
+
+            <hr>
+            <div class="bio-title">
+                <a>Nazwa </a>
+                <input class="bio" type="text" size="30" name="title" id="inputTitle" placeholder="..."
+                       ></div>
+            <br>
+
+            <div class="bio-title">
+                <a>Członek </a>
+                <input type="text" name="member" class="bio" placeholder="..." maxlength="50" id="lang"
+                        >
+
+                <input type="hidden" name="page" >
+            </div>
+            <br>
+
+            <div class="bio-title">
+               <a>Gatunek </a>
+                <input type="TechList" class="bio" name="technology" id="tech" placeholder="..." maxlength="50"
+                       list="TechList" >
+                <datalist id="TechList">
+
+                </datalist>
+            </div>
+            <br>
+
+
+            <hr>
+            <div class="sort">
+                Sortuj według:
+                <select name="sorting">
+                    <option value="Najnowsze"  >Najnowsze</option>
+                    <option value="Najstarsze"  >Najstarsze</option>
+                    <option value="A-Z"   >A-Z</option>
+                    <option value="Z-A"  >Z-A</option>
+                </select>
+                <br>
+                <div class="btn-search">
+                    <input type="submit" id="upload"/>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block body %}
+
+
+
+        <div class="post">
+            <a href=" "><img id="project-avatar"
+                                    src=" "
+                                                                                           width="70" height="70"></a>
+            <a class="project-title" href=" ">nazwa</a><br>
+
+                <a class="project-lang" href=" ">aasa</a>
+
+        </div>
+
+
+
+    <div class="pagination">
+
+            <a class="pagination-button prev"
+               href=" "><i
+                        class="fas fa-arrow-left"></i></a>
+
+        <div style="display: inline-block;
+    margin-top: 5px;">
+            <a class="pagination-a" href="#">{{ page }}</a>
+        </div>
+
+            <a class="pagination-button next"
+               href=" "><i
+                        class="fas fa-arrow-right"></i></a>
+
+    </div>
+
+    <script src="{{ asset('web/scripts/edit-profile.js') }}"></script>
+
+
+{% endblock %}

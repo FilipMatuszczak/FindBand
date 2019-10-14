@@ -1,0 +1,118 @@
+{% extends 'main/parent.html.twig' %}
+
+
+    {% block stylesheets %}
+        <link href="{{ asset('web/styles/search_projects.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+        <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+    {% endblock %}
+
+{% block left %}
+    <form action=" " method="get">
+        <div class="filter">
+            <div class="title">Filtruj użytkowników</div>
+
+            <hr>
+            <div class="bio-title">
+                Imię
+                <input class="bio" type="text" size="30" name="firstName" id="inputTitle" placeholder="..."
+                       ></div>
+            <br>
+
+            <div class="bio-title">
+                Nazwisko
+                <input class="bio" type="text" size="30" name="lastName" id="inputTitle" placeholder="..."
+                       ></div>
+            <br>
+            <input type="hidden" name="page"  >
+            <div class="bio-title">
+                Instrument
+                <input type="LangList" class="bio" placeholder="..." maxlength="50" id="lang" name="language"
+                       list="LangList"  >
+                <datalist id="LangList">
+                    <option value="polski">
+                </datalist>
+
+            </div>
+            <br>
+
+            <div class="bio-title">
+                Gatunek
+                <input type="TechList" class="bio" id="tech" placeholder="..." maxlength="50" name="technology"
+                       list="TechList"  >
+                <datalist id="TechList">
+
+                </datalist>
+            </div>
+            <br>
+            <div class="bio-title">
+                Miasto
+                <input type="CityList" class="bio" placeholder="..." maxlength="50" id="city" list="CityList"
+                       name="city"  >
+                <datalist id="CityList">
+
+                </datalist>
+            </div>
+
+            <hr>
+            <div class="sort">
+                Sortuj według:
+
+                <select name="sorting">
+                    <option value="A-Z"  >A-Z</option>
+                    <option value="Z-A"  >Z-A</option>
+                    <option value="Najstarsi"  >Najstarsi</option>
+                    <option value="Najmlodsi" >Najmłodsi</option>
+                </select>
+                <br>
+                <div class="btn-search">
+                    <input type="submit" id="upload"/>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block body %}
+
+
+
+        <div class="post" id="usr-post">
+            <a href=" "><img id="user-avatar"
+                                                                                   src=" "
+                                                                                   width="70" height="70"></a>
+
+            <a class="project-title">imie i nazwisko</a><br>
+
+                <a class="project-lang">instr</a>
+
+
+                <a class="project-autors">miasto?</a>
+
+        </div>
+
+
+    <div class="pagination">
+
+            <a class="pagination-button prev"
+               href=" "><i
+                        class="fas fa-arrow-left"></i></a>
+
+        <div style="display: inline-block;
+    margin-top: 5px;">
+            <a class="pagination-a" href="#">1</a>
+        </div>
+
+            <a class="pagination-button next"
+               href=""><i
+                        class="fas fa-arrow-right"></i></a>
+     
+    </div>
+
+
+
+    <script src="{{ asset('web/scripts/edit-profile.js') }}"></script>
+
+
+{% endblock %}

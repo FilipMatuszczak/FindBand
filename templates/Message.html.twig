@@ -1,0 +1,119 @@
+{% extends 'main/parent.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('web/styles/messages.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+{% endblock %}
+
+
+
+{% block body %}
+
+    <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj </button>
+    <div id="Chat-Content">
+
+        <div id="chat-container">
+
+                {#Od kogoś #}
+                    <div class="I-message">
+                        <a href="  "> <img
+                                    id="comment-avatar-left"
+                                    src=""
+
+
+                                    width="70" height="70"></a>
+
+
+                        <a class="project-title"
+                 href="">
+                teskst
+                          </a>
+                        ✽ czas
+
+
+                        <p class="message-content">tekst</p>
+
+
+                    </div>
+                    {# #}
+
+                {#Ode mnie #}
+
+
+                    <div class="YOU-message">
+                        <a href=" "> <img
+                                    id="comment-avatar-right"
+                                    src=""
+
+                                    width="70" height="70"></a>
+                        <div id="cos">
+                            <div class="title-right">
+                                <a class="project-title"
+                                   href=" ">autor</a>
+                                ✽ czas
+                            </div>
+                        </div>
+
+                        <p class="message-content youmessc">tekst</p>
+
+
+                    </div>
+
+
+                {# #}
+
+
+
+        </div>
+
+        <div class="form-post">
+
+            <img id="post-avatar" src="" width="70" height="70">
+
+
+
+                <div class="photo-textarea">
+                    <textarea name="messageText" class="form-control" rows="5" cols="25"></textarea>
+
+                    <input type="hidden" name="receiverId" value=>
+
+                    <button style="display:none;" id="file-cancel"></button>
+
+
+                    <input type="submit" id="button-rem" class="button-post" value="Wyślij"></div>
+                <br>
+
+            </form>
+        </div>
+
+    </div>
+    <script>
+
+        function validateformPost() {
+            var content = document.postForm.text.value;
+
+            if (content == null || content == "") {
+                //console.log(reason);
+                document.postForm.text.style.border = "0.5px solid red";
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        $(document).ready(function () {
+
+
+            var element = document.getElementById("chat-container");
+            element.scrollTop = element.scrollHeight - element.clientHeight;
+
+
+        });
+
+
+    </script>
+
+
+
+{% endblock %}

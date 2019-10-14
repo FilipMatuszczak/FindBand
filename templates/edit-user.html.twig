@@ -1,0 +1,453 @@
+{% extends 'main/parent.html.twig' %}
+    {% block stylesheets %}
+        <link href="{{ asset('web/styles/edit-user.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+
+        <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+
+    {% endblock %}
+{% block body %}
+
+<input id="UserID" value=" " type="hidden">
+    {# modal request technologii #}
+    <form  name="ReqForm" onsubmit=" " action=" " method="post">
+        <div id="modal-req" class="modal">
+            <div class="modal-content">
+
+                <p style="margin-left: 2%;">Czy chcesz wysłać prośbę o dodanie nowej technologii?</p>
+                <br>
+                <input id="reqTitle" name="name" value="" placeholder="Nazwa" class="name" style="border-radius: 5px; margin-bottom: 2%; margin-top: 2%;">
+                <input type="hidden" name="destination" value="user_profile">
+                <textarea id="reqtxt" name="reason" class="form-control"
+                          placeholder="Napisz co to za technologia i dołącz linki do źródła." rows="5" cols="25"></textarea>
+                <div class="buttons" style="height: 40px;">
+                    <button class="cancel-btn button">Anuluj</button>
+
+                    <input type="submit" id="send-btn" class="button" value="Wyślij zgłoszenie">
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+    <div class="edit-profile">
+
+    <div class="topnav">
+        <button class="editnav actives" id="ProfileButton">Profil</button>
+        <button class="editnav nonactives" id="GenreButton" >Gatunki</button>
+        <button class="editnav nonactives" id="InstrumentsButton">Instrumenty</button>
+        <button class="editnav endnav nonactives" id="BlockedButton">Zablokowani</button>
+    </div>
+
+
+
+    <div class="edit-container">
+        <div id="ProfileTab">
+            <h1>Edytuj swój profil:</h1>
+
+                <div class="names-container">
+
+
+                <label for="image">
+                    <input type="file" name="photo" id="image"
+                           accept="image/jpeg, image/png"
+                           class="fileToUpload" name="fileToUpload" style="display:none;"/>
+                    <img id="photo-edit"
+                         src=" "
+                         width="120"
+                         height="160" style="object-fit: cover;"/>
+                </label>
+
+
+
+
+             <input type="text" class="name" placeholder="Imię" name="firstname" maxlength="50"
+                   value="">
+
+            <input type="text" class="name" placeholder="Nazwisko" name="lastname" maxlength="50"
+                   value=""><br>
+
+            <div class="bdays">
+                <label>Data urodzenia:</label> <br>
+                <input type="date"  name="bdaytime" style="border: 1px solid #7DA2AA;">
+
+            </div>
+            <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25" maxlength="250" value=""></textarea>
+            <br>
+            <label class="lcheck">
+                <input type="checkbox" name="newsletter">Chcę otrzymywać newslettera.
+            </label><br>
+
+            <br>
+
+                </div>
+            <input type="submit" value="Zapisz zmiany" name="submit" class="upload smaller"/>
+
+        </div>
+
+    <div id="GenresTab">
+
+        <h1>Edytuj swoje gatunki muzyczne:</h1>
+
+        <button type="button" id="button-moreC" class="button-more">Dodaj <i class="fas fa-plus"></i> </button><br>
+
+    <div id="cities-forms" class="forms">
+        <div>
+        <input type="CityList" class="bio city down" placeholder="Miasto" maxlength="50" name="cities[]" id="city" list="CityList">
+        <datalist id="CityList">
+
+        </datalist>
+        <button type="button" id="button-less" class="less btad">-</button>
+        <br>
+        </div>
+    </div>
+        <input type="submit" value="Zapisz gatunki" name="submit" id="add-city" class="upload smaller"/>
+
+    </div>
+
+
+    <div id="InstrumentsTab">
+        <h1>Edytuj swoje instrumenty:</h1>
+        <button type="button" id="button-more" class="button-more">Dodaj <i class="fas fa-plus"></i> </button> <br>
+
+        <div id="languages-forms" class="forms">
+            <div>
+            <input type="LangList" class="bio lang" placeholder="Język" maxlength="50" id="lang" name="languages[]" list="LangList">
+            <datalist id="LangList">
+            </datalist>
+            <button type="button" id="button-less" class="less btad">-</button>
+            <br> </div>
+        </div>
+        <input type="submit" value="Zapisz instrumenty" name="submit" id="add-lang" class="upload smaller"/>
+
+
+    </div>
+
+
+
+    <div id="BlockedTab">
+        <h1>Edytuj swoje blokady użytkowników:</h1>
+
+{#
+        <div class="TechReq">
+            <h4>Nie widzisz swojej technologii? </h4> <button id="ReqButton" class="button">Zgłoś ją!</button>
+        </div>
+        <br> <br>#}
+
+        <button type="button" id="button-moret" class="button-more">Dodaj <i class="fas fa-plus"></i> </button> <br>
+
+        <div id="tech-forms" class="forms">
+            <div>
+            <input type="TechList" class="bio tech" id="tech" placeholder="Technologie" maxlength="50" name="technologies[]" list="TechList">
+            <datalist id="TechList">
+
+            </datalist>
+            <button type="button" id="button-less" class="less btad">-</button>
+            <br></div>
+        </div>
+        <input type="submit" value="Zapisz blokady" name="submit" id="add-tech" class="upload smaller"/>
+        <div id="Technologies"></div>
+
+
+    </div>
+
+
+    </div>
+
+
+    <script src="{{ asset('web/scripts/edit-profile.js') }}"></script>
+
+    <script>
+
+
+        ///////////////////////
+        /*
+           $(document).ready(function(){
+
+               var technologies = []; ///powinna byc pobierana
+               var languages = [];
+
+           $('#add-tech').click(function() {
+
+                var technology = $('#tech').val()
+                technologies.push(technology);
+
+              $('#Technologies').html('<p>' + technologies + ' </p>');
+               document. getElementById('tech').value ="";
+
+            } );
+
+           $('#add-lang').click(function() {
+
+                var language = $('#lang').val()
+                languages.push(language);
+
+              $('#languages').html('<p>' + languages + ' </p>');
+               document. getElementById('lang').value ="";
+
+            } );
+
+
+
+           });
+
+            */
+
+        ////validateform
+
+        function validateform1(){
+            var firstname=document.Form1.firstname.value;
+            var lastname=document.Form1.lastname.value;
+            document.Form1.firstname.style.border = "1px solid #7DA2AA";
+            document.Form1.lastname.style.border = "1px solid #7DA2AA";
+
+            if (firstname==null || firstname==""){
+                //console.log(reason);
+                document.Form1.firstname.style.border = "1px solid red";
+                return false;
+            } else if (lastname==null || lastname==""){
+                document.Form1.lastname.style.border = "1px solid red";
+                return false;
+            }
+
+            else{  return true; }
+        }
+
+        ////validateform
+
+        function validateform2(){
+            var fileToUpload=document.Form2.fileToUpload.value;
+            document.getElementById("photo-edit").style.border = "1px solid #7DA2AA";
+             if (fileToUpload==null || fileToUpload==""){
+                document.getElementById("photo-edit").style.border = "1px solid red";
+                return false;
+            }
+            else{  return true; }
+        }
+
+
+        ////popup request
+        $("#ReqButton").on("click", function () {
+
+            event.preventDefault();
+            //$('#modal-edit').hide();
+            $('#modal-req').show();
+        });
+
+
+        $(".cancel-btn").on("click", function () {
+            event.preventDefault();
+
+            $('#reqtxt').val("");
+            $('#reqTitle').val("");
+
+            $('#modal-req').hide();
+
+        });
+
+        function validateformReq(){
+            var Rtitle=document.ReqForm.reqTitle.value;
+            var Rtxt=document.ReqForm.reqtxt.value;
+
+            document.ReqForm.reqTitle.style.border = "1px solid #7DA2AA";
+            document.ReqForm.reqtxt.style.border = "1px solid #7DA2AA";
+
+
+            if (Rtitle==null || Rtitle==""){
+                //console.log(reason);
+                document.ReqForm.reqTitle.style.border = "1px solid red";
+                return false;
+            } else if (Rtxt==null || Rtxt==""){
+                //console.log(reason);
+                document.ReqForm.reqtxt.style.border = "1px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+        ////validateform
+        function validateformCreate(){
+
+
+            var isValid;
+            $(".tech").each(function() {
+
+                var element = $(this);
+//////
+                element.css("border","1px solid #7DA2AA");
+                var requestExistsTech = new XMLHttpRequest()
+
+                if((element.val() == "")  || (element.val() == null) ){
+                    isValid=false;
+                    element.css("border","1px solid red");
+
+                }else{
+
+                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/technologyExists/' + element.val(), false)
+                    requestExistsTech.onload = function () {
+
+                        var dataE = JSON.parse(this.response)
+
+
+                        if (requestExistsTech.status >= 200 && requestExistsTech.status < 400) {
+                            //console.log(dataE);
+
+
+                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                                ///console.log("NOPEEEE" + element.val());
+                                isValid=false;
+                                element.css("border","1px solid red");
+                            }
+
+
+                        } else {
+                            isValid=false;
+                            console.log('error')
+                        }
+
+
+                    }
+
+                    requestExistsTech.send()
+                }
+            });
+
+
+//////
+
+
+            if(isValid==false){return false;}
+            else{  return true; }
+
+
+        }
+////////////////////////////////////////lang/////////////
+
+
+        function validateformCreateLang(){
+
+
+            var isValid;
+            $(".lang").each(function() {
+
+                var element = $(this);
+//////
+                element.css("border","1px solid #7DA2AA");
+                var requestExistsTech = new XMLHttpRequest()
+
+                if((element.val() == "")  || (element.val() == null) ){
+                    isValid=false;
+                    element.css("border","1px solid red");
+
+                }else{
+
+                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/languageExists/' + element.val(), false)
+                    requestExistsTech.onload = function () {
+
+                        var dataE = JSON.parse(this.response)
+
+
+                        if (requestExistsTech.status >= 200 && requestExistsTech.status < 400) {
+                            //console.log(dataE);
+
+
+                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                                ///console.log("NOPEEEE" + element.val());
+                                isValid=false;
+                                element.css("border","1px solid red");
+                            }
+
+
+                        } else {
+                            isValid=false;
+                            console.log('error')
+                        }
+
+
+                    }
+
+                    requestExistsTech.send()
+                }
+            });
+
+
+//////
+
+
+            if(isValid==false){return false;}
+            else{  return true; }
+
+
+        }
+
+        ////////////////////////////////////////city/////////////
+
+
+        function validateformCreateCity(){
+
+
+            var isValid;
+            $(".city").each(function() {
+
+                var element = $(this);
+//////
+                element.css("border","1px solid #7DA2AA");
+                var requestExistsTech = new XMLHttpRequest()
+
+                if((element.val() == "")  || (element.val() == null) ){
+                    isValid=false;
+                    element.css("border","1px solid red");
+
+                }else{
+
+                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/cityExists/' + element.val(), false)
+                    requestExistsTech.onload = function () {
+
+                        var dataE = JSON.parse(this.response)
+
+
+                        if (requestExistsTech.status >= 200 && requestExistsTech.status < 400) {
+                            //console.log(dataE);
+
+
+                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                                ///console.log("NOPEEEE" + element.val());
+                                isValid=false;
+                                element.css("border","1px solid red");
+                            }
+
+
+                        } else {
+                            isValid=false;
+                            console.log('error')
+                        }
+
+
+                    }
+
+                    requestExistsTech.send()
+                }
+            });
+
+
+//////
+
+
+            if(isValid==false){return false;}
+            else{  return true; }
+
+
+        }
+
+    </script>
+
+
+
+
+
+
+
+
+
+{% endblock %}

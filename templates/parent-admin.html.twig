@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+   
+  <head>
+      
+      
+      
+    <meta charset="utf-8">
+      <script src="https://unpkg.com/react/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone/babel.js"></script>
+
+       <link href="{{ asset('web/styles/admin.css') }}" rel="stylesheet" type="text/css"/>
+      
+      <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+      <script src="{{ asset('web/scripts/admin.js') }}"></script>
+      
+    <title>S COUT - ADMIN</title>
+  </head>
+  <body>
+
+ <div class="row">
+        <div class="left">
+      
+  <a href=" ">Zgłoszenia</a>
+  <a href=" ">Technologie</a>
+   <a href=" ">Historia</a>
+ <a id="newsletter" >Newsletter</a>       
+  <br> <br> <br>
+  <a href=" ">Wyloguj</a>
+</div>
+        
+        <div class="right">
+        
+            
+            <div class="content">
+
+                {% block newsletter %}
+                
+                      <div id="modal-news" class="modal">
+                <div class="modal-content">
+            <span class="close"></span>
+                    
+       <form action=" " method="post">
+           
+                    <textarea id="mssgtxt"name="message" class="form-control" rows="5" cols="25" placeholder="Wiadomość dla wszystkich użytkowników..."></textarea>
+           
+           <div class="modal-buttons">
+                    <button class="cancel-btn">Anuluj</button>
+                    <input type="submit" id="news-btn" class="button" value="Wyślij"></div>
+        </form>
+                    </div>
+                            </div> 
+                    
+                {% endblock %}
+                
+            {% block body %}
+            
+            
+            {% endblock %}
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

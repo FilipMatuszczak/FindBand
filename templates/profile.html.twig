@@ -1,0 +1,249 @@
+{% extends 'main/parent.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('web/styles/profile.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+{% endblock %}
+
+
+
+{% block body %}
+
+
+
+    <div id="profile">
+        <div class="profile-left">
+            <img id="profile-picture"
+                 src=" " width="230"
+                 height="280">
+        </div>
+
+        <div class="profile-right">
+            <p id="name-profile">imie nazw, wiek, miasto
+
+            </p>
+
+
+
+            <p class="infos">Instrumenty </p><p>
+
+            <p>Brak
+                </p>
+            <hr>
+
+
+            <p class="infos">Gatunki </p>
+            <p>
+
+            <p>Brak
+                </p>
+            <hr>
+            <p>info</p>
+        </div>
+    </div>
+
+
+        <div id="mess">
+            <button class="navico message-ico"><i class="fa fa-envelope"></i> Wyślij wiadomość</button>
+            <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj </button>
+        </div>
+
+
+    <div id="modal-message" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <p>Napisz wiadomość do <a>ime naz </a></p>
+            <div class="photo-textarea">
+
+                    <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
+
+                    <input type="hidden" name="receiverId" value="">
+
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn button">Anuluj</button>
+                <input type="submit" id="send-btn" class="button" value="Wyślij">
+
+            </div>
+        </div>
+    </div>
+
+    {# reportowanie #}
+    <div id="modal-report" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <p>Dlaczego chcesz zgłosić post użytkownika <a>autor</a>?</p>
+            <div class="photo-textarea">
+
+                    <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
+
+
+                    <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
+                    <input type="hidden" name="destination" >
+                    <input type="hidden" name="username" >
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn button">Anuluj</button>
+                <input type="submit" id="send-btn" class="button" value="Zgłoś">
+
+            </div>
+        </div>
+    </div>
+    {#   #}
+
+
+        <div class="form-post">
+            <img id="post-avatar" src="" width="70" height="70">
+
+                <div class="photo-textarea">
+                    <textarea name="text" class="form-control" rows="5" cols="25"></textarea>
+
+                    <input type="hidden" name="username">
+
+                    <button style="display:none;" id="file-cancel"></button>
+                    <label>
+                        <input type="file" id="add-image" accept="image/jpeg, image/png" class="fileToUpload"
+                               name="photo" style="display:none;"/>
+                        <span><i class="fa fa-image"></i></span>
+                    </label>
+
+
+                    <input type="submit" id="button-rem" class="button-post" value="Opublikuj"></div>
+                <br>
+
+        </div>
+
+        <div class="comment">
+            <a href=""><img id="comment-avatar"
+                                                                                   src=""
+                                                                                   width="70" height="70"></a>
+
+            <p class="project-title"
+               href=""> imie i nazwisko</p>
+            ✽ czas
+
+
+                <button class="reportico" ><i
+                            class="fa fa-exclamation-circle"></i></button>
+
+
+            <p class="comment-content">tesgfssdfs</p>
+
+                <div class="comment-image"><img image-zoom
+                                                src=""
+                                                width="250"
+                    ></div>
+
+        </div>
+
+
+
+    <script>function reportPost(postId) {
+            event.preventDefault();
+            document.getElementById("postId").value = postId;
+            $('#modal-report').show();
+        }
+
+        $(document).ready(function () {
+
+
+            ////popup message
+            $(".message-ico").on("click", function () {
+                event.preventDefault();
+                $('#modal-message').show();
+            });
+
+            //close modals
+            $(".cancel-btn").on("click", function () {
+                event.preventDefault();
+                $('#mssgtxt').val("");
+                $('#reptxt').val("");
+                $('#modal-message').hide();
+                $('#modal-report').hide();
+            });
+
+            //////////////photo preview
+            function readURL(input) {
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    var filename = (input.files[0].name);
+
+                    reader.onload = function (e) {
+                        $('#file-cancel').html(filename + " x");
+                        $('#file-cancel').show();
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#add-image").change(function () {
+                readURL(this);
+            });
+            /////////////////
+
+            $("#file-cancel").on("click", function () {
+                event.preventDefault();
+                $('#add-image').val("");
+                $('#file-cancel').hide();
+            });
+
+
+        });
+        ///////photo preview comment
+
+        $('img[image-zoom]').addClass('img-enlargable').click(function () {
+            var src = $(this).attr('src');
+            $('<div>').css({
+                background: 'RGBA(0,0,0,.7) url(' + src + ') no-repeat center',
+                backgroundSize: 'contain',
+                width: '100%', height: '100%',
+                position: 'fixed',
+                zIndex: '10000',
+                top: '0', left: '0',
+                cursor: 'zoom-out'
+            }).click(function () {
+                $(this).remove();
+            }).appendTo('body');
+        });
+
+            ////////////////////////////validate forms
+
+        function validateformReport(){
+            var reason=document.reportForm.reason.value;
+
+            if (reason==null || reason==""){
+                //console.log(reason);
+                document.reportForm.reason.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+        function validateformMessage(){
+            var message=document.messageForm.messageText.value;
+
+            if (message==null || message==""){
+                //console.log(reason);
+                document.messageForm.messageText.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+        function validateformPost(){
+            var content=document.postForm.text.value;
+            var photo=document.postForm.photo.value;
+
+            if ((content==null || content=="")&&(photo==null || photo=="")){
+                //console.log(reason);
+                document.postForm.text.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+    </script>
+
+
+
+{% endblock %}

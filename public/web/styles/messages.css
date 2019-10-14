@@ -1,0 +1,245 @@
+
+.form-post{
+    
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+#post-avatar{
+    margin: 5px;
+    border: 1px solid #7DA2AA;
+    border-radius: 100px;
+    object-fit: cover;
+    float:left;
+}
+
+.form-control{
+    width: 75%;
+    margin-top: 16px;
+    resize: none;
+    border-radius: 5px;
+    height: 50px;
+}
+
+.button-post{
+    float: right;
+    margin-top: 17px;
+    height: 50px;
+    padding: 10px;
+  background-color: #EBB3B4; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+    opacity: 0.85;
+    width: 75px;
+}
+
+.button-post:hover{
+    opacity: 1;
+}
+
+.message-ico{
+    float: right;
+}
+
+#mess{
+    width: 100%;
+    float:left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#comment-avatar-left{
+    margin: 5px;
+    border: 1px solid #7DA2AA;
+    border-radius: 100px;
+    object-fit: cover;
+    float:left;
+    
+}
+
+#comment-avatar-right{
+    margin: 5px;
+    border: 1px solid #7DA2AA;
+    border-radius: 100px;
+    object-fit: cover;
+    float:right;
+    
+}
+
+.project-title{
+    text-decoration: none;
+    color: #4f4a41;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 1px;
+    display: contents;
+    
+}
+
+.title-right{
+    float:right;
+}
+
+.comment{
+    background-color: rgba(235,235,235,0.4);
+    min-height: 85px;
+    ---max-height: 1000px;
+    border: 1px solid #7DA2AA;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    
+    
+    
+    
+}
+#cos{display: block;
+    height: 20px;
+    
+}
+.comment:hover{
+    background-color: rgba(235,235,235,0.2);
+    
+}
+
+.comment-content{
+    margin: 1px;
+    text-align: justify;
+    
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+
+}
+
+
+.request-content{
+    margin: 1px;
+    text-align: justify;
+    
+
+
+}
+
+hr{
+    width: 90%;
+}
+
+.infos{
+    text-align: center;
+    font-weight: bold;
+    color:darkgray;
+}
+.photo-textarea{
+    position: relative;
+}
+.photo-textarea i{
+    position: absolute;
+    float:right;
+    margin-left: -40px;
+    margin-top: 50px;
+    color: grey;
+}
+.photo-textarea i:hover{
+    color: #7DA2AA;
+}
+.photo-textarea button {
+	position: absolute;
+    float:right;
+    margin-left: -115px;
+    margin-top: 49px;
+    width: 70px;
+    height: 18px;
+    overflow: hidden;
+    border-radius: 5px;
+    border: none;
+    background-color: grey;
+    opacity: 0.2;
+}
+.photo-textarea button:hover{
+    opacity: 0.6;
+}
+
+
+.button{
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+    height: 30px;
+    padding: 5px;
+  background-color: #EBB3B4; 
+  border: none;
+    border-radius: 2px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+    opacity: 0.85;
+    
+}
+.button:hover{
+    opacity:1;
+}
+
+#Chat-Content{
+    background-color: white;
+    display: block;
+}
+.I-message{
+    
+       
+    min-height: 85px;
+    ---max-height: 1000px;
+    border: 1px solid #7DA2AA;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    
+   border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+    
+}
+
+.YOU-message{
+    
+       
+    min-height: 50px;
+    ---max-height: 1000px;
+    border: 1px solid #7DA2AA;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 5px;
+
+    border: 2px solid #f1f1f1;
+  background-color: #dedede;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+    
+}
+
+#chat-container{
+    padding: 2%;
+    background-color: white;
+    
+    height: 480px;
+    overflow-y: scroll;
+}
+
+.message-content{
+    margin: 2%;
+    text-align: justify;
+}
+
+.youmessc{
+    text-align: justify;
+    text-align-last: right;
+
+}

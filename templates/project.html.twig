@@ -1,0 +1,502 @@
+{% extends 'main/parent.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('web/styles/profile.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('web/styles/project-edit.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+{% endblock %}
+
+
+
+{% block body %}
+    <input id="ProjectID" value=" " type="hidden">
+    <div id="profile">
+        <div class="profile-left">
+            <img id="profile-picture"
+                 src=" "
+                 width="230" height="280">
+        </div>
+
+        <div class="profile-right">
+            <p id="name-profile">tytul
+
+                    <button id="edit-mode" class="navico message-ico"><i class="fas fa-pencil-alt"></i></button> {# edycja #}
+
+            </p>
+
+                    <div id="modal-edit" class="modal" style="display: hidden;">
+                        <div class="modal-content">
+                            <span class="close"></span>
+                            {#       form         #}
+
+                            <div class="edit-profile">
+
+                                <div class="edit-container">
+                                    <div id="up">
+                                        <div id="photo">
+
+
+                                            <br>
+
+                                            <label for="image">
+                                                <input type="file" name="photo" id="image"
+                                                       accept="image/jpeg, image/png"
+                                                       class="fileToUpload" style="display:none;"/>
+                                                <img id="photo-edit"
+                                                     src=""
+                                                     width="120"
+                                                     height="160" style="object-fit: cover;"/>
+                                            </label>
+
+                                            <br><br><br>
+
+
+                                        </div>
+
+                                        <div class="name_div">
+                                            <input type="text" class="name" placeholder="Tytuł" name="title"
+                                                   maxlength="50"
+                                                   value="tytul"/>
+                                        </div>
+                                    </div>
+                                    <div class="info"
+                                         style="text-align: left; margin-left:1%; margin-top: 1%; margin-bottom:1%;">
+                                        <textarea name="text" class="bio" placeholder="Opis" rows="10"
+                                                  cols="25">desc</textarea>
+                                        <input type="hidden" class="bio" placeholder="Opis" name="description"
+                                               maxlength="250"/><br>
+
+                                        <br>
+                                    </div>
+                                    {#
+                                    <div class="TechReq">
+                                    <h4 style="color:grey;">Nie widzisz swojej technologii? </h4> <button id="ReqButton" class="button">Zgłoś ją!</button>
+                                    </div>
+                                    #}
+
+                                    <button type="button" id="button-moret" class="button-moret btad" style="margin-left: -8%;">Dodaj + </button> <br>
+
+                                    <div id="tech-forms" class="forms">
+                                        <div>
+                                            <input type="text" class="bio tech" id="tech" placeholder="Technologie" maxlength="50"
+                                                   name="technologies[]" list="TechList">
+                                            <datalist id="TechList">
+
+                                            </datalist>
+                                            <button type="button" id="button-less" class="less btad">-</button>
+                                            <br> </div>
+                                    </div>
+
+
+                                    <div id="Technologies"></div>
+
+
+                                </div>
+
+
+                                <br>
+                                <div class="buttons">
+                                    <button id="cancel-edit" class="button">Anuluj</button>
+                                    <input type="hidden" name="projectId" value= >
+                                    <input type="submit" id="send-btn" class="button" value="Zapisz">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+            <p class="infos">CZŁONKOWIE</p>
+            <p>
+
+                       członek imie ksywka nazwisko
+                   </p>
+            <hr>
+
+
+            <p class="infos">GATUNKI</p>
+            <p>
+                gatunki</p>
+            <hr>
+
+
+
+
+
+            <p>desc</p>
+        </div>
+    </div>
+
+        <div id="mess">
+            <button id="message" class="navico message-ico"><i class="fa fa-envelope"></i>
+            </button> {# wyslij wiadomosc #}
+
+            <div id="modal-message" class="modal">
+                <div class="modal-content">
+                    <span class="close"></span>
+                    <p>Napisz wiadomość do <a href=""> autor </a></p>
+                    <div class="photo-textarea">
+
+                            <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
+
+                            <input type="hidden" name="receiverId" value= >
+                    </div>
+                    <div class="buttons">
+                        <button class="cancel-btn button">Anuluj</button>
+                        <input type="submit" id="send-btn" class="button" value="Wyślij">
+
+                    </div>
+                </div>
+            </div>
+
+            <button id="add-me" class="navico message-ico"><i class="fa fa-user-plus"></i>
+            </button> {# popros o dodanie #}
+
+            <div id="modal-add" class="modal">
+                <div class="modal-content">
+
+                    <p>Czy chcesz wysłać prośbę o dołączenie do projektu <a>tytul</a>?</p>
+
+                    <textarea id="addtxt" name="messageText" class="form-control"
+                              placeholder="Napisz dlaczego chcesz dołączyć." rows="5" cols="25"></textarea>
+                    <div class="buttons" style="height: 40px;">
+                        <button class="cancel-btn button">Anuluj</button>
+                        <input type="hidden" name="projectId" value= >
+                        <input type="submit" id="send-btn" class="button" value="Wyślij prośbę">
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+    {# modal request technologii #}
+
+        <div id="modal-req" class="modal">
+            <div class="modal-content">
+
+                <p>Czy chcesz wysłać prośbę o dodanie nowej technologii?</p>
+                <br>
+                <input id="reqTitle" name="name" value="" placeholder="Nazwa" class="name" style="border-radius: 5px; margin-bottom: 2%; margin-top: 2%;">
+                <input type="hidden" name="destination" value="project_profile">
+                <input type="hidden" name="projectId" value= >
+                <textarea id="reqtxt" name="reason" class="form-control"
+                          placeholder="Napisz co to za technologia i dołącz linki do źródła." rows="5" cols="25"></textarea>
+                <div class="buttons" style="height: 40px;">
+                    <button class="cancel-btn button">Anuluj</button>
+
+                    <input type="submit" id="send-btn" class="button" value="Wyślij zgłoszenie" >
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+    {# reporty #}
+    <div id="modal-report" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <p>Dlaczego chcesz zgłosić post użytkownika <a>AUTOR</a>?</p>
+            <div class="photo-textarea">
+
+                    <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
+
+                    <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
+                    <input type="hidden" name="destination" value=>
+                    <input type="hidden" name="projectId" value= >
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn button">Anuluj</button>
+                <input type="submit" id="send-btn" class="button" value="Zgłoś">
+
+            </div>
+        </div>
+    </div>
+
+
+        <div class="form-post">
+            <img id="post-avatar" src=" "
+                 width="70" height="70">
+
+                <div class="photo-textarea">
+                    <textarea name="text" class="form-control" rows="5" cols="25"></textarea>
+
+                    <input type="hidden" name="username" value= >
+
+                    <button style="display:none;" id="file-cancel"></button>
+                    <label>
+                        <input type="file" id="add-image" accept="image/jpeg, image/png" class="fileToUpload"
+                               name="photo" style="display:none;"/>
+                        <span><i class="fa fa-image"></i></span>
+                    </label>
+
+                    <input type="hidden" name="projectId" value=
+                    <input type="submit" id="button-rem" class="button-post" value="Opublikuj"></div>
+                <br>
+
+
+        </div>
+
+
+            <div class="comment">
+                <a href=" "><img id="comment-avatar"
+                                                                                            src=" "
+                                                                                            width="70" height="70"></a>
+
+                <p class="project-title"
+                   href=" ">imie i nazwisko</p>
+                ✽ czas
+
+                <input type="hidden" name="" value=""> {#idpostu#}
+
+                    <button class="reportico" ><i
+                                class="fa fa-exclamation-circle"></i></button>
+
+                <p class="comment-content">teskst</p>
+
+                    <div class="comment-image"><img image-zoom
+                                                    src=" "
+                                                    width="250"
+                        ></div>
+
+            </div>
+         
+
+    <script>
+        function reportPost(postId) {
+            event.preventDefault();
+            document.getElementById("postId").value = postId;
+            $('#modal-report').show();
+        }
+
+        $(document).ready(function () {
+
+            ////popup add-me
+            $("#add-me").on("click", function () {
+                event.preventDefault();
+                $('#modal-add').show();
+            });
+
+            ////popup message
+            $("#message").on("click", function () {
+                event.preventDefault();
+                $('#modal-message').show();
+            });
+
+            ////popup request
+            $("#ReqButton").on("click", function () {
+
+                event.preventDefault();
+                //$('#modal-edit').hide();
+                $('#modal-req').show();
+            });
+
+            //close modals
+            $(".cancel-btn").on("click", function () {
+                event.preventDefault();
+                $('#mssgtxt').val("");
+                $('#addtxt').val("");
+                $('#reptxt').val("");
+                $('#reqtxt').val("");
+                $('#reqTitle').val("");
+                $('#modal-add').hide();
+                $('#modal-message').hide();
+                $('#modal-report').hide();
+                $('#modal-req').hide();
+
+            });
+
+
+            //////popup edit mode
+            $("#edit-mode").on("click", function () {
+                event.preventDefault();
+                $('#modal-edit').show();
+            });
+            //cancel edit mode
+            $("#cancel-edit").on("click", function () {
+                event.preventDefault();
+                $('#modal-edit').hide();
+            });
+
+            //////////////photo preview
+            function readURL(input) {
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    var filename = (input.files[0].name);
+
+                    reader.onload = function (e) {
+                        $('#file-cancel').html("x " + filename);
+                        $('#file-cancel').show();
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#add-image").change(function () {
+                readURL(this);
+            });
+            /////////////////
+
+            $("#file-cancel").on("click", function () {
+                event.preventDefault();
+                $('#add-image').val("");
+                $('#file-cancel').hide();
+            });
+
+            ///////photo preview comment
+
+            $('img[image-zoom]').addClass('img-enlargable').click(function () {
+                var src = $(this).attr('src');
+                $('<div>').css({
+                    background: 'RGBA(0,0,0,.7) url(' + src + ') no-repeat center',
+                    backgroundSize: 'contain',
+                    width: '100%', height: '100%',
+                    position: 'fixed',
+                    zIndex: '10000',
+                    top: '0', left: '0',
+                    cursor: 'zoom-out'
+                }).click(function () {
+                    $(this).remove();
+                }).appendTo('body');
+            });
+
+        });
+
+
+        ////////////////////////////validate forms
+
+        function validateformReport(){
+            var reason=document.reportForm.reason.value;
+
+            if (reason==null || reason==""){
+                //console.log(reason);
+                document.reportForm.reason.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+        function validateformMessage(){
+            var message=document.messageForm.messageText.value;
+
+            if (message==null || message==""){
+                //console.log(reason);
+                document.messageForm.messageText.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+        function validateformReq(){
+            var Rtitle=document.ReqForm.reqTitle.value;
+            var Rtxt=document.ReqForm.reqtxt.value;
+
+            if (Rtitle==null || Rtitle==""){
+                //console.log(reason);
+                document.ReqForm.reqTitle.style.border = "0.5px solid red";
+                return false;
+            } else if (Rtxt==null || Rtxt==""){
+                //console.log(reason);
+                document.ReqForm.reqtxt.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+        function validateformPost(){
+            var content=document.postForm.text.value;
+            var photo=document.postForm.photo.value;
+
+            if ((content==null || content=="")&&(photo==null || photo=="")){
+                //console.log(reason);
+                document.postForm.text.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+        function validateformAsk(){
+            var contents=document.AskForm.messageText.value;
+
+            if (contents==null || contents==""){
+                //console.log(reason);
+                document.AskForm.messageText.style.border = "0.5px solid red";
+                return false;
+            } else {  return true; }
+        }
+
+
+
+        ////validateform
+        function validateformCreate(){
+            var title=document.postCreate.title.value;
+            document.postCreate.title.style.border = "1px solid #7DA2AA";
+
+            var isValid;
+            $(".tech").each(function() {
+
+                var element = $(this);
+//////
+                element.css("border","1px solid #7DA2AA");
+                var requestExistsTech = new XMLHttpRequest()
+
+                if((element.val() == "")  || (element.val() == null) ){
+                    isValid=false;
+                    element.css("border","1px solid red");
+
+                }else{
+
+                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/technologyExists/' + element.val(), false)
+                    requestExistsTech.onload = function () {
+
+                        var dataE = JSON.parse(this.response)
+
+
+                        if (requestExistsTech.status >= 200 && requestExistsTech.status < 400) {
+                            //console.log(dataE);
+
+
+                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                                ///console.log("NOPEEEE" + element.val());
+                                isValid=false;
+                                element.css("border","1px solid red");
+                            }
+
+
+                        } else {
+                            isValid=false;
+                            console.log('error')
+                        }
+
+
+                    }
+
+                    requestExistsTech.send()
+                }
+            });
+
+
+//////
+            if (title==null || title==""){
+                //console.log(reason);
+                document.postCreate.title.style.border = "1px solid red";
+                return false;
+            }
+
+            if(isValid==false){return false;}
+            else{  return true; }
+
+
+        }
+
+    </script>
+
+    <script src="{{ asset('web/scripts/edit-project.js') }}"></script>
+
+{% endblock %}

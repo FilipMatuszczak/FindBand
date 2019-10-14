@@ -1,0 +1,45 @@
+
+.post{
+    background-color: rgba(235,235,235,0.4);
+    height: 85px;
+    border: 1px solid #7DA2AA;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.post:hover{
+    background-color: rgba(235,235,235,0.2);
+    
+}
+
+#project-avatar{
+    border: 2px solid #7DA2AA;
+    float:left;
+    margin: 5px;
+    object-fit: cover;
+    
+}
+    
+.project-title{
+    text-decoration: none;
+    color: #7DA2AA;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px;
+}
+.project-lang{
+    text-decoration: none;
+    color: #17252A;
+    font-size: 20px;
+    margin: 13px;
+}
+.project-autors{
+    text-decoration: none;
+    color: #17252A;
+    font-size: 20px;
+    margin-right: 5px;
+    margin-top: 20px;
+    float:right;
+    font-style: italic;
+}
+

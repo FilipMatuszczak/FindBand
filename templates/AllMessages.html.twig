@@ -1,0 +1,88 @@
+{% extends 'main/parent.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('web/styles/messages.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <h3 style="text-align: center; color: darkgrey;">Nie posiadasz żadnych wiadomości.</h3>
+
+
+        <div class="comment">
+            <a href=" "> <img id="comment-avatar-left"
+                                                                                               src=""
+                                                                                               width="70"
+                                                                                               height="70"></a>
+
+
+            <p class="project-title"
+               href=" ">usernam</p>
+            ✽ data
+
+
+            <p class="comment-content">
+
+                    Ty:
+
+                wiadomosc
+
+            </p>
+
+            <button class="button"
+                   >
+                Przejdź do konwersacji
+            </button>
+
+        </div>
+
+
+
+
+        <div class="comment">
+            <a href=" "> <img id="comment-avatar-left" src="" width="70" height="70"></a>
+
+
+            <a class="project-title"
+               href="  ">username</a>
+            prosi o dodanie do <a class="project-title"
+                                  href="  ">nazwa zespolu</a>
+            ✽ czas
+
+
+            <p class="request-content">tekst</p>
+
+                <input type="hidden" name="decision" value="decline">
+                <input type="hidden" name="userId" value="">
+                <input type="hidden" name="projectId" value="">
+                <input type="hidden" name="addUserToProjectRequestId" value="">
+
+                <button class="button" type="submit" style="Background-color: darkred;"> Odrzuć</button>
+
+
+
+
+
+                <input type="hidden" name="decision" value="accept">
+                <input type="hidden" name="userId" value="">
+                <input type="hidden" name="projectId" value="">
+                <input type="hidden" name="addUserToProjectRequestId" value="">
+                <button class="button" style="background-color: darkgreen;"> Zaakceptuj</button>
+            </form>
+        </div>
+
+    <script>
+        $(document).ready(function () {
+        });
+
+
+    </script>
+
+
+
+{% endblock %}

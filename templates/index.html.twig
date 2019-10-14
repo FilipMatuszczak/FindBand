@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="icon" type="image/x-icon" href=" "/>
+    <script src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+    {% block stylesheets %}
+
+        <link href="{{ asset('web/styles/index.css') }}" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone/babel.js"></script>
+
+    <title>fBand</title>
+</head>
+<body>
+
+
+<div class="row">
+
+    <div class="columnLeft">
+        <div id="ilogo">
+            {# <a href="{{ path('main') }}"><img src="{{ asset('web/images/logov22.png') }}"  width="100"
+                                               height="60"></a>#}
+        </div>
+
+        <div id="navigation">
+
+                tu wstawić logo jak kiedys powstanie
+
+
+            <hr>
+
+
+            <div class="navigs">
+
+
+
+            </div>
+
+
+        </div>
+
+        {% block left %}{% endblock %}
+    </div>
+
+
+    <div class="columnRight">
+        <div id="contents">
+
+
+
+
+
+
+
+            <div id="tabReg">
+                <div id="registerForm" class="form">
+                    <form class="modal-content"    method="post">
+            <h3>Podaj swoje dane osobowe i wkrocz do ogromnej społeczności findBand!</h3>
+            <div class="input-container">
+                {#  <label for="username" id="status"><b>Nazwa użytkownika</b></label> #}
+                <i class="fas fa-signature icon"></i>
+                <input class="input-field" type="text" placeholder="Nazwa użytkownika" name="username"  id="username" required>
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-user icon"></i>
+                <input class="input-field" type="text" placeholder="Imię" name="firstname"  required style="margin-right: 20px">
+
+                <i class="fas fa-user icon"></i>
+                <input class="input-field" type="text" placeholder="Nazwisko" name="lastname"   required>
+
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-envelope icon"></i>
+                <input class="input-field" type="text" placeholder="Email" name="email" required pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$" title="Email jest niepoprawny">
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-key icon"></i>
+                <input class="input-field" type="password" id="password" placeholder="Podaj hasło" name="password" style="margin-right: 20px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
+                       required>
+
+                <i class="fas fa-key icon"></i>
+                <input class="input-field" type="password" id="confirm_password" placeholder="Powtórz hasło" name="psw-repeat" required>
+            </div>
+
+            <label class="container">Oświadczam, że akceptuję regulamin.
+                <input type="checkbox" required title="asdas">
+                <span class="checkmark"></span>
+            </label>
+
+
+            <button type="submit" class="btn">Zarejestruj</button>
+
+            <br> <br>
+
+
+                <button id="nextBtn" class="btn cancels">Mam już konto</button>
+                    </form>
+                </div>
+            </div>
+
+{#----------------------------------------------------------------------------------------#}
+
+            <form action=" " method="post">
+
+
+            <div id="tabLogin"><h3>Zaloguj się</h3>
+                <div class="input-container">
+                    <i class="fas fa-signature icon"></i>
+                    <input class="input-field" type="text" placeholder="Nazwa użytkownika" value="{{ last_username }}" name="username" required autofocus>
+                </div>
+
+                <div class="input-container">
+                <i class="fas fa-key icon"></i>
+                <input class="input-field" type="password" placeholder="Hasło" name="password"  required>
+            </div>
+                <input type="hidden" name="_csrf_token"
+                       value=" ">
+
+                <button type="submit" class="btn">Zaloguj się</button>
+                <br> <br>
+
+                <button id="Pswdrem">
+                    > Nie pamiętam hasła <
+                </button>
+                 <br> <br>
+
+                <button class="btn cancels" id="prevBtn">Anuluj</button>
+            </div>
+            </form>
+
+
+
+            <div id="tabForgot" style="display:none;">
+                <h3>Wygeneruj nowe hasło:</h3>
+            <form action=" " method="post">
+
+                <div class="input-container forget">
+                    <i class="fas fa-question icon"></i>
+                    <input type="text"
+                           placeholder="Podaj login" name="username" required>
+                    <input type="submit" id="button-rem" value="Przypomnij">
+                </div>
+
+            </form>
+                        <br>
+                <button class="btn cancels" id="CancBtn">Anuluj</button>
+
+                </div>
+
+        </div></div>
+
+                <div class="error"><h3>Niepoprawne dane logowania</h3></div>
+
+
+                <div class="error"><h3> flashmessagetubyl </h3></div>
+
+</div>
+
+
+
+<script>
+    ////////////////////////////////////  ////////////////////////////////////
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+
+    ////////////////////////////////////////////
+    //passwords
+    //
+
+    var password = document.getElementById("password"), confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Hasła nie zgadzają się!");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+
+</script>
+
+<script src="{{ asset('web/scripts/main.js') }}"></script>
+
+</body>
+</html>

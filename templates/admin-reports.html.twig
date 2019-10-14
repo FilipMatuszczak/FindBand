@@ -1,0 +1,83 @@
+{% extends 'main/parent-admin.html.twig' %}
+   
+{% block body %}
+
+    <div id="modal-ban" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+
+            <form action="   " method="post">
+                <input type="hidden" name="" id=""/>
+
+                <textarea id="mssgtxt" name="text" class="form-control" rows="5" cols="25"
+                          placeholder="Powód zbanowania użytkownika..."></textarea>
+
+                <div class="modal-buttons">
+                    <button class="cancel-btn">Anuluj</button>
+                    <input id="reportId" type="hidden" name="reportId" value="default">
+                    <input id="userId" type="hidden" name="userId" value="default">
+
+                    <input type="submit" id="ban-btn" class="button sb block" value="Zbanuj"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-delete" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <form action="   " method="post">
+
+                <textarea id="mssgtxt" name="text" class="form-control" rows="5" cols="25"
+                          placeholder="Powód usunięcia postu..."></textarea>
+
+                <label style="display: block; margin-left: 250px; "><input type="checkbox" name="checkbox">Zbanuj dodatkowo
+                    użytkownika</label>
+
+                <div class="modal-buttons">
+                    <button class="cancel-btn">Anuluj</button>
+                    <input id="report" type="hidden" name="reportId" value="default">
+                    <input id="user" type="hidden" name="userId" value="default">
+                    <input type="submit" id="ban-btn" class="button sb block" value="Usuń"></div>
+            </form>
+
+        </div>
+    </div>
+
+
+    {#start post#}
+        <div class="post">
+            <h6 style="margin: 0px;">ID:  </h6>
+            <h5 style="margin-top: 5px;">username
+                ↔ czas</h5>
+            <p>Treść:
+
+            <div class="photo"><img image-zoom
+                                    {# src="data:image/jpeg;base64,{{ photo_data_provider.getPhotoByPostId(report.post.postId) }}" #}
+                                    width="250"
+                ></div>
+
+
+            </p>
+
+            <hr>
+            <h5 style="margin-top: 5px;"> username ↔ czas</h5>
+            <p> powod</p>
+            <div class="buttons">
+
+                <button class="cancel">Anuluj zgłoszenie</button>
+                <button class="delete">Usuń post</button>
+                <button class="block" >Zablokuj użytkownika</button>
+            </div>
+
+
+        </div>
+
+        <br>
+
+
+    <script>
+
+    </script>
+
+
+{% endblock %}

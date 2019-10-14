@@ -1,0 +1,155 @@
+
+html {
+  background-color: #ECF0F1;
+     min-width: 1200px; margin: 0 auto; overflow: auto;
+}
+
+header{
+    z-index: 100;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 80px;
+    background-color: #7DA2AA;
+    color: floralwhite;
+    text-decoration: none;
+    font-size: 30px;
+    height: 40px;
+    width: 100%;
+    top: 0px;
+}
+
+.header-tab{
+    float:left;
+    width: 25%;
+    padding-bottom: 5px;
+    border-bottom: 2px solid white;
+    text-align: center;
+}
+
+
+.alogo{
+    color: white;
+    text-decoration: none;
+    font-size: 30px;
+    text-align: center;
+    
+}
+
+.header-tab:hover{
+    border-bottom: 5px solid white;
+    text-shadow: 0px 0px 3px white;
+}
+
+.anavig{
+    color: black;
+    text-decoration: none;
+    font-size: 15px;
+    text-align: center;
+}
+
+
+
+.columnLeft{
+    z-index: 10;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 120px;
+    margin-left: 18%;
+    float: left;
+}
+
+#navigation{
+  float: left;
+  width: 200px;
+  background-color: rgba(255,255,255,0.8);
+  border: 1px solid #7DA2AA;
+  padding: 10px;
+    
+}
+
+.navigs{
+    margin-left: 2%;
+}
+
+.logout{
+    color:black;
+    text-decoration: none;
+}
+
+.logout:hover{
+    text-shadow: 0px 0px 2px Black;
+}
+
+#ilogo{
+    overflow:visible;
+    margin-left: 30px;
+}   
+
+#navigation-avatar{
+    border: 1px solid #7DA2AA;
+    border-radius: 100px;
+    object-fit: cover;
+    float:left;
+}
+
+#navigation-avatar:hover{
+    opacity: 0.86;
+}
+
+.navico{
+  background: none;
+  color: #112d32;
+  font-size: 16px;
+  border: none; 
+  cursor: pointer;
+    display: block;
+    margin-bottom: 8px;
+}
+
+
+.navico:hover{
+    color: #EBB3B4;
+    text-shadow: 0px 0px 2px #EBB3B4;
+}
+hr{
+    border:none;
+    border-top: 1px solid grey;
+}
+.columnRight{
+    min-width: 700px;
+    margin-left: 37%;
+    margin-right: 15%;
+  margin-top: 80px;
+}
+
+#contents{
+  float:none;
+  
+  background-color: rgba(255,255,255,0.8);
+  border: 1px solid #7DA2AA;
+  padding: 10px;
+  min-height: 600px;     /* to tylko do testowania czy sie scrolluje ladnie */
+    
+}
+    
+
+body {
+  width: auto;
+  margin: 0 auto;
+   ---background: rgba(255,255,255,0.25);
+}
+
+
+.navs{
+    margin-left: 123px;
+}
+
+
+img {
+  
+}
+.ban-ico:hover{
+    color:darkred;
+}
+button{
+    outline:none;}

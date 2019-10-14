@@ -1,0 +1,160 @@
+html, body {
+  height: 100%;
+      background-color: white;
+}
+.row{height: 100%;}
+.left{
+    position: fixed;
+    width: 10%;
+    float: left;
+    height: 100%;
+    background-color: #333;
+    overflow: hidden;
+    
+    border-right: 1px solid black;
+}
+.right{
+    width: 89%;
+    float: right;
+}
+
+.content {
+}
+
+.post{
+   margin: auto;
+    width: 90%;
+    background-color: rgba(0,0,0,0.02); 
+    border: 1px solid black;
+    overflow: auto;
+    padding: 10px
+}
+
+.buttons{
+    float: right;
+    margin: 5px;
+    width: 100%;
+}
+
+button{
+    height: 40px;
+    width: 200px;
+    float:right;
+    border: none;
+    padding: 5px;
+    margin-right: 5px;
+}
+button:hover{
+    box-shadow: 0px 0px 5px black;
+}
+.delete{
+    background-color: orangered;
+}
+.cancel{
+    background-color: greenyellow;   
+}
+.block{
+    background-color: darkred;
+}
+.NOPE{ 
+    background-color: #B22222;}
+.YEP{ 
+    background-color: #32CD32;}
+hr{color:black;
+border: 1px dotted black;
+width: 98%;}
+
+/* Style the links inside the navigation bar */
+.left a {
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.left a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.left a.active {
+  background-color: grey;
+  color: white;
+}
+.photo{ 
+    cursor: zoom-in;
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
+
+
+
+
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal::-webkit-scrollbar {
+    display: none;
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  
+    width: 500px;
+}
+
+.modal textarea{
+    width: 97%;
+    height: 80px;
+    resize: none;
+}
+.modal-buttons{
+    margin:auto;
+    width: 100%;
+    margin-top: 2%;
+}
+
+.button{
+    height: 40px;
+    width: 200px;
+    border: none;
+    padding: 5px;
+    margin-right: 5px;
+}
+.button:hover{
+    box-shadow: 0px 0px 5px black;
+}
+.sb{
+    background-color: orangered;
+    margin-left: 16%;
+}
+#ban-btn{
+    background-color: darkred;
+}
+.cancel-btn{
+    background-color: greenyellow;
+}
+#news-btn{
+    background-color: darkgreen;
+    margin-left: 16%;
+}
