@@ -53,12 +53,6 @@
     <div class="columnRight">
         <div id="contents">
 
-
-
-
-
-
-
             <div id="tabReg">
                 <div id="registerForm" class="form">
                     <form class="modal-content"    method="post">
@@ -111,8 +105,11 @@
 
 {#----------------------------------------------------------------------------------------#}
 
-            <form action=" " method="post">
+            <form action="{{ path('app_login') }}" method="post">
 
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
             <div id="tabLogin"><h3>Zaloguj się</h3>
                 <div class="input-container">
@@ -125,7 +122,7 @@
                 <input class="input-field" type="password" placeholder="Hasło" name="password"  required>
             </div>
                 <input type="hidden" name="_csrf_token"
-                       value=" ">
+                       value="{{ csrf_token('authenticate') }}">
 
                 <button type="submit" class="btn">Zaloguj się</button>
                 <br> <br>

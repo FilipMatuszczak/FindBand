@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Instruments
  *
  * @ORM\Table(name="instruments")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\InstrumentRepository")
  */
 class Instrument
 {

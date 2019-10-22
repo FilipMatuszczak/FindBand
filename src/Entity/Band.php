@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Bands
  *
  * @ORM\Table(name="bands")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\BandRepository")
  */
 class Band
 {
@@ -54,7 +54,7 @@ class Band
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Users", inversedBy="band")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="band")
      * @ORM\JoinTable(name="users_bands",
      *   joinColumns={
      *     @ORM\JoinColumn(name="band_id", referencedColumnName="band_id")

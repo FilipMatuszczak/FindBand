@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AddUserToBandMessage
  *
  * @ORM\Table(name="add_user_to_band_message", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="band_id", columns={"band_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AddUserToBandMessageRepository")
  */
 class AddUserToBandMessage
 {

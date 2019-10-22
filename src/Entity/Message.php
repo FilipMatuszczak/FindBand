@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Messages
  *
  * @ORM\Table(name="messages", indexes={@ORM\Index(name="receiver_id", columns={"receiver_id"}), @ORM\Index(name="sender_id", columns={"sender_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\MessageRepository")
  */
 class Message
 {

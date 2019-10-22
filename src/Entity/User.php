@@ -2,17 +2,23 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  *
  * @ORM\Table(name="users", indexes={@ORM\Index(name="city_id", columns={"city_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
+    const COLUMN_USERNAME = 'username';
+    const COLUMN_USER_ID = 'user_id';
+
     /**
      * @var int
      *
@@ -356,4 +362,44 @@ class User
         return $this;
     }
 
+    /**
+     * String representation of object
+     * @link https://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        // TODO: Implement serialize() method.
+    }
+
+    /**
+     * Constructs the object
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        // TODO: Implement unserialize() method.
+    }
+
+    /**
+     * @return array (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /** */
+    public function eraseCredentials(): void
+    {
+        return;
+    }
 }

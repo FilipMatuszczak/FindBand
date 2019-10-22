@@ -5,3 +5,7 @@
 loginIndex:
   path: /
   controller: App\Controller\LoginController:loginIndex
+
+mainIndex:
+  path: /main
+  controller: App\Controller\MainController:mainIndexAction
