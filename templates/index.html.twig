@@ -98,7 +98,7 @@
             <br> <br>
 
 
-                <button id="nextBtn" class="btn cancels">Mam już konto</button>
+                <button id="nextBtn" class="btn cancels">Anuluj</button>
                     </form>
                 </div>
             </div>
@@ -108,7 +108,8 @@
             <form action="{{ path('app_login') }}" method="post">
 
                 {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+
+                    <div class="error"><h3>{{ error.messageKey|trans(error.messageData, 'security') }}</h3></div>
                 {% endif %}
 
             <div id="tabLogin"><h3>Zaloguj się</h3>
@@ -132,7 +133,7 @@
                 </button>
                  <br> <br>
 
-                <button class="btn cancels" id="prevBtn">Anuluj</button>
+                <button class="btn cancels" id="prevBtn">Nie mam konta</button>
             </div>
             </form>
 
@@ -157,10 +158,10 @@
 
         </div></div>
 
-                <div class="error"><h3>Niepoprawne dane logowania</h3></div>
 
 
-                <div class="error"><h3> flashmessagetubyl </h3></div>
+
+
 
 </div>
 

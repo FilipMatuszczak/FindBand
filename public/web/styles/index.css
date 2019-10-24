@@ -193,11 +193,13 @@ h3{text-align: center;}
     width: 50%;
     margin-left: 20%;}
 .error{
+    float:left;
     display: block;
     position:absolute;
     top:0px;
-    width:100%;
+    width:101%;
     height:50px;
+    margin-left: -51%;
     box-sizing:border-box;
     color:white;
     text-align:center;

@@ -18,7 +18,9 @@ $.fn.donetyping = function(callback){
     }
 }
 })(jQuery);
-    $('#tabLogin').hide();
+    $('#tabReg').hide();
+
+/*
     //////Function for checking if username is available
   $('#username').donetyping(function(callback)           
                        {
@@ -70,7 +72,7 @@ request.send()
     });
 
 
-  
+  */
     ////////function for submiting form
     
     $('#register-form').click(function() {
@@ -89,16 +91,17 @@ request.send()
     
     ///////////
 
+    $("#prevBtn").on("click", function () {
+        event.preventDefault();
+        console.log("saa");
+        $('#tabLogin').slideUp();
+        $('#tabReg').slideDown();
+    });
+
     $("#nextBtn").on("click", function () {
         event.preventDefault();
         $('#tabReg').slideUp();
         $('#tabLogin').slideDown();
-    });
-
-    $("#prevBtn").on("click", function () {
-        event.preventDefault();
-        $('#tabLogin').slideUp();
-        $('#tabReg').slideDown();
     });
 
     $("#Pswdrem").on("click", function () {
