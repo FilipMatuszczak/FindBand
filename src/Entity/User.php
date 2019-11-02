@@ -18,6 +18,12 @@ class User implements UserInterface, \Serializable
 {
     const COLUMN_USERNAME = 'username';
     const COLUMN_USER_ID = 'user_id';
+    const COLUMN_PASSWORD = 'password';
+    const COLUMN_SALT = 'salt';
+
+    const USER_VERIFIED = 1;
+    const COLUMN_EMAIL = 'email';
+    const COLUMN_AUTHENTICATION_LINK = 'authenticationLink';
 
     /**
      * @var int
@@ -106,9 +112,9 @@ class User implements UserInterface, \Serializable
     private $changePasswordLink;
 
     /**
-     * @var bool|null
+     * @var int|null
      *
-     * @ORM\Column(name="options", type="boolean", nullable=true)
+     * @ORM\Column(name="options", type="integer", nullable=true)
      */
     private $options = '0';
 
@@ -287,7 +293,7 @@ class User implements UserInterface, \Serializable
         return $this->options;
     }
 
-    public function setOptions(?bool $options): self
+    public function setOptions(?int $options): self
     {
         $this->options = $options;
 

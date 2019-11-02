@@ -9,3 +9,17 @@ loginIndex:
 mainIndex:
   path: /main
   controller: App\Controller\MainController:mainIndexAction
+
+registerUser:
+  path: /register_user
+  controller: App\Controller\RegistrationController:registerUserAction
+  methods: POST
+
+sendAuthenticationLink:
+  path: /send_authentication
+  controller: App\Controller\MailController:sendRegisterMailAction
+  methods: POST
+
+authenticateAccount:
+  path: /authenticate_account/{username}/{authenticationLink}
+  controller: App\Controller\SecurityController:authenticateAccountAction

@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Services\Handler\PasswordHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,18 +27,21 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
     private $urlGenerator;
     private $csrfTokenManager;
     private $userProvider;
+    private $passwordHandler;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
-        UserProvider $userProvider
+        UserProvider $userProvider,
+        PasswordHandler $passwordHandler
     )
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->userProvider = $userProvider;
+        $this->passwordHandler = $passwordHandler;
     }
 
     public function supports(Request $request)
@@ -82,7 +86,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
     {
         $password = $credentials['password'];
         $salt = $user->getSalt();
-        $passwordWithSalt = $password . $salt;
         $userEntity = $this->userProvider->loadUserByUsername($user->getUsername());
 
         /*if ($userEntity->getOptions() & User::USER_BANNED)
@@ -98,13 +101,13 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
             $this->entityManager->flush();
         }*/
 
-        /*
+
         if (!($this->userProvider->loadUserByUsername($user->getUsername())->getOptions() & User::USER_VERIFIED))
         {
             return false;
-        }*/
+        }
 
-        if ($user->getPassword() ===  hash('sha512', $passwordWithSalt))
+        if ($user->getPassword() ===  $this->passwordHandler->getHashFromPlainTextAndSalt($password, $salt))
         {
             return true;
         }

@@ -31,14 +31,13 @@
 
         <div id="navigation">
 
-                tu wstawić logo jak kiedys powstanie
+            tu wstawić logo jak kiedys powstanie
 
 
             <hr>
 
 
             <div class="navigs">
-
 
 
             </div>
@@ -55,55 +54,62 @@
 
             <div id="tabReg">
                 <div id="registerForm" class="form">
-                    <form class="modal-content"    method="post">
-            <h3>Podaj swoje dane osobowe i wkrocz do ogromnej społeczności findBand!</h3>
-            <div class="input-container">
-                {#  <label for="username" id="status"><b>Nazwa użytkownika</b></label> #}
-                <i class="fas fa-signature icon"></i>
-                <input class="input-field" type="text" placeholder="Nazwa użytkownika" name="username"  id="username" required>
-            </div>
+                    <form class="modal-content" action="{{ path('registerUser') }}" method="post">
+                        <h3>Podaj swoje dane osobowe i wkrocz do ogromnej społeczności findBand!</h3>
+                        <div class="input-container">
+                            {#  <label for="username" id="status"><b>Nazwa użytkownika</b></label> #}
+                            <i class="fas fa-signature icon"></i>
+                            <input class="input-field" type="text" placeholder="Nazwa użytkownika" name="username"
+                                   id="username" required>
+                        </div>
 
-            <div class="input-container">
-                <i class="fas fa-user icon"></i>
-                <input class="input-field" type="text" placeholder="Imię" name="firstname"  required style="margin-right: 20px">
+                        <div class="input-container">
+                            <i class="fas fa-user icon"></i>
+                            <input class="input-field" type="text" placeholder="Imię" name="firstname" required
+                                   style="margin-right: 20px">
 
-                <i class="fas fa-user icon"></i>
-                <input class="input-field" type="text" placeholder="Nazwisko" name="lastname"   required>
+                            <i class="fas fa-user icon"></i>
+                            <input class="input-field" type="text" placeholder="Nazwisko" name="lastname" required>
 
-            </div>
+                        </div>
 
-            <div class="input-container">
-                <i class="fas fa-envelope icon"></i>
-                <input class="input-field" type="text" placeholder="Email" name="email" required pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$" title="Email jest niepoprawny">
-            </div>
+                        <div class="input-container">
+                            <i class="fas fa-envelope icon"></i>
+                            <input class="input-field" type="text" placeholder="Email" name="email" required
+                                   pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"
+                                   title="Email jest niepoprawny">
+                        </div>
 
-            <div class="input-container">
-                <i class="fas fa-key icon"></i>
-                <input class="input-field" type="password" id="password" placeholder="Podaj hasło" name="password" style="margin-right: 20px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                       title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
-                       required>
+                        <div class="input-container">
+                            <i class="fas fa-key icon"></i>
+                            <input class="input-field" type="password" id="password" placeholder="Podaj hasło"
+                                   name="password" style="margin-right: 20px"
+                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                   title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
+                                   required>
 
-                <i class="fas fa-key icon"></i>
-                <input class="input-field" type="password" id="confirm_password" placeholder="Powtórz hasło" name="psw-repeat" required>
-            </div>
+                            <i class="fas fa-key icon"></i>
+                            <input class="input-field" type="password" id="confirm_password" placeholder="Powtórz hasło"
+                                   name="psw-repeat" required>
+                        </div>
 
-            <label class="container">Oświadczam, że akceptuję regulamin.
-                <input type="checkbox" required title="asdas">
-                <span class="checkmark"></span>
-            </label>
-
-
-            <button type="submit" class="btn">Zarejestruj</button>
-
-            <br> <br>
+                        <label class="container">Oświadczam, że akceptuję regulamin.
+                            <input type="checkbox" required title="asdas">
+                            <span class="checkmark"></span>
+                        </label>
 
 
-                <button id="nextBtn" class="btn cancels">Anuluj</button>
+                        <button type="submit" class="btn">Zarejestruj</button>
+
+                        <br> <br>
+
+
+                        <button id="nextBtn" class="btn cancels">Anuluj</button>
                     </form>
                 </div>
             </div>
 
-{#----------------------------------------------------------------------------------------#}
+            {#----------------------------------------------------------------------------------------#}
 
             <form action="{{ path('app_login') }}" method="post">
 
@@ -111,60 +117,60 @@
 
                     <div class="error"><h3>{{ error.messageKey|trans(error.messageData, 'security') }}</h3></div>
                 {% endif %}
+                {% for flashMessage in app.session.flashbag.get('notice') %}
 
-            <div id="tabLogin"><h3>Zaloguj się</h3>
-                <div class="input-container">
-                    <i class="fas fa-signature icon"></i>
-                    <input class="input-field" type="text" placeholder="Nazwa użytkownika" value="" name="username" required autofocus>
+                    <p>  {{ flashMessage }}</p>
+
+                {% endfor %}
+                <div id="tabLogin"><h3>Zaloguj się</h3>
+                    <div class="input-container">
+                        <i class="fas fa-signature icon"></i>
+                        <input class="input-field" type="text" placeholder="Nazwa użytkownika" value="" name="username"
+                               required autofocus>
+                    </div>
+
+                    <div class="input-container">
+                        <i class="fas fa-key icon"></i>
+                        <input class="input-field" type="password" placeholder="Hasło" name="password" required>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}">
+
+                    <button type="submit" class="btn">Zaloguj się</button>
+                    <br> <br>
+
+                    <button id="Pswdrem">
+                        > Nie pamiętam hasła <
+                    </button>
+                    <br> <br>
+
+                    <button class="btn cancels" id="prevBtn">Nie mam konta</button>
                 </div>
-
-                <div class="input-container">
-                <i class="fas fa-key icon"></i>
-                <input class="input-field" type="password" placeholder="Hasło" name="password"  required>
-            </div>
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}">
-
-                <button type="submit" class="btn">Zaloguj się</button>
-                <br> <br>
-
-                <button id="Pswdrem">
-                    > Nie pamiętam hasła <
-                </button>
-                 <br> <br>
-
-                <button class="btn cancels" id="prevBtn">Nie mam konta</button>
-            </div>
             </form>
-
 
 
             <div id="tabForgot" style="display:none;">
                 <h3>Wygeneruj nowe hasło:</h3>
-            <form action=" " method="post">
+                <form action=" " method="post">
 
-                <div class="input-container forget">
-                    <i class="fas fa-question icon"></i>
-                    <input type="text"
-                           placeholder="Podaj login" name="username" required>
-                    <input type="submit" id="button-rem" value="Przypomnij">
-                </div>
+                    <div class="input-container forget">
+                        <i class="fas fa-question icon"></i>
+                        <input type="text"
+                               placeholder="Podaj login" name="username" required>
+                        <input type="submit" id="button-rem" value="Przypomnij">
+                    </div>
 
-            </form>
-                        <br>
+                </form>
+                <br>
                 <button class="btn cancels" id="CancBtn">Anuluj</button>
 
-                </div>
+            </div>
 
-        </div></div>
-
-
-
-
+        </div>
+    </div>
 
 
 </div>
-
 
 
 <script>
