@@ -35,7 +35,6 @@ class MailController extends AbstractController
         $authenticationLink = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(128/strlen($x)) )),1,128);
 
         /** @var Request $previousRequest */
-       // $previousRequest = $request->get('request');
         $username =  $request->get('username');
         $email = $request->get('email');
 
@@ -89,6 +88,7 @@ class MailController extends AbstractController
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
+
         $message = (new Swift_Message('Scout - Change password'))
             ->setFrom('scoutregister1@gmail.com')
             ->setTo($email)
@@ -102,6 +102,7 @@ class MailController extends AbstractController
                 ),
                 'text/html'
             );
+
         $this->mailer->send($message);
         $this->get('session')->getFlashBag()->set('notice', 'Na twoją skrzynkę pocztową został wysłany email umożliwiający zmianę hasła');
 

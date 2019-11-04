@@ -1,7 +1,3 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-
 loginIndex:
   path: /
   controller: App\Controller\LoginController:loginIndex
@@ -23,3 +19,4 @@ sendAuthenticationLink:
 authenticateAccount:
   path: /authenticate_account/{username}/{authenticationLink}
   controller: App\Controller\SecurityController:authenticateAccountAction
+

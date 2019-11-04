@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    {% block stylesheets %}
+        <link href="{{ asset('web/styles/activate.css') }}" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone/babel.js"></script>
+
+    <title>fBand</title>
+</head>
+<body>
+
+
+<div class="row">
+
+    <div class="block">
+
+        <p>Podaj nowe hasło poniżej.</p>
+        <form action="{{ path('submit_password_change') }}" method="post">
+
+            <input type="password" placeholder="Podaj nowe hasło" name="password" id="password"
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                   title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
+                   required>
+            <input type="password" placeholder="Powtórz nowe hasło" id="confirm_password"
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="psw-repeat"
+                   title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
+                   style="margin-left: 3px; " required>
+            <input type="hidden" name="username" value="{{ name }}">
+            <br>
+            <input type="submit" id="button-log" value="Zmień hasło">
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+    var password = document.getElementById("password"), confirm_password = document.getElementById("confirm_password");
+    function validatePassword() {
+        if (password.value !== confirm_password.value) {
+            confirm_password.setCustomValidity("Hasła nie zgadzają się!");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
+
+</body>
+</html>

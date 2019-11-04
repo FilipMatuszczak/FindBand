@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
     photo LONGBLOB NULL,
     authentication_link CHAR(128),
     change_password_link CHAR(128) DEFAULT NULL,
+    change_password_link_expiration_date DATETIME NULL,
     options TINYINT(4) DEFAULT 0,
     FOREIGN KEY (city_id)
         REFERENCES cities (city_id),
