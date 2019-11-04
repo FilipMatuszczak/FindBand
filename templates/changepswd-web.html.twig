@@ -23,7 +23,7 @@
     <div class="block">
 
         <p>Podaj nowe hasło poniżej.</p>
-        <form action="{{ path('submit_password_change') }}" method="post">
+        <form action="{{ path('changePasswordAction') }}" method="post">
 
             <input type="password" placeholder="Podaj nowe hasło" name="password" id="password"
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
@@ -33,7 +33,6 @@
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="psw-repeat"
                    title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
                    style="margin-left: 3px; " required>
-            <input type="hidden" name="username" value="{{ name }}">
             <br>
             <input type="submit" id="button-log" value="Zmień hasło">
 

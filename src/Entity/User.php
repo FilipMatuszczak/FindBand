@@ -17,11 +17,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, \Serializable
 {
     const COLUMN_USERNAME = 'username';
-    const COLUMN_USER_ID = 'user_id';
+    const COLUMN_USER_ID = 'userId';
     const COLUMN_PASSWORD = 'password';
     const COLUMN_SALT = 'salt';
 
     const USER_VERIFIED = 1;
+    const USER_CHANGING_PASSWORD = 2;
     const COLUMN_EMAIL = 'email';
     const COLUMN_AUTHENTICATION_LINK = 'authenticationLink';
 
@@ -141,6 +142,13 @@ class User implements UserInterface, \Serializable
      * @ORM\ManyToMany(targetEntity="Instrument", mappedBy="user")
      */
     private $instrument;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="change_password_link_expiration_date", type="datetime", nullable=true)
+     */
+    private $changePasswordLinkExpirationDate;
 
     /**
      * Constructor
@@ -366,6 +374,33 @@ class User implements UserInterface, \Serializable
         }
 
         return $this;
+    }
+
+    public function getChangePasswordLinkExpirationDate(): ?\DateTimeInterface
+    {
+        return $this->changePasswordLinkExpirationDate;
+    }
+
+    public function setChangePasswordLinkExpirationDate(\DateTimeInterface $changePasswordLinkExpirationDate): self
+    {
+        $this->changePasswordLinkExpirationDate = $changePasswordLinkExpirationDate;
+
+        return $this;
+    }
+
+    public function addOption($option)
+    {
+        $this->options = $this->options | $option;
+    }
+
+    public function hasOption($option)
+    {
+        return $this->options & $option;
+    }
+
+    public function unsetOption($option)
+    {
+        $this->options = $this->options ^ $option;
     }
 
     /**

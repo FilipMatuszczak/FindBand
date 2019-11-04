@@ -20,3 +20,16 @@ authenticateAccount:
   path: /authenticate_account/{username}/{authenticationLink}
   controller: App\Controller\SecurityController:authenticateAccountAction
 
+sendChangePasswordAction:
+  path: /send_change_password_email
+  controller: App\Controller\MailController:sendChangePasswordAction
+  methods: POST
+
+changePasswordIndex:
+  path: /change_password/{userId}/{changePasswordLink}
+  controller: App\Controller\LoginController:changePasswordIndexAction
+
+changePasswordAction:
+  path: /change_password
+  controller: App\Controller\LoginController:changePasswordAction
+  methods: POST

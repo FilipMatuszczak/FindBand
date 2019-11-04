@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Security\UserProvider;
 use App\Services\Handler\UserHandler;
 use Swift_Mailer;
 use Swift_Message;
@@ -19,10 +20,14 @@ class MailController extends AbstractController
     /** @var UserHandler */
     private $userHandler;
 
-    public function __construct(Swift_Mailer $mailer, UserHandler $userHandler)
+    /** @var UserProvider */
+    private $userProvider;
+
+    public function __construct(Swift_Mailer $mailer, UserHandler $userHandler, UserProvider $userProvider)
     {
         $this->mailer = $mailer;
         $this->userHandler = $userHandler;
+        $this->userProvider = $userProvider;
     }
 
     /**
@@ -32,10 +37,10 @@ class MailController extends AbstractController
      */
     public function sendRegisterMailAction(Request $request)
     {
-        $authenticationLink = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(128/strlen($x)) )),1,128);
+        $authenticationLink = $this->getRandomString();
 
         /** @var Request $previousRequest */
-        $username =  $request->get('username');
+        $username = $request->get('username');
         $email = $request->get('email');
 
         $this->userHandler->updateAuthenticationLinkHash($username, $authenticationLink);
@@ -71,41 +76,54 @@ class MailController extends AbstractController
     }
 
     /**
-     * @param string $email
-     * @param string $username
-     * @param string $changePasswordLink
+     * @param Request $request
      *
      * @return RedirectResponse
      */
-    public function sendChangePasswordAction($email, $username, $changePasswordLink)
+    public function sendChangePasswordAction(Request $request)
     {
-        $changePasswordLink = $this->generateUrl
-        (
-            'change_password',
-            [
-                'username' => $username,
-                'changePasswordLink' => $changePasswordLink,
-            ],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+        $username = $request->get('username');
+        $user = $this->userProvider->loadUserByUsername($username);
 
-        $message = (new Swift_Message('Scout - Change password'))
-            ->setFrom('scoutregister1@gmail.com')
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                    'change_password_email.html.twig',
-                    [
-                        'name' => $username,
-                        'changePasswordUrl' => $changePasswordLink,
-                    ]
-                ),
-                'text/html'
+        if ($user) {
+            $changePasswordLink = $this->getRandomString();
+
+            $this->userHandler->generateChangePasswordLinkForUser($user, $changePasswordLink);
+
+            $changePasswordUrl = $this->generateUrl
+            (
+                'changePasswordIndex',
+                [
+                    'userId' => $user->getUserId(),
+                    'changePasswordLink' => $changePasswordLink,
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
 
-        $this->mailer->send($message);
+            $message = (new Swift_Message('FindBand - Change password'))
+                ->setFrom('findband.no.reply@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'change_password_email.html.twig',
+                        [
+                            'name' => $username,
+                            'changePasswordUrl' => $changePasswordUrl,
+                        ]
+                    ),
+                    'text/html'
+                );
+
+            $this->mailer->send($message);
+        }
         $this->get('session')->getFlashBag()->set('notice', 'Na twoją skrzynkę pocztową został wysłany email umożliwiający zmianę hasła');
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('loginIndex');
+    }
+
+    private function getRandomString()
+    {
+        return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(128 / strlen($x)))), 1, 128);
+
     }
 }
