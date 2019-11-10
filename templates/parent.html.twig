@@ -24,7 +24,7 @@
 <body>
 <header>
     <div class="header-tab">
-        <a class="alogo" href=" ">Główna</a></div>
+        <a class="alogo" href="{{ path('mainIndex') }}">Główna</a></div>
 
     <div class="header-tab">
         <a class="alogo" href=" ">Użytkownicy</a></div>
@@ -70,7 +70,7 @@
                 <button onclick="" class="navico"><i class="fas fa-guitar fa-2x fa-fw icons"></i> Załóż zespół</button>
                 <button onclick=" " class="navico"><i class="fas fa-users fa-2x fa-fw icons"></i> Moje zespoły</button>
                 <button onclick=" " class="navico"><i class="fas fa-envelope fa-2x fa-fw icons"></i> Wiadomości</button>
-                <button onclick=""
+                <button onclick="location.href='{{ path('profileEditAction', {'username': 'filimatu'}) }}'"
                         class="navico"><i class="fas fa-cog fa-2x fa-fw icons"></i> Ustawienia
                 </button>
 

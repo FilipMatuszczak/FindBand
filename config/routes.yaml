@@ -33,3 +33,11 @@ changePasswordAction:
   path: /change_password
   controller: App\Controller\LoginController:changePasswordAction
   methods: POST
+
+profileIndexAction:
+  path: /profile/{username}
+  controller: App\Controller\ProfileController:indexAction
+
+profileEditAction:
+  path: /profile/{username}/edit
+  controller: App\Controller\ProfileController:editIndexAction
