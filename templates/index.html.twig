@@ -31,12 +31,12 @@
 
         <div id="navigation">
 
-            tu wstawić logo jak kiedys powstanie
 
+             <a id="ilogo" href=""><img src="{{ asset('web/images/logo3.png') }}"></a>
 
             <hr>
 
-
+            zarejestruj sie bo jestesmy spoko
             <div class="navigs">
 
 
@@ -119,7 +119,7 @@
                 {% endif %}
                 {% for flashMessage in app.session.flashbag.get('notice') %}
 
-                    <p>  {{ flashMessage }}</p>
+                    <div class="error"><h3>{{ flashMessage }}</h3></div>
 
                 {% endfor %}
                 <div id="tabLogin"><h3>Zaloguj się</h3>
