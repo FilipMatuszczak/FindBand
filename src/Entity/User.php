@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\RoleHierarchy;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -23,6 +21,8 @@ class User implements UserInterface, \Serializable
 
     const USER_VERIFIED = 1;
     const USER_CHANGING_PASSWORD = 2;
+    const USER_NEWSLETTER = 4;
+
     const COLUMN_EMAIL = 'email';
     const COLUMN_AUTHENTICATION_LINK = 'authenticationLink';
 
@@ -92,9 +92,9 @@ class User implements UserInterface, \Serializable
     private $info;
 
     /**
-     * @var string|null
+     * @var resource|null
      *
-     * @ORM\Column(name="photo", type="blob", length=0, nullable=true)
+     * @ORM\Column(name="photo", type="blob", length=4294967295 , nullable=true)
      */
     private $photo;
 
@@ -239,6 +239,15 @@ class User implements UserInterface, \Serializable
     public function getDateOfBirth(): ?\DateTimeInterface
     {
         return $this->dateOfBirth;
+    }
+
+    public function getAgeInYears(): int
+    {
+        if ($this->dateOfBirth) {
+            return date_diff(new \DateTime(), $this->dateOfBirth)->y;
+        }
+
+        return 0;
     }
 
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self

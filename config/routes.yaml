@@ -37,7 +37,14 @@ changePasswordAction:
 profileIndexAction:
   path: /profile/{username}
   controller: App\Controller\ProfileController:indexAction
+  methods: GET
 
 profileEditAction:
   path: /profile/{username}/edit
   controller: App\Controller\ProfileController:editIndexAction
+  methods: GET
+
+profileEditBasicInfo:
+  path: /profile/edit/basic_info
+  controller: App\Controller\ProfileController:editProfileAction
+  methods: POST

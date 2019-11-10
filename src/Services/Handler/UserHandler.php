@@ -69,4 +69,16 @@ class UserHandler
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
+
+    public function editCommonUserData(User $user, $firstname, $lastname, $dateOfBirth, $info, $newsletter, $photo)
+    {
+        $user->setFirstname($firstname);
+        $user->setLastname($lastname);
+        $user->setDateOfBirth(new \DateTime($dateOfBirth));
+        $user->setInfo($info);
+        $newsletter ? $user->addOption(User::USER_NEWSLETTER) : $user->unsetOption(User::USER_NEWSLETTER);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
 }

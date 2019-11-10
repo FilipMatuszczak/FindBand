@@ -9,9 +9,6 @@
 
 
 {% block body %}
-
-
-
     <div id="profile">
         <div class="profile-left">
             <img id="profile-picture"
@@ -20,12 +17,8 @@
         </div>
 
         <div class="profile-right">
-            <p id="name-profile">imie nazw, wiek, miasto
-
+            <p id="name-profile">{{user.firstname}} {{ user.lastname }}, {{ user.ageInYears }}, {{user.city.name}}
             </p>
-
-
-
             <p class="infos">Instrumenty </p><p>
 
             <p>Brak
@@ -39,7 +32,7 @@
             <p>Brak
                 </p>
             <hr>
-            <p>info</p>
+            <p>{{user.info}}</p>
         </div>
     </div>
 

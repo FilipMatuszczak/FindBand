@@ -10,7 +10,7 @@
 
 <input id="UserID" value=" " type="hidden">
     {# modal request technologii #}
-    <form  name="ReqForm" onsubmit=" " action=" " method="post">
+    <form  name="ReqForm" onsubmit=" "  method="post">
         <div id="modal-req" class="modal">
             <div class="modal-content">
 
@@ -41,7 +41,7 @@
         <button class="editnav endnav nonactives" id="BlockedButton">Zablokowani</button>
     </div>
 
-
+    <form action="{{ path('profileEditBasicInfo') }}" method="post">
 
     <div class="edit-container">
         <div id="ProfileTab">
@@ -64,17 +64,17 @@
 
 
              <input type="text" class="name" placeholder="Imię" name="firstname" maxlength="50"
-                   value="">
+                   value={{ app.user.firstname }}>
 
             <input type="text" class="name" placeholder="Nazwisko" name="lastname" maxlength="50"
-                   value=""><br>
+                   value={{ app.user.lastname }}><br>
 
             <div class="bdays">
                 <label>Data urodzenia:</label> <br>
-                <input type="date"  name="bdaytime" style="border: 1px solid #7DA2AA;">
+                <input type="date" value={{ date_time_provider.dateTimeAsString(app.user.dateOfBirth) }} name="dateOfBirth" style="border: 1px solid #7DA2AA;">
 
             </div>
-            <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25" maxlength="250" value=""></textarea>
+            <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25" maxlength="250">{{ app.user.info }}</textarea>
             <br>
             <label class="lcheck">
                 <input type="checkbox" name="newsletter">Chcę otrzymywać newslettera.
@@ -86,7 +86,8 @@
             <input type="submit" value="Zapisz zmiany" name="submit" class="upload smaller"/>
 
         </div>
-
+    </div>
+    </form>
     <div id="GenresTab">
 
         <h1>Edytuj swoje gatunki muzyczne:</h1>
