@@ -3,9 +3,12 @@
 
 <head>
 
-
+    <link rel="icon" type="image/x-icon" href=" "/>
+    <script src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
     {% block stylesheets %}
-        <link href="{{ asset('web/styles/activate.css') }}" rel="stylesheet" type="text/css"/>
+
+        <link href="{{ asset('web/styles/index.css') }}" rel="stylesheet" type="text/css"/>
     {% endblock %}
 
     <meta charset="utf-8">
@@ -20,30 +23,60 @@
 
 <div class="row">
 
-    <div class="block">
+    <div class="columnLeft">
+        <div id="ilogo">
+            {# <a href="{{ path('main') }}"><img src="{{ asset('web/images/logov22.png') }}"  width="100"
+                                               height="60"></a>#}
+        </div>
 
-        <p>Podaj nowe hasło poniżej.</p>
+        <div id="navigation">
+
+
+            <a id="ilogo" href=""><img src="{{ asset('web/images/logo3.png') }}"></a>
+
+            <hr>
+
+            zarejestruj sie bo jestesmy spoko
+            <div class="navigs">
+
+
+            </div>
+
+
+        </div>
+
+        {% block left %}{% endblock %}
+    </div>
+
+
+    <div class="columnRight">
+        <div id="contents">
+
+        <h3>Podaj nowe hasło poniżej</h3>
         <form action="{{ path('changePasswordAction') }}" method="post">
 
-            <input type="password" placeholder="Podaj nowe hasło" name="password" id="password"
+            <div class="input-container"><i class="fas fa-key icon"></i>
+            <input class="input-field" type="password" placeholder="Podaj nowe hasło" name="password" id="password"
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                    title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
                    required>
-            <input type="password" placeholder="Powtórz nowe hasło" id="confirm_password"
+            </div>
+
+                <div class="input-container"><i class="fas fa-key icon"></i>
+            <input class="input-field"  type="password" placeholder="Powtórz nowe hasło" id="confirm_password"
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="psw-repeat"
                    title="Hasło musi składać się z conajmniej jednej wielkiej i jednej małej litery, jednej cyfry i o długości conajmniej 8 znaków."
-                   style="margin-left: 3px; " required>
+                   required>  </div>
             <br>
-            <input type="submit" id="button-log" value="Zmień hasło">
+            <input type="submit" class="btn" value="Zmień hasło">
 
         </form>
 
 
-    </div>
-
+        </div>
 
 </div>
-
+</div>
 
 <script>
     var password = document.getElementById("password"), confirm_password = document.getElementById("confirm_password");
