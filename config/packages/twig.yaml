@@ -5,3 +5,4 @@ twig:
 
     globals:
         date_time_provider: '@App\Services\DataProvider\DateTimeProvider'
+        photo_data_provider: '@App\Services\DataProvider\PhotoDataProvider'

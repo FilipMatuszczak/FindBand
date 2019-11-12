@@ -41,7 +41,7 @@
         <button class="editnav endnav nonactives" id="BlockedButton">Zablokowani</button>
     </div>
 
-    <form action="{{ path('profileEditBasicInfo') }}" method="post">
+    <form action="{{ path('profileEditBasicInfo') }}" method="post" enctype="multipart/form-data">
 
     <div class="edit-container">
         <div id="ProfileTab">
@@ -51,11 +51,11 @@
 
 
                 <label for="image">
-                    <input type="file" name="photo" id="image"
+                    <input type="file" id="image"
                            accept="image/jpeg, image/png"
                            class="fileToUpload" name="fileToUpload" style="display:none;"/>
                     <img id="photo-edit"
-                         src=" "
+                         src="data:image/jpeg;base64,{{ photo_data_provider.CurrentUserPhotoData() }}"
                          width="120"
                          height="160" style="object-fit: cover;"/>
                 </label>
@@ -77,7 +77,7 @@
             <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25" maxlength="250">{{ app.user.info }}</textarea>
             <br>
             <label class="lcheck">
-                <input type="checkbox" name="newsletter">Chcę otrzymywać newslettera.
+                <input type="checkbox" name="newsletter" {% if app.user.hasOption(4) %}checked {% endif %}>Chcę otrzymywać newslettera.
             </label><br>
 
             <br>

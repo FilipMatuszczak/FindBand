@@ -404,7 +404,7 @@ class User implements UserInterface, \Serializable
 
     public function hasOption($option)
     {
-        return $this->options & $option;
+        return boolval($this->options & $option);
     }
 
     public function unsetOption($option)

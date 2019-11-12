@@ -51,7 +51,7 @@
 
         <div id="navigation">
             <a href={{ path('profileIndexAction', {'username':app.user.username}) }}><img id="navigation-avatar"
-                             src=" "
+                             src="data:image/jpeg;base64,{{ photo_data_provider.CurrentUserPhotoData() }}"
                              width="60"
                              height="60"></a>
 

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Security\UserProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 class UserHandler
 {
@@ -77,6 +78,20 @@ class UserHandler
         $user->setDateOfBirth(new \DateTime($dateOfBirth));
         $user->setInfo($info);
         $newsletter ? $user->addOption(User::USER_NEWSLETTER) : $user->unsetOption(User::USER_NEWSLETTER);
+        $this->saveNewProfilePhoto($user, $photo);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    private function saveNewProfilePhoto(User $user, ?File $file)
+    {
+        if (null === $file) {
+            return;
+        }
+
+        $strm = fopen($file->getRealPath(), 'rb');
+        $user->setPhoto(stream_get_contents($strm));
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
