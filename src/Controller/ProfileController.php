@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Security\UserProvider;
+use App\Services\Handler\InstrumentHandler;
 use App\Services\Handler\UserHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends AbstractController
 {
@@ -16,9 +19,13 @@ class ProfileController extends AbstractController
     /** @var UserHandler */
     private $userHandler;
 
-    public function __construct(UserProvider $userProvider, UserHandler $userHandler)
+    /** @var InstrumentHandler */
+    private $instrumentHandler;
+
+    public function __construct(UserProvider $userProvider, UserHandler $userHandler, InstrumentHandler $instrumentHandler)
     {
         $this->userProvider = $userProvider;
+        $this->instrumentHandler = $instrumentHandler;
         $this->userHandler = $userHandler;
     }
 
@@ -54,5 +61,44 @@ class ProfileController extends AbstractController
         $this->userHandler->editCommonUserData($user, $firstname, $lastname, $dateOfBirth, $info, $newsletter, $photo);
 
         return $this->redirectToRoute('profileEditAction', ['username' => $user->getUsername()]);
+    }
+
+    public function getCurrentUserInstrumentsAction()
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $instruments = [];
+
+        foreach ($user->getInstrument() as $instrument) {
+            $instruments[] = $instrument->getName();
+        }
+
+        return new JsonResponse($instruments);
+    }
+
+    public function getCurrentUserMusicGenresAction()
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $musicGenres = [];
+
+        foreach ($user->getMusicGenres() as $musicGenre) {
+            $musicGenres[] = $musicGenre->getName();
+        }
+
+        return new JsonResponse($musicGenres);
+    }
+
+    public function updateCurrentUserInstrumentsAction(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        var_dump( $request->get('instruments'));
+        exit;
+        $this->instrumentHandler->addInstrumentsToUser($user, $request->get('instruments'));
+
+        return new Response('OK', 200);
     }
 }

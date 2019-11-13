@@ -38,25 +38,8 @@ $(document).ready(function () {
     }
 
     requestTechProject.send()
-
-/////end technologii
-
-
-
-
-
-
-
-            /////////////////
-
             $('#button-moret').click(function () {
-                ///todo dodaje nowe okno formularza
-
-
                 $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Technologie" name = "technologies[]" maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
-
-
-                ///////////
             });
 
 

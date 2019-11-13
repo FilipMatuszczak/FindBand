@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS instruments (
     instrument_id INT AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    options TINYINT(4) DEFAULT 0
+    options TINYINT(4) DEFAULT 0,
+    PRIMARY KEY (instrument_id)
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS users_instruments (
@@ -131,8 +132,25 @@ CREATE TABLE IF NOT EXISTS add_user_to_band_message (
     band_id INT NOT NULL,
     reason TEXT NOT NULL,
     options TINYINT(4) NOT NULL DEFAULT 0,
+    PRIMARY KEY (add_user_to_band_message_id)
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (band_id)
         REFERENCES bands (band_id)
+)  ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS music_genres (
+    music_genre_id INT AUTO_INCREMENT,
+    name varchar (50) NOT NULL,
+    PRIMARY KEY (music_genre_id)
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS users_music_genres (
+    music_genre_id INT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id),
+    FOREIGN KEY (music_genre_id)
+        REFERENCES music_genres (music_genre_id),
+    PRIMARY KEY (music_genre_id , user_id)
 )  ENGINE=INNODB;

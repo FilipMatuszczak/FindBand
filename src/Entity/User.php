@@ -130,18 +130,25 @@ class User implements UserInterface, \Serializable
     private $city;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Band", mappedBy="user")
      */
     private $band;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Instrument", mappedBy="user")
      */
     private $instrument;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="MusicGenre", mappedBy="user")
+     */
+    private $musicGenre;
 
     /**
      * @var \DateTime|null
@@ -157,6 +164,7 @@ class User implements UserInterface, \Serializable
     {
         $this->band = new \Doctrine\Common\Collections\ArrayCollection();
         $this->instrument = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->musicGenre = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getUserId(): ?int
@@ -380,6 +388,34 @@ class User implements UserInterface, \Serializable
         if ($this->instrument->contains($instrument)) {
             $this->instrument->removeElement($instrument);
             $instrument->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MusicGenre[]
+     */
+    public function getMusicGenres(): Collection
+    {
+        return $this->musicGenre;
+    }
+
+    public function addMusicGenre(MusicGenre $musicGenre): self
+    {
+        if (!$this->instrument->contains($musicGenre)) {
+            $this->instrument[] = $musicGenre;
+            $musicGenre->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMusicGenre(MusicGenre $musicGenre): self
+    {
+        if ($this->instrument->contains($musicGenre)) {
+            $this->instrument->removeElement($musicGenre);
+            $musicGenre->removeUser($this);
         }
 
         return $this;

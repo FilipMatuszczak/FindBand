@@ -48,3 +48,18 @@ profileEditBasicInfo:
   path: /profile/edit/basic_info
   controller: App\Controller\ProfileController:editProfileAction
   methods: POST
+
+getCurrentUserInstruments:
+  path: /profile/edit/instruments
+  controller: App\Controller\ProfileController:getCurrentUserInstrumentsAction
+  methods: GET
+
+getCurrentUserMusicGenres:
+  path: /profile/edit/musicGenres
+  controller: App\Controller\ProfileController:getCurrentUserMusicGenresAction
+  methods: GET
+
+updateCurrentUserInstruments:
+  path: /profile/edit/update_instruments
+  controller: App\Controller\ProfileController:updateCurrentUserInstrumentsAction
+  methods: PUT

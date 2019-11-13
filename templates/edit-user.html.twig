@@ -8,18 +8,20 @@
     {% endblock %}
 {% block body %}
 
-<input id="UserID" value=" " type="hidden">
+
     {# modal request technologii #}
-    <form  name="ReqForm" onsubmit=" "  method="post">
+    <form name="ReqForm" onsubmit=" " method="post">
         <div id="modal-req" class="modal">
             <div class="modal-content">
 
                 <p style="margin-left: 2%;">Czy chcesz wysłać prośbę o dodanie nowej technologii?</p>
                 <br>
-                <input id="reqTitle" name="name" value="" placeholder="Nazwa" class="name" style="border-radius: 5px; margin-bottom: 2%; margin-top: 2%;">
+                <input id="reqTitle" name="name" value="" placeholder="Nazwa" class="name"
+                       style="border-radius: 5px; margin-bottom: 2%; margin-top: 2%;">
                 <input type="hidden" name="destination" value="user_profile">
                 <textarea id="reqtxt" name="reason" class="form-control"
-                          placeholder="Napisz co to za technologia i dołącz linki do źródła." rows="5" cols="25"></textarea>
+                          placeholder="Napisz co to za technologia i dołącz linki do źródła." rows="5"
+                          cols="25"></textarea>
                 <div class="buttons" style="height: 40px;">
                     <button class="cancel-btn button">Anuluj</button>
 
@@ -34,125 +36,124 @@
 
     <div class="edit-profile">
 
-    <div class="topnav">
-        <button class="editnav actives" id="ProfileButton">Profil</button>
-        <button class="editnav nonactives" id="GenreButton" >Gatunki</button>
-        <button class="editnav nonactives" id="InstrumentsButton">Instrumenty</button>
-        <button class="editnav endnav nonactives" id="BlockedButton">Zablokowani</button>
-    </div>
+        <div class="topnav">
+            <button class="editnav actives" id="ProfileButton">Profil</button>
+            <button class="editnav nonactives" id="GenreButton">Gatunki</button>
+            <button class="editnav nonactives" id="InstrumentsButton">Instrumenty</button>
+            <button class="editnav endnav nonactives" id="BlockedButton">Zablokowani</button>
+        </div>
 
-    <form action="{{ path('profileEditBasicInfo') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ path('profileEditBasicInfo') }}" method="post" enctype="multipart/form-data">
 
-    <div class="edit-container">
-        <div id="ProfileTab">
-            <h1>Edytuj swój profil:</h1>
+            <div class="edit-container">
+                <div id="ProfileTab">
+                    <h1>Edytuj swój profil:</h1>
 
-                <div class="names-container">
-
-
-                <label for="image">
-                    <input type="file" id="image"
-                           accept="image/jpeg, image/png"
-                           class="fileToUpload" name="fileToUpload" style="display:none;"/>
-                    <img id="photo-edit"
-                         src="data:image/jpeg;base64,{{ photo_data_provider.CurrentUserPhotoData() }}"
-                         width="120"
-                         height="160" style="object-fit: cover;"/>
-                </label>
+                    <div class="names-container">
 
 
+                        <label for="image">
+                            <input type="file" id="image"
+                                   accept="image/jpeg, image/png"
+                                   class="fileToUpload" name="fileToUpload" style="display:none;"/>
+                            <img id="photo-edit"
+                                 src="data:image/jpeg;base64,{{ photo_data_provider.CurrentUserPhotoData() }}"
+                                 width="120"
+                                 height="160" style="object-fit: cover;"/>
+                        </label>
 
 
-             <input type="text" class="name" placeholder="Imię" name="firstname" maxlength="50"
-                   value={{ app.user.firstname }}>
+                        <input type="text" class="name" placeholder="Imię" name="firstname" maxlength="50"
+                               value={{ app.user.firstname }}>
 
-            <input type="text" class="name" placeholder="Nazwisko" name="lastname" maxlength="50"
-                   value={{ app.user.lastname }}><br>
+                        <input type="text" class="name" placeholder="Nazwisko" name="lastname" maxlength="50"
+                               value={{ app.user.lastname }}><br>
 
-            <div class="bdays">
-                <label>Data urodzenia:</label> <br>
-                <input type="date" value={{ date_time_provider.dateTimeAsString(app.user.dateOfBirth) }} name="dateOfBirth" style="border: 1px solid #7DA2AA;">
+                        <div class="bdays">
+                            <label>Data urodzenia:</label> <br>
+                            <input type="date"
+                                   value={{ date_time_provider.dateTimeAsString(app.user.dateOfBirth) }} name="dateOfBirth"
+                                   style="border: 1px solid #7DA2AA;">
 
-            </div>
-            <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25" maxlength="250">{{ app.user.info }}</textarea>
-            <br>
-            <label class="lcheck">
-                <input type="checkbox" name="newsletter" {% if app.user.hasOption(4) %}checked {% endif %}>Chcę otrzymywać newslettera.
-            </label><br>
+                        </div>
+                        <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25"
+                                  maxlength="250">{{ app.user.info }}</textarea>
+                        <br>
+                        <label class="lcheck">
+                            <input type="checkbox" name="newsletter" {% if app.user.hasOption(4) %}checked {% endif %}>Chcę
+                            otrzymywać newslettera.
+                        </label><br>
 
-            <br>
+                        <br>
+
+                    </div>
+                    <input type="submit" value="Zapisz zmiany" name="submit" class="upload smaller"/>
 
                 </div>
-            <input type="submit" value="Zapisz zmiany" name="submit" class="upload smaller"/>
+            </div>
+        </form>
+        <div id="GenresTab">
+
+            <h1>Edytuj swoje gatunki muzyczne:</h1>
+
+            <button type="button" id="button-moreC" class="button-more">Dodaj <i class="fas fa-plus"></i></button>
+            <br>
+
+            <div id="cities-forms" class="forms">
+                <div>
+                    <input type="CityList" class="bio city down" placeholder="Nowy gatunek muzyczny" maxlength="50"
+                           name="musicGenres[]" id="city" list="CityList">
+                    <datalist id="CityList">
+
+                    </datalist>
+                    <button type="button" id="button-less" class="less btad">-</button>
+                    <br>
+                </div>
+            </div>
+            <button type="button" id="add-genres" class="upload smaller" >Zapisz gatunki
+            </button>
+        </div>
+
+
+        <div id="InstrumentsTab">
+            <h1>Edytuj swoje instrumenty:</h1>
+            <button type="button" id="button-more" class="button-more">Dodaj <i class="fas fa-plus"></i></button>
+            <br>
+            <form name="instrument-form">
+            <div id="instrument-forms" class="forms">
+
+                    <input type="text" class="bio lang" placeholder="Nowy instrument" maxlength="50" id="lang"
+                           name="instruments[]" >
+                    <button type="button" id="button-less" class="less btad">-</button>
+                    <br></div>
+
+            <button type="button"  id="add-instruments" class="upload smaller" >Zapisz instrumenty
+            </button>
+
+
+        </form>
+
+        <div id="BlockedTab">
+            <h1>Edytuj swoje blokady użytkowników:</h1>
+
+            <button type="button" id="button-moret" class="button-more">Dodaj <i class="fas fa-plus"></i></button>
+            <br>
+
+            <div id="tech-forms" class="forms">
+                <div>
+                    <input type="TechList" class="bio tech" id="tech" placeholder="Nazwa użytkownika do zignorowania"
+                           maxlength="50" name="usernames[]" list="TechList">
+                    <datalist id="TechList">
+
+                    </datalist>
+                    <button type="button" id="button-less" class="less btad">-</button>
+                    <br></div>
+            </div>
+            <input type="submit" value="Zapisz blokady" name="submit" id="add-tech" class="upload smaller"/>
+            <div id="Technologies"></div>
+
 
         </div>
-    </div>
-    </form>
-    <div id="GenresTab">
-
-        <h1>Edytuj swoje gatunki muzyczne:</h1>
-
-        <button type="button" id="button-moreC" class="button-more">Dodaj <i class="fas fa-plus"></i> </button><br>
-
-    <div id="cities-forms" class="forms">
-        <div>
-        <input type="CityList" class="bio city down" placeholder="Miasto" maxlength="50" name="cities[]" id="city" list="CityList">
-        <datalist id="CityList">
-
-        </datalist>
-        <button type="button" id="button-less" class="less btad">-</button>
-        <br>
-        </div>
-    </div>
-        <input type="submit" value="Zapisz gatunki" name="submit" id="add-city" class="upload smaller"/>
-
-    </div>
-
-
-    <div id="InstrumentsTab">
-        <h1>Edytuj swoje instrumenty:</h1>
-        <button type="button" id="button-more" class="button-more">Dodaj <i class="fas fa-plus"></i> </button> <br>
-
-        <div id="languages-forms" class="forms">
-            <div>
-            <input type="LangList" class="bio lang" placeholder="Język" maxlength="50" id="lang" name="languages[]" list="LangList">
-            <datalist id="LangList">
-            </datalist>
-            <button type="button" id="button-less" class="less btad">-</button>
-            <br> </div>
-        </div>
-        <input type="submit" value="Zapisz instrumenty" name="submit" id="add-lang" class="upload smaller"/>
-
-
-    </div>
-
-
-
-    <div id="BlockedTab">
-        <h1>Edytuj swoje blokady użytkowników:</h1>
-
-{#
-        <div class="TechReq">
-            <h4>Nie widzisz swojej technologii? </h4> <button id="ReqButton" class="button">Zgłoś ją!</button>
-        </div>
-        <br> <br>#}
-
-        <button type="button" id="button-moret" class="button-more">Dodaj <i class="fas fa-plus"></i> </button> <br>
-
-        <div id="tech-forms" class="forms">
-            <div>
-            <input type="TechList" class="bio tech" id="tech" placeholder="Technologie" maxlength="50" name="technologies[]" list="TechList">
-            <datalist id="TechList">
-
-            </datalist>
-            <button type="button" id="button-less" class="less btad">-</button>
-            <br></div>
-        </div>
-        <input type="submit" value="Zapisz blokady" name="submit" id="add-tech" class="upload smaller"/>
-        <div id="Technologies"></div>
-
-
-    </div>
 
 
     </div>
@@ -161,6 +162,8 @@
     <script src="{{ asset('web/scripts/edit-profile.js') }}"></script>
 
     <script>
+
+
 
 
         ///////////////////////
@@ -198,34 +201,35 @@
 
         ////validateform
 
-        function validateform1(){
-            var firstname=document.Form1.firstname.value;
-            var lastname=document.Form1.lastname.value;
+        function validateform1() {
+            var firstname = document.Form1.firstname.value;
+            var lastname = document.Form1.lastname.value;
             document.Form1.firstname.style.border = "1px solid #7DA2AA";
             document.Form1.lastname.style.border = "1px solid #7DA2AA";
 
-            if (firstname==null || firstname==""){
+            if (firstname == null || firstname == "") {
                 //console.log(reason);
                 document.Form1.firstname.style.border = "1px solid red";
                 return false;
-            } else if (lastname==null || lastname==""){
+            } else if (lastname == null || lastname == "") {
                 document.Form1.lastname.style.border = "1px solid red";
                 return false;
+            } else {
+                return true;
             }
-
-            else{  return true; }
         }
 
         ////validateform
 
-        function validateform2(){
-            var fileToUpload=document.Form2.fileToUpload.value;
+        function validateform2() {
+            var fileToUpload = document.Form2.fileToUpload.value;
             document.getElementById("photo-edit").style.border = "1px solid #7DA2AA";
-             if (fileToUpload==null || fileToUpload==""){
+            if (fileToUpload == null || fileToUpload == "") {
                 document.getElementById("photo-edit").style.border = "1px solid red";
                 return false;
+            } else {
+                return true;
             }
-            else{  return true; }
         }
 
 
@@ -248,44 +252,46 @@
 
         });
 
-        function validateformReq(){
-            var Rtitle=document.ReqForm.reqTitle.value;
-            var Rtxt=document.ReqForm.reqtxt.value;
+        function validateformReq() {
+            var Rtitle = document.ReqForm.reqTitle.value;
+            var Rtxt = document.ReqForm.reqtxt.value;
 
             document.ReqForm.reqTitle.style.border = "1px solid #7DA2AA";
             document.ReqForm.reqtxt.style.border = "1px solid #7DA2AA";
 
 
-            if (Rtitle==null || Rtitle==""){
+            if (Rtitle == null || Rtitle == "") {
                 //console.log(reason);
                 document.ReqForm.reqTitle.style.border = "1px solid red";
                 return false;
-            } else if (Rtxt==null || Rtxt==""){
+            } else if (Rtxt == null || Rtxt == "") {
                 //console.log(reason);
                 document.ReqForm.reqtxt.style.border = "1px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
         ////validateform
-        function validateformCreate(){
+        function validateformCreate() {
 
 
             var isValid;
-            $(".tech").each(function() {
+            $(".tech").each(function () {
 
                 var element = $(this);
 //////
-                element.css("border","1px solid #7DA2AA");
+                element.css("border", "1px solid #7DA2AA");
                 var requestExistsTech = new XMLHttpRequest()
 
-                if((element.val() == "")  || (element.val() == null) ){
-                    isValid=false;
-                    element.css("border","1px solid red");
+                if ((element.val() == "") || (element.val() == null)) {
+                    isValid = false;
+                    element.css("border", "1px solid red");
 
-                }else{
+                } else {
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/technologyExists/' + element.val(), false)
+                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/userExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
 
                         var dataE = JSON.parse(this.response)
@@ -295,15 +301,15 @@
                             //console.log(dataE);
 
 
-                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                            if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
                                 ///console.log("NOPEEEE" + element.val());
-                                isValid=false;
-                                element.css("border","1px solid red");
+                                isValid = false;
+                                element.css("border", "1px solid red");
                             }
 
 
                         } else {
-                            isValid=false;
+                            isValid = false;
                             console.log('error')
                         }
 
@@ -318,30 +324,34 @@
 //////
 
 
-            if(isValid==false){return false;}
-            else{  return true; }
+            if (isValid == false) {
+                return false;
+            } else {
+                return true;
+            }
 
 
         }
-////////////////////////////////////////lang/////////////
+
+        ////////////////////////////////////////lang/////////////
 
 
-        function validateformCreateLang(){
+        function validateformCreateLang() {
 
 
             var isValid;
-            $(".lang").each(function() {
+            $(".lang").each(function () {
 
                 var element = $(this);
 //////
-                element.css("border","1px solid #7DA2AA");
+                element.css("border", "1px solid #7DA2AA");
                 var requestExistsTech = new XMLHttpRequest()
 
-                if((element.val() == "")  || (element.val() == null) ){
-                    isValid=false;
-                    element.css("border","1px solid red");
+                if ((element.val() == "") || (element.val() == null)) {
+                    isValid = false;
+                    element.css("border", "1px solid red");
 
-                }else{
+                } else {
 
                     requestExistsTech.open('GET', 'http://127.0.0.1:8000/languageExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
@@ -353,15 +363,15 @@
                             //console.log(dataE);
 
 
-                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                            if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
                                 ///console.log("NOPEEEE" + element.val());
-                                isValid=false;
-                                element.css("border","1px solid red");
+                                isValid = false;
+                                element.css("border", "1px solid red");
                             }
 
 
                         } else {
-                            isValid=false;
+                            isValid = false;
                             console.log('error')
                         }
 
@@ -376,8 +386,11 @@
 //////
 
 
-            if(isValid==false){return false;}
-            else{  return true; }
+            if (isValid == false) {
+                return false;
+            } else {
+                return true;
+            }
 
 
         }
@@ -385,22 +398,22 @@
         ////////////////////////////////////////city/////////////
 
 
-        function validateformCreateCity(){
+        function validateformCreateCity() {
 
 
             var isValid;
-            $(".city").each(function() {
+            $(".city").each(function () {
 
                 var element = $(this);
 //////
-                element.css("border","1px solid #7DA2AA");
+                element.css("border", "1px solid #7DA2AA");
                 var requestExistsTech = new XMLHttpRequest()
 
-                if((element.val() == "")  || (element.val() == null) ){
-                    isValid=false;
-                    element.css("border","1px solid red");
+                if ((element.val() == "") || (element.val() == null)) {
+                    isValid = false;
+                    element.css("border", "1px solid red");
 
-                }else{
+                } else {
 
                     requestExistsTech.open('GET', 'http://127.0.0.1:8000/cityExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
@@ -412,15 +425,15 @@
                             //console.log(dataE);
 
 
-                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                            if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
                                 ///console.log("NOPEEEE" + element.val());
-                                isValid=false;
-                                element.css("border","1px solid red");
+                                isValid = false;
+                                element.css("border", "1px solid red");
                             }
 
 
                         } else {
-                            isValid=false;
+                            isValid = false;
                             console.log('error')
                         }
 
@@ -435,8 +448,11 @@
 //////
 
 
-            if(isValid==false){return false;}
-            else{  return true; }
+            if (isValid == false) {
+                return false;
+            } else {
+                return true;
+            }
 
 
         }
