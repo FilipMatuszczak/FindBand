@@ -17,22 +17,27 @@
         </div>
 
         <div class="profile-right">
-            <p id="name-profile">{{user.firstname}} {{ user.lastname }}, {{ user.ageInYears }}, {{user.city.name}}
+            <p id="name-profile">{{ user.firstname }} {{ user.lastname }}{% if user.ageInYears %}, {{ user.ageInYears }} {% endif %}{% if user.city %},{{ user.city.name }} {% endif %}
             </p>
-            <p class="infos">Instrumenty </p><p>
-
-            <p>Brak
-                </p>
+            <p class="infos">Instrumenty </p>
+            <p>
+            <ul style="list-style-type:circle;">
+                {% for instrument in user.instrument %}
+                    <li>{{ instrument.name }}
+                    </li>
+                {% endfor %} </ul>
             <hr>
 
 
             <p class="infos">Gatunki </p>
             <p>
-
-            <p>Brak
-                </p>
+            <ul style="list-style-type:circle;">
+                {% for musicGenre in user.musicGenres %}
+                    <li>{{ musicGenre.name }}
+                    </li>
+                {% endfor %} </ul>
             <hr>
-            <p>{{user.info}}</p>
+            <p>{{ user.info }}</p>
         </div>
     </div>
 

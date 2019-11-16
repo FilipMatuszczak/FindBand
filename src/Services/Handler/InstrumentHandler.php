@@ -17,6 +17,7 @@ class InstrumentHandler
 
     /**
      * @param EntityManagerInterface $entityManager
+     * @param InstrumentRepository $instrumentRepository
      */
     public function __construct(EntityManagerInterface $entityManager, InstrumentRepository $instrumentRepository)
     {
@@ -24,9 +25,16 @@ class InstrumentHandler
         $this->instrumentRepository = $instrumentRepository;
     }
 
-    public function addInstrumentsToUser(User $user, $instrumentNames)
+    public function addInstrumentsToUser(User $user, $instrumentData)
     {
-        $instruments = $this->instrumentRepository->findBy(['name' => $instrumentNames]);
+        $instruments = $this->instrumentRepository->findBy(['name' => $this->decorateRawData($instrumentData)]);
+
+        foreach ($user->getInstrument() as $instrument) {
+            $user->removeInstrument($instrument);
+        }
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         foreach ($instruments as $instrument) {
             $user->addInstrument($instrument);
@@ -34,5 +42,17 @@ class InstrumentHandler
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        return $instruments;
+    }
+
+    private function decorateRawData($instrumentData)
+    {
+        $instrumentNames = [];
+        foreach ($instrumentData as $instrument) {
+            $instrumentNames[] = $instrument['value'];
+        }
+
+        return $instrumentNames;
     }
 }

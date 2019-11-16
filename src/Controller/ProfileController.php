@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Security\UserProvider;
 use App\Services\Handler\InstrumentHandler;
+use App\Services\Handler\MusicGenreHandler;
 use App\Services\Handler\UserHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,11 +23,20 @@ class ProfileController extends AbstractController
     /** @var InstrumentHandler */
     private $instrumentHandler;
 
-    public function __construct(UserProvider $userProvider, UserHandler $userHandler, InstrumentHandler $instrumentHandler)
+    /** @var MusicGenreHandler */
+    private $musicGenreHandler;
+
+    public function __construct(
+        UserProvider $userProvider,
+        UserHandler $userHandler,
+        InstrumentHandler $instrumentHandler,
+        MusicGenreHandler $musicGenreHandler
+    )
     {
         $this->userProvider = $userProvider;
         $this->instrumentHandler = $instrumentHandler;
         $this->userHandler = $userHandler;
+        $this->musicGenreHandler = $musicGenreHandler;
     }
 
     public function indexAction($username)
@@ -95,10 +105,33 @@ class ProfileController extends AbstractController
     {
         /** @var User $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        var_dump( $request->get('instruments'));
-        exit;
-        $this->instrumentHandler->addInstrumentsToUser($user, $request->get('instruments'));
 
-        return new Response('OK', 200);
+        $instrumentsUpdated = $this->instrumentHandler->addInstrumentsToUser($user, $request->get('instruments'));
+
+        $instrumentNames = [];
+
+        foreach ($instrumentsUpdated as $instrument)
+        {
+            $instrumentNames[] = $instrument->getName();
+        }
+
+        return new Response('Instruments updated for ' . $user->getUsername() . ': ' . implode(', ', $instrumentNames), 200);
+    }
+
+    public function updateCurrentUserMusicGenresAction(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $musicGenresData = $this->musicGenreHandler->addMusicGenresToUser($user, $request->get('musicGenres'));
+
+        $musicGenresNames = [];
+
+        foreach ($musicGenresData as $musicGenresDatum)
+        {
+            $musicGenresNames[] = $musicGenresDatum->getName();
+        }
+
+        return new Response('Music genres updated for ' . $user->getUsername() . ': ' . implode(', ', $musicGenresNames), 200);
     }
 }

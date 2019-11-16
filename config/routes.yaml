@@ -63,3 +63,23 @@ updateCurrentUserInstruments:
   path: /profile/edit/update_instruments
   controller: App\Controller\ProfileController:updateCurrentUserInstrumentsAction
   methods: PUT
+
+updateCurrentUserMusicGenres:
+  path: /profile/edit/update_genres
+  controller: App\Controller\ProfileController:updateCurrentUserMusicGenresAction
+  methods: PUT
+
+filterInstruments:
+  path: /filter/instrument/{prefix}/{limit<\d+>?5}
+  controller: App\Controller\FilterController:filterInstrumentsAction
+  methods: GET
+
+filterMusicGenres:
+  path: /filter/musicGenre/{prefix}/{limit<\d+>?5}
+  controller: App\Controller\FilterController:filterMusicGenresAction
+  methods: GET
+
+instrumentExists:
+  path: /filter/instrumentExists/{name}
+  controller: App\Controller\FilterController:instrumentExistsAction
+  methods: GET

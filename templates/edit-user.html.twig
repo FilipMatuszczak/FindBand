@@ -98,7 +98,7 @@
 
             <button type="button" id="button-moreC" class="button-more">Dodaj <i class="fas fa-plus"></i></button>
             <br>
-
+            <form name="musicgenres-form">
             <div id="cities-forms" class="forms">
                 <div>
                     <input type="CityList" class="bio city down" placeholder="Nowy gatunek muzyczny" maxlength="50"
@@ -112,26 +112,26 @@
             </div>
             <button type="button" id="add-genres" class="upload smaller" >Zapisz gatunki
             </button>
+            </form>
         </div>
 
 
         <div id="InstrumentsTab">
             <h1>Edytuj swoje instrumenty:</h1>
             <button type="button" id="button-more" class="button-more">Dodaj <i class="fas fa-plus"></i></button>
-            <br>
             <form name="instrument-form">
             <div id="instrument-forms" class="forms">
-
+            <div>
                     <input type="text" class="bio lang" placeholder="Nowy instrument" maxlength="50" id="lang"
-                           name="instruments[]" >
-                    <button type="button" id="button-less" class="less btad">-</button>
-                    <br></div>
+                           name="instruments[]" list="LangList">
+                    <button type="button" id="button-less" class="less btad">-</button></div>
+                    </div>
 
-            <button type="button"  id="add-instruments" class="upload smaller" >Zapisz instrumenty
+            <button type="button" id="add-instruments" class="upload smaller" >Zapisz instrumenty
             </button>
+            </form>
+            </div>
 
-
-        </form>
 
         <div id="BlockedTab">
             <h1>Edytuj swoje blokady użytkowników:</h1>
@@ -336,7 +336,7 @@
         ////////////////////////////////////////lang/////////////
 
 
-        function validateformCreateLang() {
+        function validateformCreateInstr() {
 
 
             var isValid;
@@ -345,7 +345,7 @@
                 var element = $(this);
 //////
                 element.css("border", "1px solid #7DA2AA");
-                var requestExistsTech = new XMLHttpRequest()
+                var requestExistsInstr = new XMLHttpRequest()
 
                 if ((element.val() == "") || (element.val() == null)) {
                     isValid = false;
@@ -353,8 +353,8 @@
 
                 } else {
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/languageExists/' + element.val(), false)
-                    requestExistsTech.onload = function () {
+                    requestExistsInstr.open('GET', 'http://127.0.0.1:8000/instrumentExists/' + element.val(), false)
+                    requestExistsInstr.onload = function () {
 
                         var dataE = JSON.parse(this.response)
 
@@ -378,7 +378,7 @@
 
                     }
 
-                    requestExistsTech.send()
+                    requestExistsInstr.send()
                 }
             });
 

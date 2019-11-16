@@ -19,32 +19,14 @@ class MusicGenreReposiory extends ServiceEntityRepository
         parent::__construct($registry, MusicGenre::class);
     }
 
-    // /**
-    //  * @return MusicGenre[] Returns an array of MusicGenre objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function fetchSimilarNamesByPrefix($prefix, $limit)
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('p')
+            ->select('p.name')
+            ->where('p.name like :prefix' )
+            ->setParameter('prefix', $prefix .'%')
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?MusicGenre
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

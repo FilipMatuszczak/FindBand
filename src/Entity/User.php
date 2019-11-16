@@ -141,7 +141,7 @@ class User implements UserInterface, \Serializable
      *
      * @ORM\ManyToMany(targetEntity="Instrument", mappedBy="user")
      */
-    private $instrument;
+    private $instruments;
 
     /**
      * @var Collection
@@ -163,7 +163,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->band = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instrument = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->instruments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->musicGenre = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -370,13 +370,13 @@ class User implements UserInterface, \Serializable
      */
     public function getInstrument(): Collection
     {
-        return $this->instrument;
+        return $this->instruments;
     }
 
     public function addInstrument(Instrument $instrument): self
     {
-        if (!$this->instrument->contains($instrument)) {
-            $this->instrument[] = $instrument;
+        if (!$this->instruments->contains($instrument)) {
+            $this->instruments->add($instrument);
             $instrument->addUser($this);
         }
 
@@ -385,8 +385,8 @@ class User implements UserInterface, \Serializable
 
     public function removeInstrument(Instrument $instrument): self
     {
-        if ($this->instrument->contains($instrument)) {
-            $this->instrument->removeElement($instrument);
+        if ($this->instruments->contains($instrument)) {
+            $this->instruments->removeElement($instrument);
             $instrument->removeUser($this);
         }
 
@@ -403,8 +403,8 @@ class User implements UserInterface, \Serializable
 
     public function addMusicGenre(MusicGenre $musicGenre): self
     {
-        if (!$this->instrument->contains($musicGenre)) {
-            $this->instrument[] = $musicGenre;
+        if (!$this->musicGenre->contains($musicGenre)) {
+            $this->musicGenre[] = $musicGenre;
             $musicGenre->addUser($this);
         }
 
@@ -413,8 +413,8 @@ class User implements UserInterface, \Serializable
 
     public function removeMusicGenre(MusicGenre $musicGenre): self
     {
-        if ($this->instrument->contains($musicGenre)) {
-            $this->instrument->removeElement($musicGenre);
+        if ($this->musicGenre->contains($musicGenre)) {
+            $this->musicGenre->removeElement($musicGenre);
             $musicGenre->removeUser($this);
         }
 

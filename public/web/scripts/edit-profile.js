@@ -58,7 +58,7 @@ $(document).ready(function(){
             for (i = 1; i < instrumentData.length; i++) {
                 //console.log(data[i]);
 
-                $('#instrument-forms').append('<div> <input type="LangList" class="bio lang down" placeholder="Nowy instrument" name="instruments[]" maxlength="50" id="lang" list="LangList"><datalist id="LangList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
+                $('#instrument-forms').append('<div><input type="tel" class="bio lang down" placeholder="Nowy instrument" name="instruments[]" maxlength="50" id="lang" list="LangList"><datalist id="LangList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
 
             }
             if (instrumentData.length > 0) {
@@ -80,23 +80,31 @@ $(document).ready(function(){
 
     requestLangUser.send()
 
-/////end technologii
     document.getElementById("add-instruments").onclick = function() {updateInstruments()};
 
     function updateInstruments() {
 
-        var currentInstruments = $('form[name="instrument-form"]').find('input[name="instruments[]]"').val();
-        console.log(currentInstruments);
+        var currentInstruments = $('form[name="instrument-form"]').serializeArray();
 
         $.ajax({
             url: 'http://' + window.location.host + '/profile/edit' + '/update_instruments',
             type: 'PUT',
-            data: { instruments: instrumentData },
-            success: function(data) {
-                alert('Load was performed.');
-            }
+            data: { instruments: currentInstruments },
         });
     }
+
+    document.getElementById("add-genres").onclick = function() {updateInstruments()};
+
+    function updateInstruments() {
+
+        var currentMusicGenres = $('form[name="musicgenres-form"]').serializeArray();
+
+        $.ajax({
+            url: 'http://' + window.location.host + '/profile/edit' + '/update_genres',
+            type: 'PUT',
+            data: { musicGenres: currentMusicGenres },
+        });
+}
 
 /////////////wczytywanie miast uzytkownika
 
@@ -164,7 +172,7 @@ $(document).ready(function(){
         ///todo dodaje nowe okno formularza
         i++;
 
-        $('#cities-forms').append('<div> <input type="text" class="bio city down" placeholder="Nowy gatunek muzyczny" maxlength="50" id="lang" name="musicGenres[]" list="CityList"><datalist id="CityList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
+        $('#cities-forms').append('<div><input type="text" class="bio city down" placeholder="Nowy gatunek muzyczny" maxlength="50" id="lang" name="musicGenres[]" list="CityList"><datalist id="CityList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
 
 
         ///////////
@@ -267,7 +275,7 @@ $(document).ready(function(){
             var requestLang = new XMLHttpRequest()
             var exists = 0;
 
-            requestLang.open('GET', 'http://' + window.location.host + '/filter/language/' + lang, true)
+            requestLang.open('GET', 'http://' + window.location.host + '/filter/instrument/' + lang, true)
             requestLang.onload = function () {
 
                 var data = JSON.parse(this.response)
@@ -300,7 +308,7 @@ $(document).ready(function(){
     });
     /////////////////////////////
 
-/*
+
     ////getting cities
     $('#cities-forms').on("keyup", ".city", function (callback) {
 
@@ -312,7 +320,7 @@ $(document).ready(function(){
             var request = new XMLHttpRequest()
             var exists = 0;
 
-            request.open('GET', 'http://' + window.location.host + '/filter/city/' + city, true)
+            request.open('GET', 'http://' + window.location.host + '/filter/musicGenre/' + city, true)
             request.onload = function () {
 
                 var data = JSON.parse(this.response)
@@ -342,7 +350,7 @@ $(document).ready(function(){
 
         }
 
-    });*/
+    });
     /////////////////////////////
 
 
