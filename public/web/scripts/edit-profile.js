@@ -1,9 +1,10 @@
 var instrumentData;
 
-$(document).ready(function(){
+$(document).ready(function() {
 
 
-/////////////wczytywanie technologii uzytkownika
+
+/////////////wczytywanie blokad uzytkownika
     var requestTechUser = new XMLHttpRequest();
     requestTechUser.open('GET', 'http://' + window.location.host + '/profile/edit' + '/blockedUsers', true);
     requestTechUser.onload = function () {
@@ -37,12 +38,11 @@ $(document).ready(function(){
 
     }
 
-    requestTechUser.send()
+    requestTechUser.send();
+/////end blokad
 
-/////end technologii
 
-
-/////////////wczytywanie języków uzytkownika
+/////////////wczytywanie instrumentow uzytkownika
 
     var requestLangUser = new XMLHttpRequest()
 
@@ -78,24 +78,36 @@ $(document).ready(function(){
 
     }
 
-    requestLangUser.send()
+    requestLangUser.send();
+//////end instrumentow
 
-    document.getElementById("add-instruments").onclick = function() {updateInstruments()};
+
+    document.getElementById("add-instruments").onclick = function () {
+        updateInstruments()
+    };
 
     function updateInstruments() {
 
-        var currentInstruments = $('form[name="instrument-form"]').serializeArray();
+        if (validateformCreateInstr()) {
 
-        $.ajax({
-            url: 'http://' + window.location.host + '/profile/edit' + '/update_instruments',
-            type: 'PUT',
-            data: { instruments: currentInstruments },
-        });
+
+            var currentInstruments = $('form[name="instrument-form"]').serializeArray();
+
+            $.ajax({
+                url: 'http://' + window.location.host + '/profile/edit' + '/update_instruments',
+                type: 'PUT',
+                data: {instruments: currentInstruments},
+            });
+            $.growl.notice({ message: "Instrumenty zostały zapisane." });
+
+        } else
+    {
+        $.growl.error({ message: "Instrumenty nie zostały zapisane." });
     }
+}
+    document.getElementById("add-genres").onclick = function() {updateGenres()};
 
-    document.getElementById("add-genres").onclick = function() {updateInstruments()};
-
-    function updateInstruments() {
+    function updateGenres() {
 
         var currentMusicGenres = $('form[name="musicgenres-form"]').serializeArray();
 
@@ -104,9 +116,10 @@ $(document).ready(function(){
             type: 'PUT',
             data: { musicGenres: currentMusicGenres },
         });
-}
+        $.growl.notice({ message: "Gatunki zostały zapisane." });
+    }
 
-/////////////wczytywanie miast uzytkownika
+/////////////wczytywanie gatunków uzytkownika
 
     var requestCityUser = new XMLHttpRequest()
 
@@ -145,7 +158,7 @@ $(document).ready(function(){
 
     requestCityUser.send()
 
-/////end miast
+/////end gatunków
 
 ////photopreviews
     function readURL(input) {
@@ -223,52 +236,16 @@ $(document).ready(function(){
         i--;
     })
 
-    //////Function for getting technologies
-    $('#tech-forms').on("keyup", ".tech", function (callback) {
 
-        var tech = $(this).val()
-
-        ///console.log(tech);
-        if (tech != '') {
-            var requestTech = new XMLHttpRequest()
-            var exists = 0;
-
-            requestTech.open('GET', 'http://' + window.location.host + '/filter/technology/' + tech, true)
-            requestTech.onload = function () {
-
-                var data = JSON.parse(this.response)
-                $('#TechList').html('');
-
-                if (requestTech.status >= 200 && requestTech.status < 400) {
-
-                    for (i = 0; i < data.names.length; i++) {
-                        ////console.log(data.names[i].name);
-
-                        if (data.names[i].name != tech) {
-
-                            $('#TechList').append('<option value="' + data.names[i].name + '">');
-                        }
-                    }
-                } else {
-                    console.log('error')
-                }
-
-
-            }
-
-            requestTech.send()
-        } else {
-        }
-    });
 //////
 
-
-    ////getting languages
+    ////getting instruments
     $('#instrument-forms').on("keyup", ".lang", function (callback) {
-        // console.log("a");
+
+
         var lang = $(this).val()
 
-        // console.log(lang);
+        ///console.log(lang);
         if (lang != '') {
 
 
@@ -305,11 +282,12 @@ $(document).ready(function(){
 
         }
 
+
     });
     /////////////////////////////
 
 
-    ////getting cities
+    ////getting genres
     $('#cities-forms').on("keyup", ".city", function (callback) {
 
         var city = $(this).val()
@@ -354,24 +332,6 @@ $(document).ready(function(){
     /////////////////////////////
 
 
-    //////////////photo preview
-    function readURL(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#photo-edit').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#fileToUpload").change(function () {
-        readURL(this);
-    });
-    ////
 
 
     var i = 1;
@@ -442,6 +402,67 @@ $(document).ready(function(){
         $('#InstrumentsTab').hide();
         $('#BlockedTab').show();
     });
+
+ //////////////////////////////
+
+    function validateformCreateInstr() {
+
+
+        var isValid;
+        $(".lang").each(function () {
+
+            var element = $(this);
+//////
+            element.css("border", "1px solid #7DA2AA");
+            var requestExistsInstr = new XMLHttpRequest()
+
+            if ((element.val() == "") || (element.val() == null)) {
+                isValid = false;
+                element.css("border", "1px solid red");
+
+            } else {
+
+                requestExistsInstr.open('GET', 'http://127.0.0.1:8000/filter/instrumentExists/' + element.val(), false)
+                requestExistsInstr.onload = function () {
+
+                    var dataE = JSON.parse(this.response)
+
+
+                    if (requestExistsInstr.status >= 200 && requestExistsInstr.status < 400) {
+                        ///console.log(dataE);
+
+
+                        if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
+                            ////console.log("NOPEEEE" + element.val());
+                            isValid = false;
+                            element.css("border", "1px solid red");
+                        }
+
+
+                    } else {
+                        isValid = false;
+                        //console.log('error')
+                    }
+
+
+                }
+
+                requestExistsInstr.send()
+            }
+        });
+
+
+//////
+
+
+        if (isValid == false) {
+            return false;
+        } else {
+            return true;
+        }
+
+
+    }
 
 
 });

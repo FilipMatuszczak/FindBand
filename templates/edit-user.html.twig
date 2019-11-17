@@ -4,7 +4,9 @@
         <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
 
         <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+        <script src="{{ asset('web/scripts/jquery.growl.js') }}"></script>
 
+        <link href="{{ asset('web/styles/jquery.growl.css') }}" rel="stylesheet" type="text/css"/>
     {% endblock %}
 {% block body %}
 
@@ -43,7 +45,7 @@
             <button class="editnav endnav nonactives" id="BlockedButton">Zablokowani</button>
         </div>
 
-        <form action="{{ path('profileEditBasicInfo') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ path('profileEditBasicInfo') }}" method="post" enctype="multipart/form-data" name="FormUser" onsubmit="return validateForm1()">
 
             <div class="edit-container">
                 <div id="ProfileTab">
@@ -70,12 +72,18 @@
                                value={{ app.user.lastname }}><br>
 
                         <div class="bdays">
-                            <label>Data urodzenia:</label> <br>
+                            <label style=" margin-right: 104px;">Data urodzenia:</label> <label>Miasto:</label> <br>
                             <input type="date"
                                    value={{ date_time_provider.dateTimeAsString(app.user.dateOfBirth) }} name="dateOfBirth"
-                                   style="border: 1px solid #7DA2AA;">
+                                   style="border: 1px solid #7DA2AA; height: 23px; margin-right: 64px;">
+
+
+                            <input type="text" class="name" placeholder="Miasto" name="City" maxlength="50"
+                                   value="" style="width: 40.5%;">
 
                         </div>
+
+
                         <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25"
                                   maxlength="250">{{ app.user.info }}</textarea>
                         <br>
@@ -124,6 +132,10 @@
             <div>
                     <input type="text" class="bio lang" placeholder="Nowy instrument" maxlength="50" id="lang"
                            name="instruments[]" list="LangList">
+                <datalist id="LangList">
+
+                </datalist>
+
                     <button type="button" id="button-less" class="less btad">-</button></div>
                     </div>
 
@@ -167,52 +179,27 @@
 
 
         ///////////////////////
-        /*
-           $(document).ready(function(){
-
-               var technologies = []; ///powinna byc pobierana
-               var languages = [];
-
-           $('#add-tech').click(function() {
-
-                var technology = $('#tech').val()
-                technologies.push(technology);
-
-              $('#Technologies').html('<p>' + technologies + ' </p>');
-               document. getElementById('tech').value ="";
-
-            } );
-
-           $('#add-lang').click(function() {
-
-                var language = $('#lang').val()
-                languages.push(language);
-
-              $('#languages').html('<p>' + languages + ' </p>');
-               document. getElementById('lang').value ="";
-
-            } );
-
-
-
-           });
-
-            */
 
         ////validateform
 
-        function validateform1() {
-            var firstname = document.Form1.firstname.value;
-            var lastname = document.Form1.lastname.value;
-            document.Form1.firstname.style.border = "1px solid #7DA2AA";
-            document.Form1.lastname.style.border = "1px solid #7DA2AA";
+
+        function validateForm1() {
+
+            var firstname = document.FormUser.firstname.value;
+            var lastname = document.FormUser.lastname.value;
+            document.FormUser.firstname.style.border = "1px solid #7DA2AA";
+            document.FormUser.lastname.style.border = "1px solid #7DA2AA";
 
             if (firstname == null || firstname == "") {
-                //console.log(reason);
-                document.Form1.firstname.style.border = "1px solid red";
+
+                document.FormUser.firstname.style.border = "1px solid red";
+
+                if (lastname == null || lastname == "") {
+                    document.FormUser.lastname.style.border = "1px solid red";}
+
                 return false;
             } else if (lastname == null || lastname == "") {
-                document.Form1.lastname.style.border = "1px solid red";
+                document.FormUser.lastname.style.border = "1px solid red";
                 return false;
             } else {
                 return true;
@@ -221,16 +208,6 @@
 
         ////validateform
 
-        function validateform2() {
-            var fileToUpload = document.Form2.fileToUpload.value;
-            document.getElementById("photo-edit").style.border = "1px solid #7DA2AA";
-            if (fileToUpload == null || fileToUpload == "") {
-                document.getElementById("photo-edit").style.border = "1px solid red";
-                return false;
-            } else {
-                return true;
-            }
-        }
 
 
         ////popup request
@@ -336,69 +313,12 @@
         ////////////////////////////////////////lang/////////////
 
 
-        function validateformCreateInstr() {
 
-
-            var isValid;
-            $(".lang").each(function () {
-
-                var element = $(this);
-//////
-                element.css("border", "1px solid #7DA2AA");
-                var requestExistsInstr = new XMLHttpRequest()
-
-                if ((element.val() == "") || (element.val() == null)) {
-                    isValid = false;
-                    element.css("border", "1px solid red");
-
-                } else {
-
-                    requestExistsInstr.open('GET', 'http://127.0.0.1:8000/instrumentExists/' + element.val(), false)
-                    requestExistsInstr.onload = function () {
-
-                        var dataE = JSON.parse(this.response)
-
-
-                        if (requestExistsTech.status >= 200 && requestExistsTech.status < 400) {
-                            //console.log(dataE);
-
-
-                            if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
-                                ///console.log("NOPEEEE" + element.val());
-                                isValid = false;
-                                element.css("border", "1px solid red");
-                            }
-
-
-                        } else {
-                            isValid = false;
-                            console.log('error')
-                        }
-
-
-                    }
-
-                    requestExistsInstr.send()
-                }
-            });
-
-
-//////
-
-
-            if (isValid == false) {
-                return false;
-            } else {
-                return true;
-            }
-
-
-        }
 
         ////////////////////////////////////////city/////////////
 
 
-        function validateformCreateCity() {
+        function validateformGenres() {
 
 
             var isValid;
