@@ -12,7 +12,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method MusicGenre[]    findAll()
  * @method MusicGenre[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MusicGenreReposiory extends ServiceEntityRepository
+class MusicGenreRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

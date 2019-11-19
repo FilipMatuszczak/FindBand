@@ -40,7 +40,7 @@ class Instrument
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="instrument")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="instruments")
      * @ORM\JoinTable(name="users_instruments",
      *   joinColumns={
      *     @ORM\JoinColumn(name="instrument_id", referencedColumnName="instrument_id")

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * MusicGenres
  *
  * @ORM\Table(name="music_genres")
- * @ORM\Entity(repositoryClass="App\Repository\MusicGenreReposiory")
+ * @ORM\Entity(repositoryClass="App\Repository\MusicGenreRepository")
  */
 class MusicGenre
 {

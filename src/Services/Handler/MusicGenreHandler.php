@@ -3,7 +3,7 @@
 namespace App\Services\Handler;
 
 use App\Entity\User;
-use App\Repository\MusicGenreReposiory;
+use App\Repository\MusicGenreRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -12,14 +12,14 @@ class MusicGenreHandler
     /** @var EntityManager */
     private $entityManager;
 
-    /** @var MusicGenreReposiory */
+    /** @var MusicGenreRepository */
     private $musicGenreRepository;
 
     /**
      * @param EntityManagerInterface $entityManager
-     * @param MusicGenreReposiory $musicGenreRepository
+     * @param MusicGenreRepository $musicGenreRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, MusicGenreReposiory $musicGenreRepository)
+    public function __construct(EntityManagerInterface $entityManager, MusicGenreRepository $musicGenreRepository)
     {
         $this->entityManager = $entityManager;
         $this->musicGenreRepository = $musicGenreRepository;

@@ -4,7 +4,7 @@
 namespace App\Controller;
 
 use App\Repository\InstrumentRepository;
-use App\Repository\MusicGenreReposiory;
+use App\Repository\MusicGenreRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /** */
@@ -13,10 +13,10 @@ class FilterController
     /** @var InstrumentRepository */
     private $instrumentRepository;
 
-    /** @var MusicGenreReposiory */
+    /** @var MusicGenreRepository */
     private $musicGenresRepository;
 
-    public function __construct(InstrumentRepository $instrumentRepository, MusicGenreReposiory $musicGenreReposiory)
+    public function __construct(InstrumentRepository $instrumentRepository, MusicGenreRepository $musicGenreReposiory)
     {
         $this->instrumentRepository = $instrumentRepository;
         $this->musicGenresRepository = $musicGenreReposiory;

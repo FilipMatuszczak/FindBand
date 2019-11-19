@@ -83,3 +83,8 @@ instrumentExists:
   path: /filter/instrumentExists/{name}
   controller: App\Controller\FilterController:instrumentExistsAction
   methods: GET
+
+usersIndexAction:
+  path: /users
+  controller: App\Controller\UsersController:indexAction
+  methods: GET

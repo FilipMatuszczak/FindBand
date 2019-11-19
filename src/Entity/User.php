@@ -22,6 +22,7 @@ class User implements UserInterface, \Serializable
     const USER_VERIFIED = 1;
     const USER_CHANGING_PASSWORD = 2;
     const USER_NEWSLETTER = 4;
+    const USER_ADMIN = 8;
 
     const COLUMN_EMAIL = 'email';
     const COLUMN_AUTHENTICATION_LINK = 'authenticationLink';

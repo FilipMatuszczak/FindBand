@@ -1,4 +1,4 @@
-{% extends 'main/parent.html.twig' %}
+{% extends 'parent.html.twig' %}
 
 
     {% block stylesheets %}
@@ -8,7 +8,7 @@
     {% endblock %}
 
 {% block left %}
-    <form action=" " method="get">
+    <form action="{{ path('usersIndexAction') }}" method="get">
         <div class="filter">
             <div class="title">Filtruj użytkowników</div>
 
@@ -16,30 +16,29 @@
             <div class="bio-title">
                 Imię
                 <input class="bio" type="text" size="30" name="firstName" id="inputTitle" placeholder="..."
+                       {% if app.request.query.all is not empty %} value={{ app.request.query.all['firstName'] }} {% endif %}
                        ></div>
             <br>
 
             <div class="bio-title">
                 Nazwisko
                 <input class="bio" type="text" size="30" name="lastName" id="inputTitle" placeholder="..."
+                        {% if app.request.query.all is not empty %}  value={{ app.request.query.all['lastName'] }} {% endif %}
                        ></div>
             <br>
-            <input type="hidden" name="page"  >
+            <input type="hidden" name="page" value={{ page }} >
             <div class="bio-title">
                 Instrument
-                <input type="LangList" class="bio" placeholder="..." maxlength="50" id="lang" name="language"
-                       list="LangList"  >
-                <datalist id="LangList">
-                    <option value="polski">
-                </datalist>
+                <input type="LangList" class="bio" placeholder="..." maxlength="50" id="lang" name="instrument"
+                        {% if app.request.query.all is not empty %}  value={{ app.request.query.all['instrument'] }} {% endif %}>
 
             </div>
             <br>
 
             <div class="bio-title">
                 Gatunek
-                <input type="TechList" class="bio" id="tech" placeholder="..." maxlength="50" name="technology"
-                       list="TechList"  >
+                <input type="TechList" class="bio" id="tech" placeholder="..." maxlength="50" name="musicGenre"
+                        {% if app.request.query.all is not empty %}  value={{ app.request.query.all['musicGenre'] }} {% endif %}>
                 <datalist id="TechList">
 
                 </datalist>
@@ -47,8 +46,9 @@
             <br>
             <div class="bio-title">
                 Miasto
-                <input type="CityList" class="bio" placeholder="..." maxlength="50" id="city" list="CityList"
-                       name="city"  >
+                <input type="CityList" class="bio" placeholder="..." maxlength="50" id="city" list="CityList" name="city"
+                       {% if app.request.query.all is not empty %}value={{ app.request.query.all['city'] }} {% endif %}
+                       >
                 <datalist id="CityList">
 
                 </datalist>
@@ -59,10 +59,10 @@
                 Sortuj według:
 
                 <select name="sorting">
-                    <option value="A-Z"  >A-Z</option>
-                    <option value="Z-A"  >Z-A</option>
-                    <option value="Najstarsi"  >Najstarsi</option>
-                    <option value="Najmlodsi" >Najmłodsi</option>
+                    <option value="A-Z" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "A-Z" %} selected{% endif %}>A-Z</option>
+                    <option value="Z-A" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "Z-A" %} selected{% endif %}>Z-A</option>
+                    <option value="Najstarsi" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "Najstarsi" %} selected{% endif %}>Najstarsi</option>
+                    <option value="Najmlodsi" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "Najmlodsi" %} selected{% endif %}>Najmłodsi</option>
                 </select>
                 <br>
                 <div class="btn-search">
@@ -77,37 +77,32 @@
 {% block body %}
 
 
-
+        {%  for user in users %}
         <div class="post" id="usr-post">
-            <a href=" "><img id="user-avatar"
-                                                                                   src=" "
-                                                                                   width="70" height="70"></a>
+            <a href="{{ path('profileIndexAction', {'username': user.username } ) }}"><img id="user-avatar" src="data:image/jpeg;base64,{{ photo_data_provider.PhotoById(user.userId) }}" width="70" height="70"></a>
 
-            <a class="project-title">imie i nazwisko</a><br>
+            <a  href="{{ path('profileIndexAction', {'username': user.username } ) }}" class="project-title">{{user.firstname}} {{ user.lastname }}</a><br>
+            {% for instrument in user.instrument %}
+                <a class="project-lang">{{ instrument.name }}</a>
+            {% endfor %}
 
-                <a class="project-lang">instr</a>
-
-
-                <a class="project-autors">miasto?</a>
+                <a class="project-autors">{% if user.city is not null %}{{ user.city.name }} {% endif %}</a>
 
         </div>
-
+        {% endfor %}
 
     <div class="pagination">
-
-            <a class="pagination-button prev"
-               href=" "><i
-                        class="fas fa-arrow-left"></i></a>
-
+            {% if page != 1 %}
+            <a class="pagination-button prev" href="{{path('usersIndexAction')}}{{ previousPageUrl }}"><i class="fas fa-arrow-left"></i></a>
+            {% endif %}
         <div style="display: inline-block;
     margin-top: 5px;">
-            <a class="pagination-a" href="#">1</a>
+            <a class="pagination-a" href="#">{{page}}</a>
         </div>
+        {% if nextPage is not null %}
+            <a class="pagination-button next" href="{{path('usersIndexAction')}}{{ nextPageUrl }}" ><i  class="fas fa-arrow-right"></i></a>
+        {% endif %}
 
-            <a class="pagination-button next"
-               href=""><i
-                        class="fas fa-arrow-right"></i></a>
-     
     </div>
 
 
