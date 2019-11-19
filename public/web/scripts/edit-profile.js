@@ -238,12 +238,12 @@ $(document).ready(function() {
 
 
 //////
-
+    var changeTimer = false;
     ////getting instruments
-    $('#instrument-forms').on("keyup", ".lang", function (callback) {
-
-
-        var lang = $(this).val()
+    $('#instrument-forms').on("input", ".lang", function (callback) {
+        if(changeTimer !== false) clearTimeout(changeTimer);
+        changeTimer = setTimeout(function(){
+        var lang = $(callback.target).val();
 
         ///console.log(lang);
         if (lang != '') {
@@ -269,7 +269,7 @@ $(document).ready(function() {
                         }
                     }
                 } else {
-                    console.log('error')
+                    //console.log('error')
                 }
 
 
@@ -281,17 +281,20 @@ $(document).ready(function() {
         } else {
 
         }
-
+            changeTimer = false;
+        },500);
 
     });
     /////////////////////////////
 
-
+    var changeTimer2 = false;
     ////getting genres
-    $('#cities-forms').on("keyup", ".city", function (callback) {
+    $('#cities-forms').on("input", ".city", function (callback) {
 
-        var city = $(this).val()
-        ///console.log(lang);
+        if(changeTimer2 !== false) clearTimeout(changeTimer2);
+        changeTimer2 = setTimeout(function(){
+            var city = $(callback.target).val();
+        ///console.log(city);
         if (city != '') {
 
 
@@ -315,7 +318,7 @@ $(document).ready(function() {
                         }
                     }
                 } else {
-                    console.log('error')
+                    ///console.log('error')
                 }
 
 
@@ -327,7 +330,8 @@ $(document).ready(function() {
         } else {
 
         }
-
+            changeTimer2 = false;
+        },500);
     });
     /////////////////////////////
 
