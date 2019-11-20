@@ -49,8 +49,11 @@ class MusicGenreHandler
     private function decorateRawData($musicGenresData)
     {
         $musicGenresNames = [];
-        foreach ($musicGenresData as $musicGenresDatum) {
-            $musicGenresNames[] = $musicGenresDatum['value'];
+
+        if (!empty($musicGenresData)) {
+            foreach ($musicGenresData as $musicGenresDatum) {
+                $musicGenresNames[] = $musicGenresDatum['value'];
+            }
         }
 
         return $musicGenresNames;

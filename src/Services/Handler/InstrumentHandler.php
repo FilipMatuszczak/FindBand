@@ -49,8 +49,10 @@ class InstrumentHandler
     private function decorateRawData($instrumentData)
     {
         $instrumentNames = [];
-        foreach ($instrumentData as $instrument) {
-            $instrumentNames[] = $instrument['value'];
+        if (!empty($instruments)) {
+            foreach ($instrumentData as $instrument) {
+                $instrumentNames[] = $instrument['value'];
+            }
         }
 
         return $instrumentNames;

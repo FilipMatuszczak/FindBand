@@ -67,8 +67,9 @@ class ProfileController extends AbstractController
         $info = $request->get('info');
         $newsletter = $request->get('newsletter');
         $photo = $request->files->get('fileToUpload');
+        $cityName = $request->get('city');
 
-        $this->userHandler->editCommonUserData($user, $firstname, $lastname, $dateOfBirth, $info, $newsletter, $photo);
+        $this->userHandler->editCommonUserData($user, $firstname, $lastname, $dateOfBirth, $info, $newsletter, $photo, $cityName);
 
         return $this->redirectToRoute('profileEditAction', ['username' => $user->getUsername()]);
     }

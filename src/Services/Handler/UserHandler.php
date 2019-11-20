@@ -5,6 +5,7 @@ namespace App\Services\Handler;
 
 
 use App\Entity\User;
+use App\Repository\CityRepository;
 use App\Security\UserProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,11 +22,15 @@ class UserHandler
     /** @var PasswordHandler */
     private $passwordHandler;
 
-    public function __construct(EntityManagerInterface $entityManager, UserProvider $userProvider, PasswordHandler $passwordHandler)
+    /** @var CityRepository */
+    private $cityRepository;
+
+    public function __construct(EntityManagerInterface $entityManager, UserProvider $userProvider, PasswordHandler $passwordHandler, CityRepository $cityRepository)
     {
         $this->entityManager = $entityManager;
         $this->userProvider = $userProvider;
         $this->passwordHandler = $passwordHandler;
+        $this->cityRepository = $cityRepository;
     }
 
     public function updateAuthenticationLinkHash($username, $authenticationLink)
@@ -71,7 +76,7 @@ class UserHandler
         $this->entityManager->flush();
     }
 
-    public function editCommonUserData(User $user, $firstname, $lastname, $dateOfBirth, $info, $newsletter, $photo)
+    public function editCommonUserData(User $user, $firstname, $lastname, $dateOfBirth, $info, $newsletter, $photo, $cityName)
     {
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
@@ -79,6 +84,10 @@ class UserHandler
         $user->setInfo($info);
         $newsletter ? $user->addOption(User::USER_NEWSLETTER) : $user->unsetOption(User::USER_NEWSLETTER);
         $this->saveNewProfilePhoto($user, $photo);
+
+        if ($city = $this->cityRepository->findOneBy(['name' => $cityName])) {
+            $user->setCity($city);
+        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

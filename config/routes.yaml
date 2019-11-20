@@ -84,6 +84,16 @@ instrumentExists:
   controller: App\Controller\FilterController:instrumentExistsAction
   methods: GET
 
+musicGenreExists:
+  path: /filter/musicGenreExists/{name}
+  controller: App\Controller\FilterController:musicGenreExistsAction
+  methods: GET
+
+userExists:
+  path: /userExists/{username}
+  controller: App\Controller\FilterController:usernameExistsAction
+  methods: GET
+
 usersIndexAction:
   path: /users
   controller: App\Controller\UsersController:indexAction
