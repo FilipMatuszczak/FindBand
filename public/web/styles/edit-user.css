@@ -20,9 +20,26 @@ h1{
 .names-container{float: left;
     width: 98%;}
 .bdays{
-    margin-left: 196px;
+
     text-align: left;
     margin-top: 1%; margin-bottom:1%;
+}
+.bd{
+    border: 1px solid #7DA2AA; height: 16px;
+    width:35%;
+}
+.ct{
+    width: 23%;
+}
+
+input[type="date"]:before {
+    content: attr(placeholder) !important;
+    color: #aaa;
+    margin-right: 0.5em;
+}
+input[type="date"]:focus:before,
+input[type="date"]:valid:before {
+    content: "";
 }
 
 .lcheck{

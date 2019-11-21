@@ -1,6 +1,6 @@
-{% extends 'main/parent.html.twig' %}
+{% extends 'parent.html.twig' %}
     {% block stylesheets %}
-        <link href="{{ asset('web/styles/new-project.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/new-band.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
         <script src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" data-auto-replace-svg="nest"></script>
         <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
@@ -8,29 +8,7 @@
     {% endblock %}
 {% block body %}
 
-    {# modal request technologii
-    <form  name="ReqForm" onsubmit="return validateformReq()" action="{{ path('create_request_for_technology') }}" method="post">
-        <div id="modal-req" class="modal">
-            <div class="modal-content">
 
-                <p style="margin-left: 2%;">Czy chcesz wysłać prośbę o dodanie nowej technologii?</p>
-                <br>
-                <input id="reqTitle" name="name" value="" placeholder="Nazwa" class="name" style="border-radius: 5px; margin-bottom: 2%; margin-top: 2%;">
-                <input type="hidden" name="destination" value="create_project">
-
-                <textarea id="reqtxt" name="reason" class="form-control"
-                          placeholder="Napisz co to za technologia i dołącz linki do źródła." rows="5" cols="25"></textarea>
-                <div class="buttons" style="height: 40px;">
-                    <button class="cancel-btn button">Anuluj</button>
-
-                    <input type="submit" id="send-btn" class="button" value="Wyślij zgłoszenie">
-
-                </div>
-
-            </div>
-        </div>
-    </form>
-#}
 
         <div class="edit-profile">
             <h1>Załóż zespół:</h1>
@@ -61,12 +39,7 @@
                     <input type="hidden" class="bio" placeholder="Opis" name="info" maxlength="250"/><br>
                     <br>
                 </div>
-                {#
-                <hr>
-                <div class="TechReq">
-                    <h4>Nie widzisz swojej technologii? </h4> <button id="ReqButton" class="button">Zgłoś ją!</button>
-                </div>
-<br><br>#}
+
                 <button type="button" id="button-moret" class="button-moret" >Dodaj <i class="fas fa-plus"></i> </button> <br>
                 <div id="tech-forms" class="forms">
                     <div>
@@ -107,7 +80,7 @@
 
                 }else{
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/technologyExists/' + element.val(), false)
+                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/musicGenreExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
 
                         var dataE = JSON.parse(this.response)
@@ -196,7 +169,7 @@
                 ///todo dodaje nowe okno formularza
 
 
-                $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Technologie" name = "technologies[]" maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
+                $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" name = "technologies[]" maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
 
 
                 ///////////
@@ -211,17 +184,19 @@
 
 
             //////////////////////////////////
-            //////Function for getting technologies
+            //////Function for getting genres
+            var changeTimer = false;
             $('#tech-forms').on("keyup", ".tech", function (callback) {
-
-                var tech = $(this).val()
+                if(changeTimer !== false) clearTimeout(changeTimer);
+                changeTimer = setTimeout(function(){
+                var tech = $(callback.target).val();
 
                 ///console.log(tech);
                 if (tech != '') {
                     var requestTech = new XMLHttpRequest()
                     var exists = 0;
 
-                    requestTech.open('GET', 'http://127.0.0.1:8000/filter/technology/' + tech, true)
+                    requestTech.open('GET', 'http://127.0.0.1:8000/filter/musicGenre/' + tech, true)
                     requestTech.onload = function () {
 
                         var data = JSON.parse(this.response)
@@ -246,7 +221,8 @@
 
                     requestTech.send()
                 } else {
-                }
+                }changeTimer = false;
+                },500);
             });
 //////
 

@@ -71,18 +71,15 @@
                         <input type="text" class="name" placeholder="Nazwisko" name="lastname" maxlength="50"
                                value={{ app.user.lastname }}><br>
 
-                        <div class="bdays">
-                            <label style=" margin-right: 104px;">Data urodzenia:</label> <label>Miasto:</label> <br>
-                            <input type="date"
-                                   value={{ date_time_provider.dateTimeAsString(app.user.dateOfBirth) }} name="dateOfBirth"
-                                   style="border: 1px solid #7DA2AA; height: 23px; margin-right: 64px;">
+<br>
+                            <input type="date" class="name bd" placeholder="Data urodzenia"
+                                   value={{ date_time_provider.dateTimeAsString(app.user.dateOfBirth) }} name="dateOfBirth">
 
 
-                            <input type="text" class="name" placeholder="Miasto" name="city" maxlength="50"
-                                   value={{ app.user.city.name }} style="width: 40.5%;">
+                            <input type="text" class="name ct" placeholder="Miasto" name="city" maxlength="50"
+                                   {% if app.user.city is not null %}  value={{ app.user.city.name }} {% endif %}>
 
-                        </div>
-
+                      <br>
 
                         <textarea name="info" class="bio" placeholder="Info" rows="5" cols="25"
                                   maxlength="250">{{ app.user.info }}</textarea>

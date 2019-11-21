@@ -108,7 +108,7 @@ $(document).ready(function() {
     document.getElementById("add-genres").onclick = function() {updateGenres()};
 
     function updateGenres() {
-
+        if (validateformCreateGenres()) {
         var currentMusicGenres = $('form[name="musicgenres-form"]').serializeArray();
 
         $.ajax({
@@ -116,7 +116,11 @@ $(document).ready(function() {
             type: 'PUT',
             data: { musicGenres: currentMusicGenres },
         });
-        $.growl.notice({ message: "Gatunki zostały zapisane." });
+        $.growl.notice({ message: "Gatunki zostały zapisane." });}
+        else
+        {
+            $.growl.error({ message: "Gatunki nie zostały zapisane." });
+        }
     }
 
 /////////////wczytywanie gatunków uzytkownika
@@ -341,7 +345,7 @@ $(document).ready(function() {
     var i = 1;
 
 
-    //////// TODO  function for submiting form
+    ////////
 
     $('#register-form').click(function () {
             if (username_free) { //if form is valid submit form
@@ -452,6 +456,67 @@ $(document).ready(function() {
                 }
 
                 requestExistsInstr.send()
+            }
+        });
+
+
+//////
+
+
+        if (isValid == false) {
+            return false;
+        } else {
+            return true;
+        }
+
+
+    }
+////////////////////////////////////////////////////////////////////////
+
+
+    function validateformCreateGenres() {
+
+
+        var isValid;
+        $(".city").each(function () {
+
+            var element = $(this);
+//////
+            element.css("border", "1px solid #7DA2AA");
+            var requestExistsGenre = new XMLHttpRequest()
+
+            if ((element.val() == "") || (element.val() == null)) {
+                isValid = false;
+                element.css("border", "1px solid red");
+
+            } else {
+
+                requestExistsGenre.open('GET', 'http://127.0.0.1:8000/filter/musicGenreExists/' + element.val(), false)
+                requestExistsGenre.onload = function () {
+
+                    var dataE = JSON.parse(this.response)
+
+
+                    if (requestExistsGenre.status >= 200 && requestExistsGenre.status < 400) {
+                        ///console.log(dataE);
+
+
+                        if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
+                            ////console.log("NOPEEEE" + element.val());
+                            isValid = false;
+                            element.css("border", "1px solid red");
+                        }
+
+
+                    } else {
+                        isValid = false;
+                        //console.log('error')
+                    }
+
+
+                }
+
+                requestExistsGenre.send()
             }
         });
 
