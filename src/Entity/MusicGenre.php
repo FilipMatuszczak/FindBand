@@ -46,6 +46,21 @@ class MusicGenre
     private $user;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Band", inversedBy="musicGenre")
+     * @ORM\JoinTable(name="bands_music_genres",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="music_genre_id", referencedColumnName="music_genre_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="band_id", referencedColumnName="band_id")
+     *   }
+     * )
+     */
+    private $band;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -96,4 +111,31 @@ class MusicGenre
         return $this;
     }
 
+    /**
+     * @return Collection|Band[]
+     */
+    public function getBand(): Collection
+    {
+        return $this->band;
+    }
+
+    public function addBand(Band $band): self
+    {
+        if (!$this->band->contains($band)) {
+            $this->band[] = $band;
+            $band->addMusicGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBand(Band $band): self
+    {
+        if ($this->band->contains($band)) {
+            $this->band->removeElement($band);
+            $band->removeMusicGenre($this);
+        }
+
+        return $this;
+    }
 }

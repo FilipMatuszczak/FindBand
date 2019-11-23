@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS users (
     authentication_link CHAR(128),
     change_password_link CHAR(128) DEFAULT NULL,
     change_password_link_expiration_date DATETIME NULL,
+    login_attempts_failed INT DEFAULT 0,
+    last_login_failed_date DATETIME NULL,
     options TINYINT(4) DEFAULT 0,
     FOREIGN KEY (city_id)
         REFERENCES cities (city_id),
@@ -47,23 +49,6 @@ CREATE TABLE IF NOT EXISTS users_instruments (
     PRIMARY KEY (instrument_id , user_id)
 )  ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS reports (
-    report_id INT AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    post_id INT NULL,
-    notice_id INT NULL,
-    reason TEXT NOT NULL,
-    timestamp DATETIME NOT NULL,
-    options TINYINT(4) DEFAULT 0,
-    PRIMARY KEY (report_id),
-    FOREIGN KEY (notice_id)
-        REFERENCES notices (notice_id),
-    FOREIGN KEY (user_id)
-        REFERENCES users (user_id),
-    FOREIGN KEY (post_id)
-        REFERENCES posts (post_id)
-)  ENGINE=INNODB;
-
 CREATE TABLE IF NOT EXISTS messages (
     message_id INT AUTO_INCREMENT,
     sender_id INT NOT NULL,
@@ -75,6 +60,15 @@ CREATE TABLE IF NOT EXISTS messages (
         REFERENCES users (user_id),
     FOREIGN KEY (receiver_id)
         REFERENCES users (user_id)
+)  ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS bands (
+    band_id INT AUTO_INCREMENT,
+    title VARCHAR(50) NOT NULL,
+    description TEXT NULL,
+    created_date DATETIME NOT NULL,
+    photo LONGBLOB NULL,
+    PRIMARY KEY (band_id)
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS posts (
@@ -89,15 +83,6 @@ CREATE TABLE IF NOT EXISTS posts (
         REFERENCES users (user_id),
     FOREIGN KEY (band_id)
         REFERENCES bands (band_id)
-)  ENGINE=INNODB;
-
-CREATE TABLE IF NOT EXISTS bands (
-    band_id INT AUTO_INCREMENT,
-    title VARCHAR(50) NOT NULL,
-    description TEXT NULL,
-    created_date DATETIME NOT NULL,
-    photo LONGBLOB NULL,
-    PRIMARY KEY (band_id)
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS users_bands (
@@ -117,7 +102,7 @@ CREATE TABLE IF NOT EXISTS notices (
     instrument_id INT NULL,
     title VARCHAR(50) NOT NULL,
     details TEXT NOT NULL,
-    PRIMARY KEY (post_id),
+    PRIMARY KEY (notice_id),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (band_id)
@@ -126,13 +111,30 @@ CREATE TABLE IF NOT EXISTS notices (
         REFERENCES instruments (instrument_id)
 )  ENGINE=INNODB;
 
+CREATE TABLE IF NOT EXISTS reports (
+    report_id INT AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    post_id INT NULL,
+    notice_id INT NULL,
+    reason TEXT NOT NULL,
+    timestamp DATETIME NOT NULL,
+    options TINYINT(4) DEFAULT 0,
+    PRIMARY KEY (report_id),
+    FOREIGN KEY (notice_id)
+        REFERENCES notices (notice_id),
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id),
+    FOREIGN KEY (post_id)
+        REFERENCES posts (post_id)
+)  ENGINE=INNODB;
+
 CREATE TABLE IF NOT EXISTS add_user_to_band_message (
     add_user_to_band_message_id INT AUTO_INCREMENT,
     user_id INT NOT NULL,
     band_id INT NOT NULL,
     reason TEXT NOT NULL,
     options TINYINT(4) NOT NULL DEFAULT 0,
-    PRIMARY KEY (add_user_to_band_message_id)
+    PRIMARY KEY (add_user_to_band_message_id),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (band_id)
@@ -153,4 +155,14 @@ CREATE TABLE IF NOT EXISTS users_music_genres (
     FOREIGN KEY (music_genre_id)
         REFERENCES music_genres (music_genre_id),
     PRIMARY KEY (music_genre_id , user_id)
+)  ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS bands_music_genres (
+    music_genre_id INT NOT NULL,
+    band_id INT NOT NULL,
+    FOREIGN KEY (band_id)
+        REFERENCES bands (band_id),
+    FOREIGN KEY (music_genre_id)
+        REFERENCES music_genres (music_genre_id),
+    PRIMARY KEY (music_genre_id , band_id)
 )  ENGINE=INNODB;

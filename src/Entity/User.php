@@ -159,6 +159,20 @@ class User implements UserInterface, \Serializable
     private $changePasswordLinkExpirationDate;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="login_attempts_failed", type="integer", nullable=false)
+     */
+    private $loginAttemptsFailed = 0;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="last_login_failed_date", type="datetime", nullable=true)
+     */
+    private $lastLoginFailedDate;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -259,6 +273,18 @@ class User implements UserInterface, \Serializable
         return 0;
     }
 
+    public function getLastLoginFailedDate(): ?\DateTime
+    {
+        return $this->lastLoginFailedDate;
+    }
+
+    public function setLastLoginFailedDate(?\DateTimeInterface $lastLoginFailedDate): self
+    {
+        $this->lastLoginFailedDate = $lastLoginFailedDate;
+
+        return $this;
+    }
+
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
     {
         $this->dateOfBirth = $dateOfBirth;
@@ -314,7 +340,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getOptions(): ?bool
+    public function getOptions(): ?int
     {
         return $this->options;
     }
@@ -322,6 +348,18 @@ class User implements UserInterface, \Serializable
     public function setOptions(?int $options): self
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    public function getLoginAttemptsFailed(): ?int
+    {
+        return $this->loginAttemptsFailed;
+    }
+
+    public function setLoginAttemptsFailed(?int $loginAttemptsFailed): self
+    {
+        $this->loginAttemptsFailed = $loginAttemptsFailed;
 
         return $this;
     }

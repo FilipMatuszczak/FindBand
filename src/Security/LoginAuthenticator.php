@@ -23,6 +23,8 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
+    const LOGIN_ATTEMPTS_FAILED_THRESHOLD = 3;
+
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
@@ -75,8 +77,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
 
         if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
+            throw new CustomUserMessageAuthenticationException('Invalid credentials.');
         }
 
         return $user;
@@ -100,17 +101,25 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }*/
+        $this->handleUserLock($userEntity);
 
-
-        if (!($this->userProvider->loadUserByUsername($user->getUsername())->getOptions() & User::USER_VERIFIED))
+        if (!$userEntity->getOptions() & User::USER_VERIFIED)
         {
             return false;
         }
 
-        if ($user->getPassword() ===  $this->passwordHandler->getHashFromPlainTextAndSalt($password, $salt))
+        if ($user->getPassword() === $this->passwordHandler->getHashFromPlainTextAndSalt($password, $salt))
         {
+            $userEntity->setLoginAttemptsFailed(0);
+
+            $this->entityManager->persist($userEntity);
+            $this->entityManager->flush();
+
             return true;
         }
+
+        $this->updateAttemptsAndLastLoginFail($userEntity);
+
         return false;
     }
 
@@ -126,5 +135,34 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
     protected function getLoginUrl()
     {
         return $this->urlGenerator->generate('loginIndex');
+    }
+
+    private function handleUserLock(User $user)
+    {
+        $attempts = $user->getLoginAttemptsFailed();
+        $numberOfSeconds = pow(2, $attempts - 3);
+        $currentDate = new \DateTime();
+
+        if ($attempts > self::LOGIN_ATTEMPTS_FAILED_THRESHOLD ) {
+            $interval = new \DateInterval('PT' . $numberOfSeconds . 'S');
+            $userLockDate = $user->getLastLoginFailedDate()->add($interval);
+
+            if ($userLockDate > $currentDate) {
+                throw new CustomUserMessageAuthenticationException('Możliwość logowania zablokonawa na jakiś czas, spróbuj później');
+            }
+        }
+    }
+
+    /**
+     * @param User $userEntity
+     * @throws \Exception
+     */
+    private function updateAttemptsAndLastLoginFail(User $userEntity): void
+    {
+        $userEntity->setLastLoginFailedDate(new \DateTime());
+        $userEntity->setLoginAttemptsFailed($userEntity->getLoginAttemptsFailed() + 1);
+
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
     }
 }
