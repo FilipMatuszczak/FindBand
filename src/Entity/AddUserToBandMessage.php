@@ -55,58 +55,5 @@ class AddUserToBandMessage
      */
     private $band;
 
-    public function getAddUserToBandMessageId(): ?int
-    {
-        return $this->addUserToBandMessageId;
-    }
-
-    public function getReason(): ?string
-    {
-        return $this->reason;
-    }
-
-    public function setReason(string $reason): self
-    {
-        $this->reason = $reason;
-
-        return $this;
-    }
-
-    public function getOptions(): ?bool
-    {
-        return $this->options;
-    }
-
-    public function setOptions(bool $options): self
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getBand(): ?Band
-    {
-        return $this->band;
-    }
-
-    public function setBand(?Band $band): self
-    {
-        $this->band = $band;
-
-        return $this;
-    }
-
 
 }

@@ -10,10 +10,13 @@
 
 
 
-        <div class="edit-profile">
-            <h1>Załóż zespół:</h1>
+    <div class="edit-profile">
+        <h1>Załóż zespół:</h1>
+        <form action="{{ path('createBandAction') }}" method="post" enctype="multipart/form-data" name="FormBand">
+
             <div class="edit-container">
                 <div id="up">
+
                     <div id="photo">
 
 
@@ -35,21 +38,22 @@
                 </div>
                 <div class="info" style="text-align: left; margin-left:9%; margin-top: 1%; margin-bottom:1%;">
 
-                    <textarea name="text" class="bio" placeholder="Opis"  rows="10" cols="25"></textarea>
-                    <input type="hidden" class="bio" placeholder="Opis" name="info" maxlength="250"/><br>
+                    <textarea name="text" class="bio" placeholder="Opis" rows="10" cols="25"></textarea>
+                    <br>
                     <br>
                 </div>
 
-                <button type="button" id="button-moret" class="button-moret" >Dodaj <i class="fas fa-plus"></i> </button> <br>
+                <button type="button" id="button-moret" class="button-moret">Dodaj <i class="fas fa-plus"></i></button>
+                <br>
                 <div id="tech-forms" class="forms">
                     <div>
-                    <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" maxlength="50"
-                           name="technologies[]" list="TechList">
-                    <datalist id="TechList">
+                        <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" maxlength="50"
+                               name="musicGenres[]" list="TechList">
+                        <datalist id="TechList">
 
-                    </datalist>
-                    <button type="button" id="button-less" class="less btad">-</button>
-                    <br> </div>
+                        </datalist>
+                        <button type="button" id="button-less" class="less btad">-</button>
+                        <br></div>
                 </div>
 
                 <input type="submit" value="Załóż zespół!" name="submit" id="add-tech" class="upload smaller"/>
@@ -57,28 +61,29 @@
 
 
             </div>
-        </div>
+        </form>
+    </div>
 
     <script>
 
         ////validateform
-        function validateformCreate(){
-            var title=document.postCreate.title.value;
+        function validateformCreate() {
+            var title = document.postCreate.title.value;
             document.postCreate.title.style.border = "1px solid #7DA2AA";
 
             var isValid;
-            $(".tech").each(function() {
+            $(".tech").each(function () {
 
-               var element = $(this);
+                var element = $(this);
 //////
-                element.css("border","1px solid #7DA2AA");
+                element.css("border", "1px solid #7DA2AA");
                 var requestExistsTech = new XMLHttpRequest()
 
-                if((element.val() == "")  || (element.val() == null) ){
-                    isValid=false;
-                    element.css("border","1px solid red");
+                if ((element.val() == "") || (element.val() == null)) {
+                    isValid = false;
+                    element.css("border", "1px solid red");
 
-                }else{
+                } else {
 
                     requestExistsTech.open('GET', 'http://127.0.0.1:8000/musicGenreExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
@@ -90,15 +95,15 @@
                             //console.log(dataE);
 
 
-                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                            if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
                                 ///console.log("NOPEEEE" + element.val());
-                                isValid=false;
-                                element.css("border","1px solid red");
+                                isValid = false;
+                                element.css("border", "1px solid red");
                             }
 
 
                         } else {
-                            isValid=false;
+                            isValid = false;
                             console.log('error')
                         }
 
@@ -111,34 +116,38 @@
 
 
 //////
-            if (title==null || title==""){
+            if (title == null || title == "") {
                 //console.log(reason);
                 document.postCreate.title.style.border = "1px solid red";
                 return false;
             }
 
-            if(isValid==false){return false;}
-            else{  return true; }
+            if (isValid == false) {
+                return false;
+            } else {
+                return true;
+            }
 
 
         }
 
 
-        function validateformReq(){
-            var Rtitle=document.ReqForm.reqTitle.value;
-            var Rtxt=document.ReqForm.reqtxt.value;
+        function validateformReq() {
+            var Rtitle = document.ReqForm.reqTitle.value;
+            var Rtxt = document.ReqForm.reqtxt.value;
 
-            if (Rtitle==null || Rtitle==""){
+            if (Rtitle == null || Rtitle == "") {
                 //console.log(reason);
                 document.ReqForm.reqTitle.style.border = "0.5px solid red";
                 return false;
-            } else if (Rtxt==null || Rtxt==""){
+            } else if (Rtxt == null || Rtxt == "") {
                 //console.log(reason);
                 document.ReqForm.reqtxt.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
-
 
 
         $(document).ready(function () {
@@ -187,42 +196,43 @@
             //////Function for getting genres
             var changeTimer = false;
             $('#tech-forms').on("keyup", ".tech", function (callback) {
-                if(changeTimer !== false) clearTimeout(changeTimer);
-                changeTimer = setTimeout(function(){
-                var tech = $(callback.target).val();
+                if (changeTimer !== false) clearTimeout(changeTimer);
+                changeTimer = setTimeout(function () {
+                    var tech = $(callback.target).val();
 
-                ///console.log(tech);
-                if (tech != '') {
-                    var requestTech = new XMLHttpRequest()
-                    var exists = 0;
+                    ///console.log(tech);
+                    if (tech != '') {
+                        var requestTech = new XMLHttpRequest()
+                        var exists = 0;
 
-                    requestTech.open('GET', 'http://127.0.0.1:8000/filter/musicGenre/' + tech, true)
-                    requestTech.onload = function () {
+                        requestTech.open('GET', 'http://127.0.0.1:8000/filter/musicGenre/' + tech, true)
+                        requestTech.onload = function () {
 
-                        var data = JSON.parse(this.response)
-                        $('#TechList').html('');
+                            var data = JSON.parse(this.response)
+                            $('#TechList').html('');
 
-                        if (requestTech.status >= 200 && requestTech.status < 400) {
+                            if (requestTech.status >= 200 && requestTech.status < 400) {
 
-                            for (i = 0; i < data.names.length; i++) {
-                                ////console.log(data.names[i].name);
+                                for (i = 0; i < data.names.length; i++) {
+                                    ////console.log(data.names[i].name);
 
-                                if (data.names[i].name != tech) {
+                                    if (data.names[i].name != tech) {
 
-                                    $('#TechList').append('<option value="' + data.names[i].name + '">');
+                                        $('#TechList').append('<option value="' + data.names[i].name + '">');
+                                    }
                                 }
+                            } else {
+                                console.log('error')
                             }
-                        } else {
-                            console.log('error')
+
+
                         }
 
-
+                        requestTech.send()
+                    } else {
                     }
-
-                    requestTech.send()
-                } else {
-                }changeTimer = false;
-                },500);
+                    changeTimer = false;
+                }, 500);
             });
 //////
 
@@ -245,10 +255,6 @@
                 readURL(this);
             });
             ////
-
-
-
-
 
 
         });

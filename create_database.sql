@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS posts (
 CREATE TABLE IF NOT EXISTS users_bands (
     band_id INT NOT NULL,
     user_id INT NOT NULL,
+    options TINYINT(4) DEFAULT 0,
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (band_id)

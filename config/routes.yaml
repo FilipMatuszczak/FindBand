@@ -98,3 +98,12 @@ usersIndexAction:
   path: /users
   controller: App\Controller\UsersController:indexAction
   methods: GET
+
+createBandIndexAction:
+  path: /band/create
+  controller: App\Controller\BandController:createIndexAction
+  methods: GET
+
+createBandAction:
+  path: /band/createNewBand
+  controller: App\Controller\BandController:createBandAction

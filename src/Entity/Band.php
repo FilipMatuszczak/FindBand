@@ -69,15 +69,7 @@ class Band
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="MusicGenre", inversedBy="band")
-     * @ORM\JoinTable(name="bands_music_genres",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="band_id", referencedColumnName="band_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="music_genre_id", referencedColumnName="music_genre_id")
-     *   }
-     * )
+     * @ORM\ManyToMany(targetEntity="MusicGenre", mappedBy="band")
      */
     private $musicGenre;
 
