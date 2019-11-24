@@ -11,7 +11,7 @@ use App\Repository\UserRepository;
 class BandsPageDataProvider
 {
 
-    const BANDS_PER_PAGE = 1;
+    const BANDS_PER_PAGE = 10;
 
     /** @var UserRepository */
     private $userRepository;
