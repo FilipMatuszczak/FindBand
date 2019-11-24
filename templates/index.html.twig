@@ -9,6 +9,7 @@
     {% block stylesheets %}
 
         <link href="{{ asset('web/styles/index.css') }}" rel="stylesheet" type="text/css"/>
+        <script src="{{ asset('web/scripts/main.js') }}"></script>
     {% endblock %}
 
     <meta charset="utf-8">
@@ -53,13 +54,13 @@
         <div id="contents">
 
             <div id="tabReg">
-                <div id="registerForm" class="form">
+                <div id="registerForm" class="form" >
                     <form class="modal-content" action="{{ path('registerUser') }}" method="post">
                         <h3>Podaj swoje dane osobowe i wkrocz do ogromnej społeczności findBand!</h3>
+                        <label for="username" id="status"><b> </b></label>
                         <div class="input-container">
-                            {#  <label for="username" id="status"><b>Nazwa użytkownika</b></label> #}
-                            <i class="fas fa-signature icon"></i>
-                            <input class="input-field" type="text" placeholder="Nazwa użytkownika" name="username"
+                            <i id="usernameicon" class="fas fa-signature icon"></i>
+                            <input class="input-field userConfirm" type="text" placeholder="Nazwa użytkownika" name="username"
                                    id="username" required>
                         </div>
 
@@ -197,9 +198,13 @@
     confirm_password.onkeyup = validatePassword;
 
 
+
+
+
+
+
 </script>
 
-<script src="{{ asset('web/scripts/main.js') }}"></script>
 
 </body>
 </html>
