@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Repository\InstrumentRepository;
 use App\Repository\MusicGenreRepository;
+use App\Repository\UserDbalRepository;
 use App\Security\UserProvider;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -20,11 +21,15 @@ class FilterController
     /** @var UserProvider */
     private $userProvider;
 
-    public function __construct(InstrumentRepository $instrumentRepository, MusicGenreRepository $musicGenreReposior, UserProvider $userProvider)
+    /** @var UserDbalRepository */
+    private $userDbalRepository;
+
+    public function __construct(InstrumentRepository $instrumentRepository, MusicGenreRepository $musicGenreReposior, UserProvider $userProvider, UserDbalRepository $userDbalRepository)
     {
         $this->instrumentRepository = $instrumentRepository;
         $this->musicGenresRepository = $musicGenreReposior;
         $this->userProvider = $userProvider;
+        $this->userDbalRepository = $userDbalRepository;
     }
 
     public function filterInstrumentsAction($limit, $prefix)
@@ -71,13 +76,15 @@ class FilterController
 
     public function usernameExistsAction($username)
     {
-        $username = $this->userProvider->loadUserByUsername($username);
+        //$username = $this->userProvider->loadUserByUsername($username);
 
-        if ($username)
+        $result = $this->userDbalRepository->userExists($username);
+
+        if ($result)
         {
-            return new JsonResponse([true]);
+            return new JsonResponse($result);
         }
 
-        return new JsonResponse([false]);
+        return new JsonResponse($result);
     }
 }

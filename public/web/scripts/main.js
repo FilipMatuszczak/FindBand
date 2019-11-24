@@ -43,15 +43,15 @@ request.onload = function() {
 
   if (request.status >= 200 && request.status < 400) {
   console.log(data);
-      if (data[0] == true){
-            $('#status').css('color','darkred');
-              $('#status').html('<b>Login jest już zajęty!</b>');
-         username_free = false;
-      }
-      else {
+      if (data[0] == null){
           $('#status').html('<b> </b>');
           $('#usernameicon').css('background-color','#7DA2AA');
           username_free = true;
+      }
+      else {
+          $('#status').css('color','darkred');
+          $('#status').html('<b>Login jest już zajęty!</b>');
+          username_free = false;
       }
 
   } else {
