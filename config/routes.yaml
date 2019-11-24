@@ -107,3 +107,9 @@ createBandIndexAction:
 createBandAction:
   path: /band/createNewBand
   controller: App\Controller\BandController:createBandAction
+  methods: POST
+
+bandProfileIndexAction:
+  path: /band/profile/{bandId}
+  controller: App\Controller\BandController:bandProfileIndexAction
+  methods: GET

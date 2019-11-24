@@ -14,12 +14,12 @@
     <div id="profile">
         <div class="profile-left">
             <img id="profile-picture"
-                 src=" "
+                 src="data:image/jpeg;base64,{{ photo_data_provider.BandPhotoById(Band.bandId) }}"
                  width="230" height="280">
         </div>
 
         <div class="profile-right">
-            <p id="name-profile">tytul
+            <p id="name-profile">{{Band.Title}}
 
                     <button id="edit-mode" class="navico message-ico"><i class="fas fa-pencil-alt"></i></button> {# edycja #}
 
@@ -44,7 +44,7 @@
                                                        accept="image/jpeg, image/png"
                                                        class="fileToUpload" style="display:none;"/>
                                                 <img id="photo-edit"
-                                                     src=""
+                                                     src="data:image/jpeg;base64,{{ photo_data_provider.BandPhotoById(Band.bandId) }}"
                                                      width="120"
                                                      height="160" style="object-fit: cover;"/>
                                             </label>
@@ -63,7 +63,7 @@
                                     <div class="info"
                                          style="text-align: left; margin-left:1%; margin-top: 1%; margin-bottom:1%;">
                                         <textarea name="text" class="bio" placeholder="Opis" rows="10"
-                                                  cols="25">desc</textarea>
+                                                  cols="25">{{Band.description}}</textarea>
                                         <input type="hidden" class="bio" placeholder="Opis" name="description"
                                                maxlength="250"/><br>
 
@@ -98,29 +98,21 @@
                             </div>
                         </div>
                     </div>
-                </form>
-
 
 
             <p class="infos">CZŁONKOWIE</p>
-            <p>
-
-                       > imie ksywka nazwisko
-                       > imie ksywka nazwisko
-                   </p>
+            {% for user in Band.user %}
+            <li>{{ user.firstname }} {{ user.username }} {{ user.lastname }}</li>
+            {% endfor %}
             <hr>
 
 
             <p class="infos">GATUNKI</p>
-            <p>
-                gatunki</p>
+            {% for musicGenre in Band.musicGenres %}
+                <li>{{ musicGenre.name }}</li>
+            {% endfor %}
             <hr>
-
-
-
-
-
-            <p>desc</p>
+            <p>{{Band.description}}</p>
         </div>
     </div>
 

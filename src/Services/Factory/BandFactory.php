@@ -53,5 +53,7 @@ class BandFactory
         $this->entityManager->flush();
 
         $this->userBandRepository->setUserAsAuthor($author->getUserId(), $band->getBandId());
+
+        return $band;
     }
 }
