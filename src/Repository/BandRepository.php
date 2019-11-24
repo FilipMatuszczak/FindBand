@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Band;
+use App\Entity\MusicGenre;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,32 +21,30 @@ class BandRepository extends ServiceEntityRepository
         parent::__construct($registry, Band::class);
     }
 
-    // /**
-    //  * @return Band[] Returns an array of Band objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function fetchBandsByFilters($from, $to, $sorting, $title, ?MusicGenre $musicGenre, ?User $member)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $queryBuilder =  $this->createQueryBuilder('u');
 
-    /*
-    public function findOneBySomeField($value): ?Band
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if (!empty($title)) {
+            $queryBuilder->andWhere('u.title like :title')
+                ->setParameter('title', $title . '%');
+        }
+
+        if (isset($member)) {
+            $queryBuilder->andWhere(':user MEMBER OF u.user')
+                ->setParameter('user', $member);
+        }
+
+        if (isset($musicGenre)) {
+            $queryBuilder->andWhere(':musicGenre MEMBER OF u.musicGenre')
+                ->setParameter('musicGenre', $musicGenre);
+        }
+
+        $queryBuilder
+            ->setFirstResult($from)
+            ->setMaxResults($to)
+            ->orderBy('u.' . $sorting['sortKey'], $sorting['dir']);
+
+        return $queryBuilder->getQuery()->getResult();
     }
-    */
 }

@@ -49,8 +49,8 @@ class UsersController extends AbstractController
         {
             $nextPage = $page + 1;
             $nextPageUrl = PaginationHandler::getPageQueryUrlForUsers($firstName, $lastName, $page+1, $instrument, $musicGenre, $city, $sorting);
-            $previousPageUrl = PaginationHandler::getPageQueryUrlForUsers($firstName, $lastName, $page-1, $instrument, $musicGenre, $city, $sorting);
         }
+        $previousPageUrl = PaginationHandler::getPageQueryUrlForUsers($firstName, $lastName, $page-1, $instrument, $musicGenre, $city, $sorting);
 
         return $this->render('search_users.html.twig', [
             'users' => $users,

@@ -13,6 +13,16 @@ class PaginationHandler
             'instrument=' . $instrument .'&' .
             'musicGenre=' . $musicGenre .'&' .
             'city=' . $city .'&' .
-            'sorting=' . $sorting .'&';
+            'sorting=' . $sorting;
+    }
+
+    public static function getPageQueryUrlForBands($title, $member, $page, $musicGenre, $sorting)
+    {
+        return
+            '?title=' . $title .'&' .
+            'member=' . $member .'&' .
+            'page=' . $page .'&' .
+            'musicGenre=' . $musicGenre .'&' .
+            'sorting=' . $sorting;
     }
 }

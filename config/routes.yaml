@@ -113,3 +113,8 @@ bandProfileIndexAction:
   path: /band/profile/{bandId}
   controller: App\Controller\BandController:bandProfileIndexAction
   methods: GET
+
+bandsIndexAction:
+  path: /bands
+  controller: App\Controller\BandController:bandsIndexAction
+  methods: GET
