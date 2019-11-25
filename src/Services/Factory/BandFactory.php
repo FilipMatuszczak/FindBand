@@ -46,7 +46,9 @@ class BandFactory
         $band->addUser($author);
 
         foreach ($genreNames as $musicGenre) {
-            $band->addMusicGenre($this->musicGenreRepository->findOneBy(['name' => $musicGenre]));
+            if (!empty($musicGenre)) {
+                $band->addMusicGenre($this->musicGenreRepository->findOneBy(['name' => $musicGenre]));
+            }
         }
 
         $this->entityManager->persist($band);
