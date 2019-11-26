@@ -1,0 +1,170 @@
+
+.edit-profile{
+    background-color: rgba(235,235,235,0.2);
+    border: 3px dashed  #7DA2AA;
+    padding: 5%;
+    text-align: center;
+   
+}
+h1{
+    color: grey;
+}
+
+
+.name {
+  width: 300px;
+  background-color: white;
+  border: 1px solid #7DA2AA;
+  padding: 4px;
+
+}
+.upload{
+    background-color: #7DA2AA;
+    border-radius: 5px;
+    border: none;
+    width: 50%;
+    height: 30px;
+    color: white;
+}
+
+.upload:hover{ 
+    color: white;
+    box-shadow: 0 0 8px #7DA2AA;
+}
+.smaller{
+    width: 30%;
+    margin: 3px;
+}
+
+.bio{
+    width: 90%;
+    padding: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #7DA2AA;
+    resize: none;
+}
+.tech{width:45%; }
+
+.forms{
+    margin-left: 50px;
+    width: 91%;
+}
+
+hr{
+    width: 100%;
+    border-bottom: 3px solid #7DA2AA;
+}
+
+.btad{
+    background-color: #F8F9F9;
+    color: #7DA2AA;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 500px;
+    border: none;
+    width: 30px;
+}
+
+.opis{
+    margin-bottom: 0px;
+}
+
+
+#up{
+   width: 100%;
+    height: 300px;
+}
+#WhoContainer{
+    float:right;
+    margin: 1% 8% 1% 1%;
+}
+#name_div{
+    width: 100%;
+    margin:0;
+}
+option:checked { display:none; }
+
+.TechReq{width: 92%; margin-right:8%;}
+#ReqButton{float: right; background-color: #7c8ea3;
+    width: 40%;
+    border-radius: 5px;
+    border: none;
+    height: 30px;
+    color: white;
+}
+#ReqButton:hover{
+    box-shadow: 0 0 8px #7DA2AA;
+}
+
+h4{float:left; size: 12px;
+    width:50%;
+    margin-left:5%;
+    margin-top: 5px; color:grey;}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal::-webkit-scrollbar {
+    display: none;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    margin-left: 42%;
+    padding: 20px;
+    border: 1px solid #888;
+
+    min-width: 500px;
+    width: 35%;
+}
+
+.modal textarea{
+    width: 97%;
+    height: 80px;
+}
+.buttons{
+    display: block;
+    height: 23px;
+    margin: auto;
+    width: 90%;
+    padding-bottom: 5px;
+}
+.button{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 10px 16px;
+    background-color: #B22222;
+    border: none;
+    float:left;
+    width: 48%;
+    opacity: 0.9;
+    color: white;
+}
+.modal .button:hover{
+    opacity: 1;
+}
+#send-btn{
+    float:right;
+    background-color: #254e58;
+}
+.modal p{
+    margin-bottom: -12px;
+    margin-left: -20px;
+    margin-top: -10px;
+}
+.modal a{
+    text-decoration: none;
+    color: #7DA2AA;
+    font-weight: bold;
+}
