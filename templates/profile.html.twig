@@ -12,7 +12,7 @@
     <div id="profile">
         <div class="profile-left">
             <img id="profile-picture"
-                 src="data:image/jpeg;base64,{{ photo_data_provider.PhotoById(user.userId) }}" width="230"
+                 src="{{ asset(photo_data_provider.PhotoById(user.userId)) }}" width="230"
                  height="280">
         </div>
 

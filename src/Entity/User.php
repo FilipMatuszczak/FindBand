@@ -95,7 +95,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var resource|null
      *
-     * @ORM\Column(name="photo", type="blob", length=4294967295 , nullable=true)
+     * @ORM\Column(name="photo", type="string", length=255 , nullable=true)
      */
     private $photo;
 

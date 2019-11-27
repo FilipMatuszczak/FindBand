@@ -6,6 +6,7 @@ use App\Entity\Band;
 use App\Entity\User;
 use App\Repository\MusicGenreRepository;
 use App\Repository\UserBandRepository;
+use App\Services\Handler\SavePhotoOnSeverHandler;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -39,8 +40,8 @@ class BandFactory
         $band->setTitle($bandName)->setDescription($description)->setCreatedDate(new \DateTime('now'));
 
         if ($photo) {
-            $strm = fopen($photo->getRealPath(), 'rb');
-            $band->setPhoto(stream_get_contents($strm));
+            $fileName = SavePhotoOnSeverHandler::savePhotoOnServer($photo, SavePhotoOnSeverHandler::BAND_PROFILE_DIR);
+            $band->setPhoto($fileName);
         }
 
         $band->addUser($author);

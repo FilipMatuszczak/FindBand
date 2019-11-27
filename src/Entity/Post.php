@@ -38,7 +38,7 @@ class Post
     /**
      * @var string|null
      *
-     * @ORM\Column(name="photo", type="blob", length=0, nullable=true)
+     * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      */
     private $photo;
 

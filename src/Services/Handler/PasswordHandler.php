@@ -6,7 +6,7 @@ use App\Entity\User;
 
 class PasswordHandler
 {
-    const hashingIterations = 476;
+    const HASHING_ITERATIONS = 476;
 
     /**
      * @param $password
@@ -35,7 +35,7 @@ class PasswordHandler
     {
         $hash = hash('sha512', $text . $salt);
 
-        for ($i = 0; $i < self::hashingIterations; $i++)
+        for ($i = 0; $i < self::HASHING_ITERATIONS; $i++)
         {
             $hash = hash('sha512', $hash . $salt);
         }

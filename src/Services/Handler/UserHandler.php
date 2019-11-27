@@ -83,24 +83,12 @@ class UserHandler
         $user->setDateOfBirth(new \DateTime($dateOfBirth));
         $user->setInfo($info);
         $newsletter ? $user->addOption(User::USER_NEWSLETTER) : $user->unsetOption(User::USER_NEWSLETTER);
-        $this->saveNewProfilePhoto($user, $photo);
 
+        $fileName = SavePhotoOnSeverHandler::savePhotoOnServer($photo, SavePhotoOnSeverHandler::USER_PROFILE_DIR);
+        $user->setPhoto($fileName);
         if ($city = $this->cityRepository->findOneBy(['name' => $cityName])) {
             $user->setCity($city);
         }
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-    }
-
-    private function saveNewProfilePhoto(User $user, ?File $file)
-    {
-        if (null === $file) {
-            return;
-        }
-
-        $strm = fopen($file->getRealPath(), 'rb');
-        $user->setPhoto(stream_get_contents($strm));
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

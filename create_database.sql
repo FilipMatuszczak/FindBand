@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
     salt CHAR(128) NOT NULL,
     date_of_birth DATETIME NULL,
     info TEXT NULL,
-    photo LONGBLOB NULL,
+    photo VARCHAR(255) NULL,
     authentication_link CHAR(128),
     change_password_link CHAR(128) DEFAULT NULL,
     change_password_link_expiration_date DATETIME NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS bands (
     title VARCHAR(50) NOT NULL,
     description TEXT NULL,
     created_date DATETIME NOT NULL,
-    photo LONGBLOB NULL,
+    photo VARCHAR(255) NULL,
     PRIMARY KEY (band_id)
 )  ENGINE=INNODB;
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS posts (
     band_id INT NULL,
     timestamp DATETIME NOT NULL,
     text TEXT NOT NULL,
-    photo LONGBLOB NULL,
+    photo VARCHAR(255) NULL,
     PRIMARY KEY (post_id),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
