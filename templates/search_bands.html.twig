@@ -68,7 +68,7 @@
     {% for band in bands %}
     <div class="post">
         <a href=" "><img id="project-avatar"
-                         src="data:image/jpeg;base64,{{ photo_data_provider.BandPhotoById(band.bandId) }}"
+                         src="{{ asset(photo_data_provider.BandPhotoById(band.bandId)) }}"
                          width="70" height="70"></a>
         <a class="project-title" href=" ">{{band.title}}</a><br>
         {% for musicGenre in band.musicGenres %}

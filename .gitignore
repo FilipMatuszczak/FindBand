@@ -1,4 +1,4 @@
-###> symfony/framework-bundle ###
+
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -6,9 +6,9 @@
 /var/
 /vendor/
 .idea/
-###< symfony/framework-bundle ###
 
-###> symfony/web-server-bundle ###
+public/uploads/
+
 /.web-server-pid
-###< symfony/web-server-bundle ###
+
 /.env

@@ -5,10 +5,14 @@ namespace App\Services\DataProvider;
 use App\Entity\User;
 use App\Repository\BandRepository;
 use App\Repository\UserRepository;
+use App\Services\Handler\SavePhotoOnSeverHandler;
 use Symfony\Component\Security\Core\Security;
 
 class PhotoDataProvider
 {
+    const DEFAULT_USER_PHOTO =  '/web/images/default_user.jpg';
+    const DEFAULT_BAND_PHOTO =  '/web/images/default_band.jpg';
+
     /** @var Security */
     private $security;
 
@@ -33,53 +37,41 @@ class PhotoDataProvider
     {
         $username = $this->security->getUser()->getUsername();
         $photo = $this->userRepository->findOneBy([User::COLUMN_USERNAME => $username])->getPhoto();
-        if ($userPhoto = $this->getEncodedPhoto($photo)) {
-            return $userPhoto;
+
+        if ($photo) {
+            return SavePhotoOnSeverHandler::UPLOAD_DIRECTORY . SavePhotoOnSeverHandler::USER_PROFILE_DIR . $photo;
         }
 
-        return $this->getEncodedPhoto(fopen(getcwd() . '\web\images\default_user.jpg', "r"));
+        return self::DEFAULT_USER_PHOTO;
     }
 
     public function getPhotoByUsername($username)
     {
         $photo = $this->userRepository->findOneBy([User::COLUMN_USERNAME => $username])->getPhoto();
-        if ($userPhoto = $this->getEncodedPhoto($photo)) {
-            return $userPhoto;
+        if ($photo) {
+            return SavePhotoOnSeverHandler::UPLOAD_DIRECTORY . SavePhotoOnSeverHandler::USER_PROFILE_DIR . $photo;
         }
 
-        return $this->getEncodedPhoto(fopen(getcwd() . '\web\images\default_user.jpg', "r"));
+        return self::DEFAULT_USER_PHOTO;
     }
 
     public function getPhotoById($userId)
     {
         $photo = $this->userRepository->findOneBy([User::COLUMN_USER_ID => $userId])->getPhoto();
-        if ($userPhoto = $this->getEncodedPhoto($photo)) {
-            return $userPhoto;
+        if ($photo) {
+            return SavePhotoOnSeverHandler::UPLOAD_DIRECTORY . SavePhotoOnSeverHandler::USER_PROFILE_DIR . $photo;
         }
 
-        return $this->getEncodedPhoto(fopen(getcwd() . '\web\images\default_user.jpg', "r"));
+        return self::DEFAULT_USER_PHOTO;
     }
 
     public function getBandPhotoById($bandId)
     {
-        $photo = $this->bandRepository->findOneBy(['bandId' => $bandId])->getPhoto();
-        if ($bandPhoto = $this->getEncodedPhoto($photo)) {
-            return $bandPhoto;
+        $bandPhoto = $this->bandRepository->findOneBy(['bandId' => $bandId])->getPhoto();
+        if ($bandPhoto) {
+            return SavePhotoOnSeverHandler::UPLOAD_DIRECTORY . SavePhotoOnSeverHandler::BAND_PROFILE_DIR . $bandPhoto;
         }
 
-        return $this->getEncodedPhoto(fopen(getcwd() . '\web\images\default_band.jpg', "r"));
-    }
-
-
-    private function getEncodedPhoto($photo)
-    {
-        if ($photo) {
-            rewind($photo);
-            $photo = stream_get_contents($photo);
-
-            return base64_encode($photo);
-        }
-
-        return null;
+        return self::DEFAULT_BAND_PHOTO;
     }
 }

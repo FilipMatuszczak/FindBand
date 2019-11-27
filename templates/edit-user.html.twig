@@ -59,7 +59,7 @@
                                    accept="image/jpeg, image/png"
                                    class="fileToUpload" name="fileToUpload" style="display:none;"/>
                             <img id="photo-edit"
-                                 src="data:image/jpeg;base64,{{ photo_data_provider.CurrentUserPhotoData() }}"
+                                 src="{{ asset(photo_data_provider.CurrentUserPhotoData()) }}"
                                  width="120"
                                  height="160" style="object-fit: cover;"/>
                         </label>
