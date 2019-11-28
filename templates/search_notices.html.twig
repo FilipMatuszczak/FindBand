@@ -1,0 +1,232 @@
+{% extends 'parent.html.twig' %}
+
+
+    {% block stylesheets %}
+        <link href="{{ asset('web/styles/profile.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/search_bands.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+        <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+    {% endblock %}
+
+{% block left %}
+    <form action=" " method="get">
+        <div class="filter">
+            <div class="title">Filtruj ogłoszenia</div>
+
+            <hr>
+
+
+            <div class="bio-title">
+                Instrument
+                <input type="LangList" class="bio" placeholder="..." maxlength="50" id="lang" name="instrument"
+                        >
+
+            </div>
+            <br>
+
+            <div class="bio-title">
+                Zespół
+                <input type="TechList" class="bio" id="tech" placeholder="..." maxlength="50" name="musicGenre"
+                       >
+                <datalist id="TechList">
+
+                </datalist>
+            </div>
+            <br>
+            <div class="bio-title">
+                Autor
+                <input type="CityList" class="bio" placeholder="..." maxlength="50" id="city" list="CityList" name="city"
+
+                       >
+                <datalist id="CityList">
+
+                </datalist>
+            </div>
+
+            <hr>
+            <div class="sort">
+                Sortuj według:
+
+                <select name="sorting">
+                    <option value="Najnowsze" >Najnowsze</option>
+                    <option value="Najstarsze"  >Najstarsze</option>
+                    <option value="A-Z">A-Z</option>
+                    <option value="Z-A" >Z-A</option>
+                </select>
+                <br>
+                <div class="btn-search">
+                    <input type="submit" id="upload"/>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class="post" id="usr-post">
+        <a href=""><img id="project-avatar"
+                        src=""
+                        width="70" height="70"></a>
+
+        <button class="reportico" onclick="reportPost(1)"><i
+                    class="fa fa-exclamation-circle"></i></button>
+
+        <a class="noticeIns">INSTRUMENT</a>
+        <a class="NoticeAuthor" href="">Autor</a>
+        ✽ data<br>
+        <p class="project-title" style="font-size: 22px;" >TYTUL </p>
+
+
+
+        <p class="comment-content">
+            Lorem2 ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non auctor urna. Donec non libero non nunc sagittis lacinia ut ut sem. Integer congue lacus sed ornare semper. Nulla porttitor augue at euismod porta. Pellentesque posuere mattis tempor. Integer interdum leo in nisl convallis, id egestas turpis sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut congue urna. Praesent fermentum est massa, quis euismod urna suscipit id. Donec tempus libero vel molestie pulvinar. Sed maximus lacus in elementum pulvinar. Nullam accumsan mi quam, eu sodales enim cursus eu.
+        </p>
+        <p class="ExpandContent" style="text-align: justify;"></p>
+
+        <button class="buttonSend">
+            Wyślij wiadomość
+        </button>
+        <button class="buttonSeeMore">
+            <i class="far fa-caret-square-down"></i>
+        </button>
+    </div>
+
+
+    {#  testowy #}
+    <div class="post" id="usr-post">
+        <a href=""><img id="project-avatar"
+                        src=""
+                        width="70" height="70"></a>
+
+        <button class="reportico" onclick="reportPost(1)"><i
+                    class="fa fa-exclamation-circle"></i></button>
+
+        <a class="noticeIns">GITARA BASOWA</a>
+        <a class="NoticeAuthor" href="">Carla Jonas</a>
+        ✽ 27.11.2019 18:20<br>
+        <p class="project-title" style="font-size: 22px;" > Gitarzystka z Warszawy poszukiwana!</p>
+
+
+
+        <p class="comment-content">
+            Zespół Jonas Sisters szuka gitarzystki w okolicach Warszawy. Najlepiej jeśli na nazwisko ma Jonas, ale poradzimy sobie z każdym innym.
+            Wymagania: Pełnoletnia, ładna, nie starsza niż 30 lat. Gramy głównie emo i punk. Kontakt na priv.</p>
+        <p class="ExpandContent" style="text-align: justify;"></p>
+
+        <button class="buttonSend">
+            Wyślij wiadomość
+        </button>
+        <button class="buttonSeeMore">
+            <i class="far fa-caret-square-down"></i>
+        </button>
+    </div>
+    {#  testowy #}
+
+    <div class="pagination">
+
+            <a class="pagination-button prev" href=" "><i class="fas fa-arrow-left"></i></a>
+
+        <div style="display: inline-block;
+    margin-top: 5px;">
+            <a class="pagination-a" href="#">1</a>
+        </div>
+
+            <a class="pagination-button next" href=" " ><i  class="fas fa-arrow-right"></i></a>
+
+
+    </div>
+
+    <div id="modal-message" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <p>Napisz wiadomość do <a>ime naz </a></p>
+            <div class="photo-textarea">
+
+                <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
+
+                <input type="hidden" name="receiverId" value="">
+
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn button">Anuluj</button>
+                <input type="submit" id="send-btn" class="button" value="Wyślij">
+
+            </div>
+        </div>
+    </div>
+
+    {# reportowanie #}
+    <div id="modal-report" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <p>Dlaczego chcesz zgłosić ogłoszenie użytkownika <a>autor</a>?</p>
+            <div class="photo-textarea">
+
+                <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
+
+
+                <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
+                <input type="hidden" name="destination" >
+                <input type="hidden" name="username" >
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn button">Anuluj</button>
+                <input type="submit" id="send-btn" class="button" value="Zgłoś">
+
+            </div>
+        </div>
+    </div>
+    {#   #}
+
+    {#<script src="{{ asset('web/scripts/edit-profile.js') }}"></script>
+    #}
+    <script>
+            $(".buttonSeeMore").on("click", function () {
+                event.preventDefault();
+
+                var parent_post_id = $(this).parent();
+                var height = parent_post_id.css('height');
+                if (height == '100px') {////expand
+                    $(this).find('i').toggleClass('far fa-caret-square-up');
+                    parent_post_id.find(".ExpandContent").text( parent_post_id.find(".comment-content").text());
+                    parent_post_id.find(".comment-content").text("");
+                    parent_post_id.css('height','100%');
+                } else{ ////collapse
+                    $(this).find('i').toggleClass('far fa-caret-square-down');
+                    parent_post_id.find(".comment-content").text( parent_post_id.find(".ExpandContent").text());
+                    parent_post_id.find(".ExpandContent").text("");
+                parent_post_id.css('height','100px');}
+
+            });
+
+
+
+            //close modals
+            $(".cancel-btn").on("click", function () {
+                event.preventDefault();
+                $('#mssgtxt').val("");
+                $('#reptxt').val("");
+                $('#modal-message').hide();
+                $('#modal-report').hide();
+            });
+
+
+
+            ////popup message
+            $(".buttonSend").on("click", function () {
+                event.preventDefault();
+                $('#modal-message').show();
+            });
+
+
+            function reportPost(postId) {
+                event.preventDefault();
+                document.getElementById("postId").value = postId;
+                $('#modal-report').show();
+            }
+    </script>
+
+{% endblock %}

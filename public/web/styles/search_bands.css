@@ -104,6 +104,7 @@ img{ object-fit: cover;}
 }
 
 #usr-post{
+    padding-bottom: 10px;
     height: 100px;
 }
 
@@ -130,4 +131,58 @@ img{ object-fit: cover;}
 .pagination{
     text-align: center;
     
+}
+
+.buttonSeeMore {
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+    height: 30px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    color: darkgrey;
+    text-align: center;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 20px;
+}
+.buttonSeeMore:hover{
+    color:#7DA2AA;
+}
+.buttonSend{
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+    height: 30px;
+    padding: 5px;
+    background-color: #EBB3B4;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    opacity: 0.85;
+}
+.buttonSend:hover{
+    opacity:1;
+}
+.comment-content{
+    margin: 1px;
+    margin-bottom: -20px;
+    text-align: justify;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+
+}
+.NoticeAuthor{
+    text-decoration: none;
+    color: darkgrey;
+    font-size: 20px;
+}
+.noticeIns{
+    float:right;
 }
