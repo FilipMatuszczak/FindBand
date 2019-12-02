@@ -67,12 +67,12 @@
 
     {% for band in bands %}
     <div class="post">
-        <a href=" "><img id="project-avatar"
+        <a href="{{ path('bandProfileIndexAction', {'bandId':band.BandId}) }}"><img id="project-avatar"
                          src="{{ asset(photo_data_provider.BandPhotoById(band.bandId)) }}"
                          width="70" height="70"></a>
-        <a class="project-title" href=" ">{{band.title}}</a><br>
+        <a class="project-title" href="{{ path('bandProfileIndexAction', {'bandId':band.BandId}) }}">{{band.title}}</a><br>
         {% for musicGenre in band.musicGenres %}
-        <a class="project-lang" href=" ">{{musicGenre.name}}</a>
+        <a class="project-lang" href="{{ path('bandProfileIndexAction', {'bandId':band.BandId}) }}">{{musicGenre.name}}</a>
         {% endfor %}
     </div>
     {% endfor %}

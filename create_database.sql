@@ -97,12 +97,13 @@ CREATE TABLE IF NOT EXISTS users_bands (
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS notices (
-    notice_id INT NOT NULL,
+    notice_id INT AUTO_INCREMENT,
     band_id INT NULL,
     user_id INT NOT NULL,
     instrument_id INT NULL,
-    title VARCHAR(50) NOT NULL,
+    title VARCHAR(255) NOT NULL,
     details TEXT NOT NULL,
+    timestamp DATETIME NOT NULL,
     PRIMARY KEY (notice_id),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),

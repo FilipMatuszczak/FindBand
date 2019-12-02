@@ -41,6 +41,10 @@ class LoginController extends AbstractController
     {
         $user = $this->userProvider->loadUserById($this->get('session')->get('userId'));
 
+        if (empty($user)) {
+            throw ($this->createNotFoundException());
+        }
+
         $newPassword = $request->get('password');
         $this->userHandler->generateNewPassword($user, $newPassword);
 
@@ -53,12 +57,14 @@ class LoginController extends AbstractController
     {
         $user = $this->userProvider->loadUserById($userId);
 
-        if ($user)
-        {
+        if ($user) {
             $expirationDate = new \DateTime();
             $expirationDate->setTimestamp($user->getChangePasswordLinkExpirationDate()->getTimestamp());
 
-            if ($user->getChangePasswordLink() === $this->passwordHandler->getHashFromPlainTextAndSalt($changePasswordLink, $user->getSalt())
+            $changePasswordLink =
+                $this->passwordHandler->getHashFromPlainTextAndSalt($changePasswordLink, $user->getSalt());
+
+            if ($user->getChangePasswordLink() === $changePasswordLink
                 && $this->isChangePasswordLinkExpired($expirationDate)
                 && $user->hasOption(User::USER_CHANGING_PASSWORD)
             ) {

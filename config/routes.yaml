@@ -118,3 +118,18 @@ bandsIndexAction:
   path: /bands
   controller: App\Controller\BandController:bandsIndexAction
   methods: GET
+
+noticeCreateIndexAction:
+  path: /notice/create
+  controller: App\Controller\NoticeController:noticeCreateIndexAction
+  methods: GET
+
+searchNoticesIndexAction:
+  path: /notices
+  controller: App\Controller\NoticeController:indexAction
+  methods: GET
+
+createNoticeAction:
+  path: /notice/createNewNotice
+  controller: App\Controller\NoticeController:createNoticeAction
+  methods: POST

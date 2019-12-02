@@ -12,7 +12,7 @@
 
     <div class="edit-profile">
         <h1>Dodaj ogłoszenie:</h1>
-        <form action="  " method="post" enctype="multipart/form-data" name="FormNotice">
+        <form action="{{ path('createNoticeAction') }}" method="post" name="FormNotice">
 
             <div class="edit-container">
                 <div id="up">
@@ -23,7 +23,7 @@
 
 
                     <input type="text" class="bio tech" id="tech" placeholder="Instrument" maxlength="50"
-                           name="Instruments[]" list="TechList">
+                           name="instrument" list="TechList">
                     <datalist id="TechList">
 
                     </datalist>
@@ -35,17 +35,16 @@
 
                 <div class="info" style="text-align: left; margin-left:9%; margin-top: 1%; margin-bottom:1%;">
 
-                    <textarea name="text" class="bio" placeholder="Szczegóły" rows="10" cols="25"></textarea>
+                    <textarea name="description" class="bio" placeholder="Szczegóły" rows="10" cols="25"></textarea>
 
                     <div id="WhoContainer">
                         <label>Wystaw ogłoszenie jako </label>
-                        <select name="sorting">
+                        <select name="who">
 
                             <option value="Ja">Ja</option>
-                            <option value="Zespoł 1">Zespół 1</option>
-                            <option value="Zespoł 2">Zespół 2</option>
-                            <option value="Zespoł 3">Zespół 3</option>
-                            <option value="Zespoł 4">Zespół 4</option>
+                            {% for band in app.user.band %}
+                            <option value="{{ band.Title }}">{{ band.Title }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>

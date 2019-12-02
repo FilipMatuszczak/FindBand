@@ -65,6 +65,13 @@ class Notice
      */
     private $instrument;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="timestamp", type="datetime", nullable=false)
+     */
+    private $timestamp;
+
     public function getNoticeId(): ?int
     {
         return $this->noticeId;
@@ -130,5 +137,15 @@ class Notice
         return $this;
     }
 
+    public function getTimestamp(): ?\DateTimeInterface
+    {
+        return $this->timestamp;
+    }
 
+    public function setTimestamp(\DateTimeInterface $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+
+        return $this;
+    }
 }

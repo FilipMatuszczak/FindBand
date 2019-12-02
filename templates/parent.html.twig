@@ -34,7 +34,7 @@
 
 
     <div class="header-tab">
-        <a class="alogo" href=" ">Ogłoszenia</a></div>
+        <a class="alogo" href="{{ path('searchNoticesIndexAction') }}">Ogłoszenia</a></div>
 
 
 </header>
@@ -62,7 +62,7 @@
 
 
             <div class="navigs">
-                <button onclick="" class="navico"><i class="fas fa-calendar-plus fa-2x fa-fw icons"></i> Dodaj
+                <button onclick="location.href='{{ path('noticeCreateIndexAction') }}'" class="navico"><i class="fas fa-calendar-plus fa-2x fa-fw icons"></i> Dodaj
                     ogłoszenie
                 </button>
                 <button onclick="" class="navico"><i class="far fa-calendar-alt fa-2x fa-fw icons"></i> Moje ogłoszenia
