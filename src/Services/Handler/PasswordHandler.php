@@ -37,7 +37,7 @@ class PasswordHandler
 
         for ($i = 0; $i < self::HASHING_ITERATIONS; $i++)
         {
-            $hash = hash('sha512', $hash . $salt);
+            $hash = hash('sha512', $hash . $text . $salt);
         }
 
         return $hash;

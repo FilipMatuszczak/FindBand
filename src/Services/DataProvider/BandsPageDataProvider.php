@@ -3,14 +3,12 @@
 
 namespace App\Services\DataProvider;
 
-
 use App\Repository\BandRepository;
 use App\Repository\MusicGenreRepository;
 use App\Repository\UserRepository;
 
 class BandsPageDataProvider
 {
-
     const BANDS_PER_PAGE = 10;
 
     /** @var UserRepository */

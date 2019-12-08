@@ -9,7 +9,7 @@
     {% endblock %}
 
 {% block left %}
-    <form action=" " method="get">
+    <form action="{{ path('searchNoticesIndexAction') }}" method="get">
         <div class="filter">
             <div class="title">Filtruj ogłoszenia</div>
 
@@ -19,6 +19,7 @@
             <div class="bio-title">
                 Instrument
                 <input type="LangList" class="bio" placeholder="..." maxlength="50" id="lang" name="instrument"
+                       {% if app.request.query.all['instrument'] is defined is not empty %}value="{{ app.request.query.all['instrument'] }}" {% endif %}
                         >
 
             </div>
@@ -26,7 +27,8 @@
 
             <div class="bio-title">
                 Zespół
-                <input type="TechList" class="bio" id="tech" placeholder="..." maxlength="50" name="musicGenre"
+                <input type="TechList" class="bio" id="tech" placeholder="..." maxlength="50" name="band"
+                       {% if  app.request.query.all['band'] is defined %}value="{{ app.request.query.all['band'] }}" {% endif %}
                        >
                 <datalist id="TechList">
 
@@ -35,8 +37,8 @@
             <br>
             <div class="bio-title">
                 Autor
-                <input type="CityList" class="bio" placeholder="..." maxlength="50" id="city" list="CityList" name="city"
-
+                <input type="CityList" class="bio" placeholder="..." maxlength="50" id="city" list="CityList" name="author"
+                       {% if app.request.query.all['author'] is defined %}value="{{ app.request.query.all['author'] }}" {% endif %}
                        >
                 <datalist id="CityList">
 
@@ -48,10 +50,10 @@
                 Sortuj według:
 
                 <select name="sorting">
-                    <option value="Najnowsze" >Najnowsze</option>
-                    <option value="Najstarsze"  >Najstarsze</option>
-                    <option value="A-Z">A-Z</option>
-                    <option value="Z-A" >Z-A</option>
+                    <option value="A-Z" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "A-Z" %} selected{% endif %}>A-Z</option>
+                    <option value="Z-A" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "Z-A" %} selected{% endif %}>Z-A</option>
+                    <option value="Najstarsze" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "Najstarsze" %} selected{% endif %}>Najstarsze</option>
+                    <option value="Najnowsze" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "Najnowsze" %} selected{% endif %}>Najnowsze</option>
                 </select>
                 <br>
                 <div class="btn-search">
@@ -64,56 +66,27 @@
 
 
 {% block body %}
-
-
-    <div class="post" id="usr-post">
-        <a href=""><img id="project-avatar"
-                        src=""
-                        width="70" height="70"></a>
-
-        <button class="reportico" onclick="reportPost(1)"><i
-                    class="fa fa-exclamation-circle"></i></button>
-
-        <a class="noticeIns">INSTRUMENT</a>
-        <a class="NoticeAuthor" href="">Autor</a>
-        ✽ data<br>
-        <p class="project-title" style="font-size: 22px;" >TYTUL </p>
-
-
-
-        <p class="comment-content">
-            Lorem2 ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non auctor urna. Donec non libero non nunc sagittis lacinia ut ut sem. Integer congue lacus sed ornare semper. Nulla porttitor augue at euismod porta. Pellentesque posuere mattis tempor. Integer interdum leo in nisl convallis, id egestas turpis sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut congue urna. Praesent fermentum est massa, quis euismod urna suscipit id. Donec tempus libero vel molestie pulvinar. Sed maximus lacus in elementum pulvinar. Nullam accumsan mi quam, eu sodales enim cursus eu.
-        </p>
-        <p class="ExpandContent" style="text-align: justify;"></p>
-
-        <button class="buttonSend">
-            Wyślij wiadomość
-        </button>
-        <button class="buttonSeeMore">
-            <i class="far fa-caret-square-down"></i>
-        </button>
-    </div>
-
-
+    {% for notice in notices %}
     {#  testowy #}
     <div class="post" id="usr-post">
-        <a href=""><img id="project-avatar"
-                        src=""
+        <a href="{{ path('profileIndexAction', {'username': notice.user.username } ) }}">
+            <img id="project-avatar" src="{{ asset(photo_data_provider.PhotoById(notice.user.userId)) }}"
                         width="70" height="70"></a>
 
         <button class="reportico" onclick="reportPost(1)"><i
                     class="fa fa-exclamation-circle"></i></button>
 
-        <a class="noticeIns">GITARA BASOWA</a>
-        <a class="NoticeAuthor" href="">Carla Jonas</a>
-        ✽ 27.11.2019 18:20<br>
-        <p class="project-title" style="font-size: 22px;" > Gitarzystka z Warszawy poszukiwana!</p>
+        <a class="noticeIns">{{notice.instrument.name}}</a>
+        <a class="NoticeAuthor" href="{{ path('profileIndexAction', {'username': notice.user.username } ) }}">
+            {{notice.user.firstname}} {{notice.user.lastname}} {% if notice.band is not null %}({{ notice.band.title }}) {% endif %}</a>
+        ✽ {{notice.timestamp|date('Y-m-d')}}<br>
+
+        <p class="project-title" style="font-size: 22px;" > {{notice.title}}</p>
 
 
 
         <p class="comment-content">
-            Zespół Jonas Sisters szuka gitarzystki w okolicach Warszawy. Najlepiej jeśli na nazwisko ma Jonas, ale poradzimy sobie z każdym innym.
-            Wymagania: Pełnoletnia, ładna, nie starsza niż 30 lat. Gramy głównie emo i punk. Kontakt na priv.</p>
+            {{ notice.details }}</p>
         <p class="ExpandContent" style="text-align: justify;"></p>
 
         <button class="buttonSend">
@@ -123,19 +96,20 @@
             <i class="far fa-caret-square-down"></i>
         </button>
     </div>
+    {% endfor %}
     {#  testowy #}
 
     <div class="pagination">
-
-            <a class="pagination-button prev" href=" "><i class="fas fa-arrow-left"></i></a>
-
+        {% if page != 1 %}
+            <a class="pagination-button prev" href="{{path('searchNoticesIndexAction')}}{{ previousPageUrl }}"><i class="fas fa-arrow-left"></i></a>
+        {% endif %}
         <div style="display: inline-block;
     margin-top: 5px;">
-            <a class="pagination-a" href="#">1</a>
+            <a class="pagination-a" href="#">{{page}}</a>
         </div>
-
-            <a class="pagination-button next" href=" " ><i  class="fas fa-arrow-right"></i></a>
-
+        {% if nextPage is not null %}
+            <a class="pagination-button next" href="{{path('searchNoticesIndexAction')}}{{ nextPageUrl }}" ><i  class="fas fa-arrow-right"></i></a>
+        {% endif %}
 
     </div>
 

@@ -25,4 +25,15 @@ class PaginationHandler
             'musicGenre=' . $musicGenre .'&' .
             'sorting=' . $sorting;
     }
+
+    public static function getPageQueryUrlForNotices($bandName, $author, $page, $instrumentName, $sorting)
+    {
+        return
+            '?band=' . $bandName .'&' .
+            'author=' . $author .'&' .
+            'page=' . $page .'&' .
+            'instrument=' . $instrumentName .'&' .
+            'sorting=' . $sorting;
+    }
+
 }

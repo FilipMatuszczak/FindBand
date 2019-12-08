@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Band;
+use App\Entity\Instrument;
 use App\Entity\Notice;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,32 +22,30 @@ class NoticeRepository extends ServiceEntityRepository
         parent::__construct($registry, Notice::class);
     }
 
-    // /**
-    //  * @return Notice[] Returns an array of Notice objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function fetchNoticesByFilters($from, $max, $sorting, ?Instrument $instrument, ?User $user, ?Band $band)
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $queryBuilder =  $this->createQueryBuilder('u');
 
-    /*
-    public function findOneBySomeField($value): ?Notice
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if (isset($user)) {
+            $queryBuilder->andWhere('u.user = :user')
+                ->setParameter('user', $user);
+        }
+
+        if (isset($instrument)) {
+            $queryBuilder->andWhere('u.instrument = :instrument')
+                ->setParameter('instrument', $instrument);
+        }
+
+        if (isset($band)) {
+            $queryBuilder->andWhere('u.band = :band')
+                ->setParameter('band', $band);
+        }
+
+        $queryBuilder
+            ->setFirstResult($from)
+            ->setMaxResults($max)
+            ->orderBy('u.' . $sorting['sortKey'], $sorting['dir']);
+
+        return $queryBuilder->getQuery()->getResult();
     }
-    */
 }
