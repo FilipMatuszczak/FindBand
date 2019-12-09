@@ -4,14 +4,15 @@ namespace App\Services\DataProvider;
 
 use App\Entity\User;
 use App\Repository\BandRepository;
+use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Services\Handler\SavePhotoOnSeverHandler;
 use Symfony\Component\Security\Core\Security;
 
 class PhotoDataProvider
 {
-    const DEFAULT_USER_PHOTO =  '/web/images/default_user.jpg';
-    const DEFAULT_BAND_PHOTO =  '/web/images/default_band.jpg';
+    const DEFAULT_USER_PHOTO = '/web/images/default_user.jpg';
+    const DEFAULT_BAND_PHOTO = '/web/images/default_band.jpg';
 
     /** @var Security */
     private $security;
@@ -22,15 +23,20 @@ class PhotoDataProvider
     /** @var BandRepository */
     private $bandRepository;
 
+    /** @var PostRepository */
+    private $postRepository;
+
     public function __construct(
         Security $security,
         UserRepository $userRepository,
-        BandRepository $bandRepository
+        BandRepository $bandRepository,
+        PostRepository $postRepository
     )
     {
         $this->security = $security;
         $this->userRepository = $userRepository;
         $this->bandRepository = $bandRepository;
+        $this->postRepository = $postRepository;
     }
 
     public function getCurrentUserPhotoData()
@@ -73,5 +79,15 @@ class PhotoDataProvider
         }
 
         return self::DEFAULT_BAND_PHOTO;
+    }
+
+    public function getPostPhotoById($postId)
+    {
+        $postPhoto = $this->postRepository->findOneBy(['postId' => $postId])->getPhoto();
+        if ($postPhoto) {
+            return SavePhotoOnSeverHandler::UPLOAD_DIRECTORY . SavePhotoOnSeverHandler::POST_DIR . $postPhoto;
+        }
+
+        return null;
     }
 }

@@ -65,11 +65,11 @@
                 <button onclick="location.href='{{ path('noticeCreateIndexAction') }}'" class="navico"><i class="fas fa-calendar-plus fa-2x fa-fw icons"></i> Dodaj
                     ogłoszenie
                 </button>
-                <button onclick="" class="navico"><i class="far fa-calendar-alt fa-2x fa-fw icons"></i> Moje ogłoszenia
+                <button onclick="location.href='{{ path('searchNoticesIndexAction', {'author': app.user.username}) }}'" class="navico"><i class="far fa-calendar-alt fa-2x fa-fw icons"></i> Moje ogłoszenia
                 </button>
                 <button onclick="location.href='{{ path('createBandIndexAction') }}'" class="navico"><i class="fas fa-guitar fa-2x fa-fw icons"></i> Załóż zespół</button>
-                <button onclick=" " class="navico"><i class="fas fa-users fa-2x fa-fw icons"></i> Moje zespoły</button>
-                <button onclick=" " class="navico"><i class="fas fa-envelope fa-2x fa-fw icons"></i> Wiadomości</button>
+                <button onclick="location.href='{{ path('bandsIndexAction', {'member': app.user.username}) }}'" class="navico"><i class="fas fa-users fa-2x fa-fw icons"></i> Moje zespoły</button>
+                <button  class="navico"><i class="fas fa-envelope fa-2x fa-fw icons"></i> Wiadomości</button>
                 <button onclick="location.href='{{ path('profileEditAction', {'username': app.user.username}) }}'"
                         class="navico"><i class="fas fa-cog fa-2x fa-fw icons"></i> Ustawienia
                 </button>

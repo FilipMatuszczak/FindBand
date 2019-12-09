@@ -8,6 +8,7 @@ class SavePhotoOnSeverHandler
 {
     const USER_PROFILE_DIR = '/user_profile_photo/';
     const BAND_PROFILE_DIR = '/band_profile_photo/';
+    const POST_DIR = '/post_photo/';
     const UPLOAD_DIRECTORY = 'uploads';
 
     public static function savePhotoOnServer(File $file, $directoryDir)

@@ -42,10 +42,13 @@
     </div>
 
 
-        <div id="mess">
+    <div id="mess">
+
+        {% if app.user.username != user.username %}
             <button class="navico message-ico"><i class="fa fa-envelope"></i> Wyślij wiadomość</button>
-            <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj </button>
-        </div>
+            <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj</button>
+        {% endif %}
+    </div>
 
 
     <div id="modal-message" class="modal">
@@ -54,9 +57,9 @@
             <p>Napisz wiadomość do <a>ime naz </a></p>
             <div class="photo-textarea">
 
-                    <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
+                <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
 
-                    <input type="hidden" name="receiverId" value="">
+                <input type="hidden" name="receiverId" value="">
 
             </div>
             <div class="buttons">
@@ -74,12 +77,12 @@
             <p>Dlaczego chcesz zgłosić post użytkownika <a>autor</a>?</p>
             <div class="photo-textarea">
 
-                    <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
+                <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
 
 
-                    <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
-                    <input type="hidden" name="destination" >
-                    <input type="hidden" name="username" >
+                <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
+                <input type="hidden" name="destination">
+                <input type="hidden" name="username">
             </div>
             <div class="buttons">
                 <button class="cancel-btn button">Anuluj</button>
@@ -90,14 +93,14 @@
     </div>
     {#   #}
 
-
-        <div class="form-post">
-            <img id="post-avatar" src="" width="70" height="70">
+    {% if user.username == app.user.username %}
+        <form action="{{ path('createProfilePostAction') }}" method="post" enctype="multipart/form-data">
+            <div class="form-post">
+                <img id="post-avatar" src="{{ asset(photo_data_provider.PhotoById(user.userId)) }}" width="70"
+                     height="70">
 
                 <div class="photo-textarea">
                     <textarea name="text" class="form-control" rows="5" cols="25"></textarea>
-
-                    <input type="hidden" name="username">
 
                     <button style="display:none;" id="file-cancel"></button>
                     <label>
@@ -110,31 +113,35 @@
                     <input type="submit" id="button-rem" class="button-post" value="Opublikuj"></div>
                 <br>
 
-        </div>
-
+            </div>
+        </form>
+    {% endif %}
+    {% for post in posts %}
         <div class="comment">
-            <a href=""><img id="comment-avatar"
-                                                                                   src=""
-                                                                                   width="70" height="70"></a>
+            <a href="{{ path('profileIndexAction', {'username': post.user.username}) }}">
+                <img id="comment-avatar"
+                     src="{{ asset(photo_data_provider.PhotoById(post.user.userId)) }}"
+                     width="70"
+                     height="70"></a>
 
             <p class="project-title"
-               href=""> imie i nazwisko</p>
-            ✽ czas
+               href=""> {{post.user.firstname}} {{ post.user.lastname }}</p>
+            ✽ {{post.timestamp|date('Y-m-d')}}
 
 
-                <button class="reportico" onclick="reportPost(1)"><i
-                            class="fa fa-exclamation-circle"></i></button>
+            <button class="reportico" onclick="reportPost(1)"><i
+                        class="fa fa-exclamation-circle"></i></button>
 
 
-            <p class="comment-content">tesgfssdfs</p>
-
-                <div class="comment-image"><img image-zoom
-                                                src=""
-                                                width="250"
-                    ></div>
-
+            <p class="comment-content">{{post.text}}</p>
+            {% if photo_data_provider.PostPhotoById(post.postId) is not null  %}
+            <div class="comment-image"><img image-zoom
+                                            src="{{ asset(photo_data_provider.PostPhotoById(post.postId)) }}"
+                                            width="250"
+                ></div>
+            {% endif %}
         </div>
-
+    {% endfor %}
 
 
     <script>function reportPost(postId) {
@@ -207,37 +214,43 @@
             }).appendTo('body');
         });
 
-            ////////////////////////////validate forms
+        ////////////////////////////validate forms
 
-        function validateformReport(){
-            var reason=document.reportForm.reason.value;
+        function validateformReport() {
+            var reason = document.reportForm.reason.value;
 
-            if (reason==null || reason==""){
+            if (reason == null || reason == "") {
                 //console.log(reason);
                 document.reportForm.reason.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
-        function validateformMessage(){
-            var message=document.messageForm.messageText.value;
+        function validateformMessage() {
+            var message = document.messageForm.messageText.value;
 
-            if (message==null || message==""){
+            if (message == null || message == "") {
                 //console.log(reason);
                 document.messageForm.messageText.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
-        function validateformPost(){
-            var content=document.postForm.text.value;
-            var photo=document.postForm.photo.value;
+        function validateformPost() {
+            var content = document.postForm.text.value;
+            var photo = document.postForm.photo.value;
 
-            if ((content==null || content=="")&&(photo==null || photo=="")){
+            if ((content == null || content == "") && (photo == null || photo == "")) {
                 //console.log(reason);
                 document.postForm.text.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
     </script>

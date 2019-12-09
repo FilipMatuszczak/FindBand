@@ -133,3 +133,8 @@ createNoticeAction:
   path: /notice/createNewNotice
   controller: App\Controller\NoticeController:createNoticeAction
   methods: POST
+
+createProfilePostAction:
+  path: /post/createProfilePost
+  controller: App\Controller\PostController:createPostOnProfile
+  methods: POST

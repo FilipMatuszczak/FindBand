@@ -18,14 +18,14 @@
             <div class="bio-title">
                 <a>Nazwa </a>
                 <input class="bio" type="text" size="30" name="title" id="inputTitle" placeholder="..."
-                       {% if app.request.query.all is not empty %}value={{ app.request.query.all['title'] }} {% endif %}
+                       {% if app.request.query.all['title'] is defined %}value={{ app.request.query.all['title'] }} {% endif %}
                 ></div>
             <br>
 
             <div class="bio-title">
                 <a>Członek </a>
                 <input type="text" name="member" class="bio" placeholder="..." maxlength="50" id="lang"
-                       {% if app.request.query.all is not empty %}value={{ app.request.query.all['member'] }} {% endif %}
+                       {% if app.request.query.all['member']  is defined %}value={{ app.request.query.all['member'] }} {% endif %}
                 >
 
                 <input type="hidden" name="page" value={{ page }}>
@@ -35,7 +35,7 @@
             <div class="bio-title">
                 <a>Gatunek </a>
                 <input type="TechList" class="bio" name="musicGenre" id="tech" placeholder="..." maxlength="50"
-                       list="TechList" {% if app.request.query.all is not empty %}value={{ app.request.query.all['musicGenre'] }} {% endif %}>
+                       list="TechList" {% if app.request.query.all['musicGenre'] is defined %}value={{ app.request.query.all['musicGenre'] }} {% endif %}>
                 <datalist id="TechList">
 
                 </datalist>
@@ -47,10 +47,10 @@
             <div class="sort">
                 Sortuj według:
                 <select name="sorting">
-                    <option value="A-Z" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "A-Z" %} selected{% endif %}>A-Z</option>
-                    <option value="Z-A" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "Z-A" %} selected{% endif %}>Z-A</option>
-                    <option value="Najstarsze" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "Najstarsze" %} selected{% endif %}>Najstarsze</option>
-                    <option value="Najnowsze" {% if app.request.query.all is not empty and app.request.query.all['sorting'] == "Najnowsze" %} selected{% endif %}>Najnowsze</option>
+                    <option value="A-Z" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "A-Z" %} selected{% endif %}>A-Z</option>
+                    <option value="Z-A" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "Z-A" %} selected{% endif %}>Z-A</option>
+                    <option value="Najstarsze" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "Najstarsze" %} selected{% endif %}>Najstarsze</option>
+                    <option value="Najnowsze" {% if app.request.query.all['sorting'] is defined and app.request.query.all['sorting'] == "Najnowsze" %} selected{% endif %}>Najnowsze</option>
                 </select>
                 <br>
                 <div class="btn-search">

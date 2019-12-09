@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Security\UserProvider;
+use App\Services\DataProvider\PostsDataProvider;
 use App\Services\Handler\InstrumentHandler;
 use App\Services\Handler\MusicGenreHandler;
 use App\Services\Handler\UserHandler;
@@ -26,24 +27,30 @@ class ProfileController extends AbstractController
     /** @var MusicGenreHandler */
     private $musicGenreHandler;
 
+    /** @var PostsDataProvider */
+    private $postsDataProvider;
+
     public function __construct(
         UserProvider $userProvider,
         UserHandler $userHandler,
         InstrumentHandler $instrumentHandler,
-        MusicGenreHandler $musicGenreHandler
+        MusicGenreHandler $musicGenreHandler,
+        PostsDataProvider $postsDataProvider
     )
     {
         $this->userProvider = $userProvider;
         $this->instrumentHandler = $instrumentHandler;
         $this->userHandler = $userHandler;
         $this->musicGenreHandler = $musicGenreHandler;
+        $this->postsDataProvider = $postsDataProvider;
     }
 
     public function indexAction($username)
     {
         $user = $this->userProvider->loadUserByUsername($username);
+        $posts = $this->postsDataProvider->getUserPosts($user);
 
-        return $this->render('profile.html.twig', ['user' => $user]);
+        return $this->render('profile.html.twig', ['user' => $user, 'posts' => $posts]);
     }
 
     public function editIndexAction($username)
