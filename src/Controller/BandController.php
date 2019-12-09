@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\BandRepository;
 use App\Services\DataProvider\BandsPageDataProvider;
+use App\Services\DataProvider\PostsDataProvider;
 use App\Services\Factory\BandFactory;
 use App\Services\Handler\PaginationHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +22,20 @@ class BandController extends AbstractController
     /** @var BandsPageDataProvider */
     private $bandsPageDataProvider;
 
-    public function __construct(BandFactory $bandFactory, BandRepository $bandRepository, BandsPageDataProvider $bandsPageDataProvider)
+    /** @var PostsDataProvider */
+    private $postsDataProvider;
+
+    public function __construct(
+        BandFactory $bandFactory,
+        BandRepository $bandRepository,
+        BandsPageDataProvider $bandsPageDataProvider,
+        PostsDataProvider $postsDataProvider
+    )
     {
         $this->bandFactory = $bandFactory;
         $this->bandRepository = $bandRepository;
         $this->bandsPageDataProvider = $bandsPageDataProvider;
+        $this->postsDataProvider = $postsDataProvider;
     }
 
     public function createIndexAction()
@@ -56,7 +66,9 @@ class BandController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        return $this->render('band.html.twig', ['Band' => $band]);
+        $posts = $this->postsDataProvider->getBandPosts($band);
+
+        return $this->render('band.html.twig', ['Band' => $band, 'posts' => $posts]);
     }
 
     public function bandsIndexAction(Request $request)

@@ -19,90 +19,95 @@
         </div>
 
         <div class="profile-right">
-            <p id="name-profile">{{Band.Title}}
-
-                    <button id="edit-mode" class="navico message-ico"><i class="fas fa-pencil-alt"></i></button> {# edycja #}
+            <p id="name-profile">{{ Band.Title }}
+                {% if app.user.PartOfBand(Band) %}
+                    <button id="edit-mode" class="navico message-ico"><i class="fas fa-pencil-alt"></i>
+                    </button> {# edycja #}
+                {% endif %}
 
             </p>
 
-                    <div id="modal-edit" class="modal" style="display: hidden;">
-                        <div class="modal-content">
-                            <span class="close"></span>
-                            {#       form         #}
+            <div id="modal-edit" class="modal" style="display: hidden;">
+                <div class="modal-content">
+                    <span class="close"></span>
+                    {#       form         #}
 
-                            <div class="edit-profile">
+                    <div class="edit-profile">
 
-                                <div class="edit-container">
-                                    <div id="up">
-                                        <div id="photo">
-
-
-                                            <br>
-
-                                            <label for="image">
-                                                <input type="file" name="photo" id="image"
-                                                       accept="image/jpeg, image/png"
-                                                       class="fileToUpload" style="display:none;"/>
-                                                <img id="photo-edit"
-                                                     src="{{ asset(photo_data_provider.BandPhotoById(Band.bandId)) }}"
-                                                     width="120"
-                                                     height="160" style="object-fit: cover;"/>
-                                            </label>
-
-                                            <br><br><br>
+                        <div class="edit-container">
+                            <div id="up">
+                                <div id="photo">
 
 
-                                        </div>
+                                    <br>
 
-                                        <div class="name_div">
-                                            <input type="text" class="name" placeholder="Tytuł" name="title"
-                                                   maxlength="50"
-                                                   value=""/>
-                                        </div>
-                                    </div>
-                                    <div class="info"
-                                         style="text-align: left; margin-left:1%; margin-top: 1%; margin-bottom:1%;">
-                                        <textarea name="text" class="bio" placeholder="Opis" rows="10"
-                                                  cols="25">{{Band.description}}</textarea>
-                                        <input type="hidden" class="bio" placeholder="Opis" name="description"
-                                               maxlength="250"/><br>
+                                    <label for="image">
+                                        <input type="file" name="photo" id="image"
+                                               accept="image/jpeg, image/png"
+                                               class="fileToUpload" style="display:none;"/>
+                                        <img id="photo-edit"
+                                             src="{{ asset(photo_data_provider.BandPhotoById(Band.bandId)) }}"
+                                             width="120"
+                                             height="160" style="object-fit: cover;"/>
+                                    </label>
 
-                                        <br>
-                                    </div>
-                                    <button type="button" id="button-moret" class="button-moret btad">Dodaj <i class="fas fa-plus"></i></button> <br>
-
-                                    <div id="tech-forms" class="forms">
-                                        <div>
-                                            <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" maxlength="50"
-                                                   name="technologies[]" list="TechList">
-                                            <datalist id="TechList">
-
-                                            </datalist>
-                                            <button type="button" id="button-less" class="less btad">-</button>
-                                            <br> </div>
-                                    </div>
-
-
-                                    <div id="Technologies"></div>
+                                    <br><br><br>
 
 
                                 </div>
 
-
-                                <br>
-                                <div class="buttons">
-                                    <button id="cancel-edit" class="button">Anuluj</button>
-                                    <input type="hidden" name="projectId" value= >
-                                    <input type="submit" id="send-btn" class="button" value="Zapisz">
+                                <div class="name_div">
+                                    <input type="text" class="name" placeholder="Tytuł" name="title"
+                                           maxlength="50"
+                                           value="{{ Band.title }}"/>
                                 </div>
                             </div>
+                            <div class="info"
+                                 style="text-align: left; margin-left:1%; margin-top: 1%; margin-bottom:1%;">
+                                        <textarea name="text" class="bio" placeholder="Opis" rows="10"
+                                                  cols="25">{{ Band.description }}</textarea>
+                                <input type="hidden" class="bio" placeholder="Opis" name="description"
+                                       maxlength="250"/><br>
+
+                                <br>
+                            </div>
+                            <button type="button" id="button-moret" class="button-moret btad">Dodaj <i
+                                        class="fas fa-plus"></i></button>
+                            <br>
+
+                            <div id="tech-forms" class="forms">
+                                <div>
+                                    <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny"
+                                           maxlength="50"
+                                           name="technologies[]" list="TechList">
+                                    <datalist id="TechList">
+
+                                    </datalist>
+                                    <button type="button" id="button-less" class="less btad">-</button>
+                                    <br></div>
+                            </div>
+
+
+                            <div id="Technologies"></div>
+
+
+                        </div>
+
+
+                        <br>
+                        <div class="buttons">
+                            <button id="cancel-edit" class="button">Anuluj</button>
+                            <input type="hidden" name="projectId" value=>
+                            <input type="submit" id="send-btn" class="button" value="Zapisz">
                         </div>
                     </div>
+                </div>
+            </div>
 
 
             <p class="infos">CZŁONKOWIE</p>
             {% for user in Band.user %}
-            <li>{{ user.firstname }} {{ user.username }} {{ user.lastname }}</li>
+                <li>{{ user.firstname }} {{ user.username }} {{ user.lastname }}</li>
             {% endfor %}
             <hr>
 
@@ -112,56 +117,57 @@
                 <li>{{ musicGenre.name }}</li>
             {% endfor %}
             <hr>
-            <p>{{Band.description}}</p>
+            <p>{{ Band.description }}</p>
         </div>
     </div>
 
-        <div id="mess">
+    <div id="mess">
+        {% if not app.user.PartOfBand(Band) %}
             <button id="message" class="navico message-ico"><i class="fa fa-envelope"></i>
             </button> {# wyslij wiadomosc #}
+        {% endif %}
+        <div id="modal-message" class="modal">
+            <div class="modal-content">
+                <span class="close"></span>
+                <p>Napisz wiadomość do <a href=""> autor </a></p>
+                <div class="photo-textarea">
 
-            <div id="modal-message" class="modal">
-                <div class="modal-content">
-                    <span class="close"></span>
-                    <p>Napisz wiadomość do <a href=""> autor </a></p>
-                    <div class="photo-textarea">
+                    <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
 
-                            <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
+                    <input type="hidden" name="receiverId" value=>
+                </div>
+                <div class="buttons">
+                    <button class="cancel-btn button">Anuluj</button>
+                    <input type="submit" id="send-btn" class="button" value="Wyślij">
 
-                            <input type="hidden" name="receiverId" value= >
-                    </div>
-                    <div class="buttons">
-                        <button class="cancel-btn button">Anuluj</button>
-                        <input type="submit" id="send-btn" class="button" value="Wyślij">
-
-                    </div>
                 </div>
             </div>
+        </div>
+        {% if not app.user.PartOfBand(Band) %}
 
             <button id="add-me" class="navico message-ico"><i class="fa fa-user-plus"></i>
             </button> {# popros o dodanie #}
+        {% endif %}
 
-            <div id="modal-add" class="modal">
-                <div class="modal-content">
+        <div id="modal-add" class="modal">
+            <div class="modal-content">
 
-                    <p>Czy chcesz wysłać prośbę o dołączenie do zespołu <a>tytul</a>?</p>
+                <p>Czy chcesz wysłać prośbę o dołączenie do zespołu <a>tytul</a>?</p>
 
-                    <textarea id="addtxt" name="messageText" class="form-control"
-                              placeholder="Napisz dlaczego chcesz dołączyć." rows="5" cols="25"></textarea>
-                    <div class="buttons" style="height: 40px;">
-                        <button class="cancel-btn button">Anuluj</button>
-                        <input type="hidden" name="projectId" value= >
-                        <input type="submit" id="send-btn" class="button" value="Wyślij prośbę">
-
-                    </div>
+                <textarea id="addtxt" name="messageText" class="form-control"
+                          placeholder="Napisz dlaczego chcesz dołączyć." rows="5" cols="25"></textarea>
+                <div class="buttons" style="height: 40px;">
+                    <button class="cancel-btn button">Anuluj</button>
+                    <input type="hidden" name="projectId" value=>
+                    <input type="submit" id="send-btn" class="button" value="Wyślij prośbę">
 
                 </div>
+
             </div>
-
-
-
-
         </div>
+
+
+    </div>
 
 
 
@@ -172,11 +178,11 @@
             <p>Dlaczego chcesz zgłosić post użytkownika <a>AUTOR</a>?</p>
             <div class="photo-textarea">
 
-                    <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
+                <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
 
-                    <input id="postId" type="hidden" name="postId" value='default'>
-                    <input type="hidden" name="destination" value=>
-                    <input type="hidden" name="projectId" value= >
+                <input id="postId" type="hidden" name="postId" value='default'>
+                <input type="hidden" name="destination" value=>
+                <input type="hidden" name="projectId" value=>
             </div>
             <div class="buttons">
                 <button class="cancel-btn button">Anuluj</button>
@@ -186,16 +192,15 @@
         </div>
     </div>
 
+    {% if app.user.PartOfBand(Band) %}
+        <form action="{{ path('createBandPostAction') }}" method="post" enctype="multipart/form-data">
 
         <div class="form-post">
-            <img id="post-avatar" src=" "
-                 width="70" height="70">
+                <img id="post-avatar" src="{{ asset(photo_data_provider.PhotoById(app.user.userId)) }}"
+                     width="70" height="70">
 
                 <div class="photo-textarea">
                     <textarea name="text" class="form-control" rows="5" cols="25"></textarea>
-
-                    <input type="hidden" name="username" value= >
-
                     <button style="display:none;" id="file-cancel"></button>
                     <label>
                         <input type="file" id="add-image" accept="image/jpeg, image/png" class="fileToUpload"
@@ -203,37 +208,42 @@
                         <span><i class="fa fa-image"></i></span>
                     </label>
 
-                    <input type="hidden" name="projectId" value="">
+                    <input type="hidden" name="bandId" value={{Band.BandId}}>
                     <input type="submit" id="button-rem" class="button-post" value="Opublikuj"></div>
                 <br>
 
 
-        </div>
-
-
-            <div class="comment">
-                <a href=" "><img id="comment-avatar"
-                                                                                            src=" "
-                                                                                            width="70" height="70"></a>
-
-                <p class="project-title"
-                   href=" ">imie i nazwisko</p>
-                ✽ czas
-
-                <input type="hidden" name="" value=""> {#idpostu#}
-
-                    <button class="reportico" ><i
-                                class="fa fa-exclamation-circle" onclick="reportPost(1)"></i></button>
-
-                <p class="comment-content">teskst</p>
-
-                    <div class="comment-image"><img image-zoom
-                                                    src=" "
-                                                    width="250"
-                        ></div>
-
             </div>
-         
+        </form>
+    {% endif %}
+
+    {% for post in posts %}
+        <div class="comment">
+            <a href="{{ path('profileIndexAction', {'username': post.user.username}) }}">
+                <img id="comment-avatar"
+                     src="{{ asset(photo_data_provider.PhotoById(post.user.userId)) }}"
+                     width="70"
+                     height="70"></a>
+
+            <p class="project-title"
+               href=""> {{post.user.firstname}} {{ post.user.lastname }}</p>
+            ✽ {{post.timestamp|date('Y-m-d')}}
+
+
+            <button class="reportico" onclick="reportPost(1)"><i
+                        class="fa fa-exclamation-circle"></i></button>
+
+
+            <p class="comment-content">{{post.text}}</p>
+            {% if photo_data_provider.PostPhotoById(post.postId) is not null  %}
+                <div class="comment-image"><img image-zoom
+                                                src="{{ asset(photo_data_provider.PostPhotoById(post.postId)) }}"
+                                                width="250"
+                    ></div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
 
     <script>
         function reportPost(postId) {
@@ -340,119 +350,127 @@
 
         ////////////////////////////validate forms
 
-        function validateformReport(){
-            var reason=document.reportForm.reason.value;
+        function validateformReport() {
+            var reason = document.reportForm.reason.value;
 
-            if (reason==null || reason==""){
+            if (reason == null || reason == "") {
                 //console.log(reason);
                 document.reportForm.reason.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
-        function validateformMessage(){
-            var message=document.messageForm.messageText.value;
+        function validateformMessage() {
+            var message = document.messageForm.messageText.value;
 
-            if (message==null || message==""){
+            if (message == null || message == "") {
                 //console.log(reason);
                 document.messageForm.messageText.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
 
-        function validateformPost(){
-            var content=document.postForm.text.value;
-            var photo=document.postForm.photo.value;
+        function validateformPost() {
+            var content = document.postForm.text.value;
+            var photo = document.postForm.photo.value;
 
-            if ((content==null || content=="")&&(photo==null || photo=="")){
+            if ((content == null || content == "") && (photo == null || photo == "")) {
                 //console.log(reason);
                 document.postForm.text.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
-        function validateformAsk(){
-            var contents=document.AskForm.messageText.value;
+        function validateformAsk() {
+            var contents = document.AskForm.messageText.value;
 
-            if (contents==null || contents==""){
+            if (contents == null || contents == "") {
                 //console.log(reason);
                 document.AskForm.messageText.style.border = "0.5px solid red";
                 return false;
-            } else {  return true; }
+            } else {
+                return true;
+            }
         }
 
 
-/*
-        ////validateform
-        function validateformCreate(){
-            var title=document.postCreate.title.value;
-            document.postCreate.title.style.border = "1px solid #7DA2AA";
+        /*
+                ////validateform
+                function validateformCreate(){
+                    var title=document.postCreate.title.value;
+                    document.postCreate.title.style.border = "1px solid #7DA2AA";
 
-            var isValid;
-            $(".tech").each(function() {
+                    var isValid;
+                    $(".tech").each(function() {
 
-                var element = $(this);
-//////
-                element.css("border","1px solid #7DA2AA");
-                var requestExistsTech = new XMLHttpRequest()
+                        var element = $(this);
+        //////
+                        element.css("border","1px solid #7DA2AA");
+                        var requestExistsTech = new XMLHttpRequest()
 
-                if((element.val() == "")  || (element.val() == null) ){
-                    isValid=false;
-                    element.css("border","1px solid red");
+                        if((element.val() == "")  || (element.val() == null) ){
+                            isValid=false;
+                            element.css("border","1px solid red");
 
-                }else{
+                        }else{
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/technologyExists/' + element.val(), false)
-                    requestExistsTech.onload = function () {
+                            requestExistsTech.open('GET', 'http://127.0.0.1:8000/technologyExists/' + element.val(), false)
+                            requestExistsTech.onload = function () {
 
-                        var dataE = JSON.parse(this.response)
-
-
-                        if (requestExistsTech.status >= 200 && requestExistsTech.status < 400) {
-                            //console.log(dataE);
+                                var dataE = JSON.parse(this.response)
 
 
-                            if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
-                                ///console.log("NOPEEEE" + element.val());
-                                isValid=false;
-                                element.css("border","1px solid red");
+                                if (requestExistsTech.status >= 200 && requestExistsTech.status < 400) {
+                                    //console.log(dataE);
+
+
+                                    if ((element.val() == "") || dataE=="false" || (element.val() == null) ){
+                                        ///console.log("NOPEEEE" + element.val());
+                                        isValid=false;
+                                        element.css("border","1px solid red");
+                                    }
+
+
+                                } else {
+                                    isValid=false;
+                                    console.log('error')
+                                }
+
+
                             }
 
-
-                        } else {
-                            isValid=false;
-                            console.log('error')
+                            requestExistsTech.send()
                         }
+                    });
 
 
+        //////
+                    if (title==null || title==""){
+                        //console.log(reason);
+                        document.postCreate.title.style.border = "1px solid red";
+                        return false;
                     }
 
-                    requestExistsTech.send()
-                }
-            });
+                    if(isValid==false){return false;}
+                    else{  return true; }
 
 
-//////
-            if (title==null || title==""){
-                //console.log(reason);
-                document.postCreate.title.style.border = "1px solid red";
-                return false;
-            }
-
-            if(isValid==false){return false;}
-            else{  return true; }
-
-
-        }*/
+                }*/
 
 
         //////////////////////////////////
         //////Function for getting genres
         var changeTimer = false;
         $('#tech-forms').on("keyup", ".tech", function (callback) {
-            if(changeTimer !== false) clearTimeout(changeTimer);
-            changeTimer = setTimeout(function(){
+            if (changeTimer !== false) clearTimeout(changeTimer);
+            changeTimer = setTimeout(function () {
                 var tech = $(callback.target).val();
 
                 ///console.log(tech);
@@ -485,8 +503,9 @@
 
                     requestTech.send()
                 } else {
-                }changeTimer = false;
-            },500);
+                }
+                changeTimer = false;
+            }, 500);
         });
         //////
 

@@ -138,3 +138,8 @@ createProfilePostAction:
   path: /post/createProfilePost
   controller: App\Controller\PostController:createPostOnProfile
   methods: POST
+
+createBandPostAction:
+  path: /band/createPost
+  controller: App\Controller\PostController:createPostOnBand
+  methods: POST

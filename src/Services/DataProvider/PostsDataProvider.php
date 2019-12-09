@@ -2,6 +2,7 @@
 
 namespace App\Services\DataProvider;
 
+use App\Entity\Band;
 use App\Entity\User;
 use App\Repository\PostRepository;
 
@@ -18,5 +19,10 @@ class PostsDataProvider
     public function getUserPosts(User $user)
     {
         return $this->postRepository->findBy(['user' => $user, 'band' => null]);
+    }
+
+    public function getBandPosts(Band $band)
+    {
+        return $this->postRepository->findBy(['band' => $band]);
     }
 }

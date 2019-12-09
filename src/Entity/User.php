@@ -404,6 +404,15 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    public function isPartOfBand(Band $band)
+    {
+        if ($this->band->contains($band)) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @return Collection|Instrument[]
      */

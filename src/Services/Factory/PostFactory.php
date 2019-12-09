@@ -2,6 +2,7 @@
 
 namespace App\Services\Factory;
 
+use App\Entity\Band;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Services\Handler\SavePhotoOnSeverHandler;
@@ -30,6 +31,24 @@ class PostFactory
         }
 
         $post->setUser($user);
+
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+    }
+
+    public function createPostForBandProfile(User $user, Band $band, $text, $photo)
+    {
+        $post = new Post();
+
+        $post->setText($text)->setTimestamp(new \DateTime());
+
+        if ($photo) {
+            $fileName = SavePhotoOnSeverHandler::savePhotoOnServer($photo, SavePhotoOnSeverHandler::POST_DIR);
+            $post->setPhoto($fileName);
+        }
+
+        $post->setUser($user);
+        $post->setBand($band);
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();
