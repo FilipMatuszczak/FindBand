@@ -2,22 +2,159 @@
 
 
     {% block stylesheets %}
-        <link href="{{ asset('web/styles/main.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/profile.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('web/styles/search_bands.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
+        <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
     {% endblock %}
 
 
 {% block body %}
 
 
-        <h3 style="text-align: center; color: darkgrey;">pusto :(((((((((</h3>
+        {#<h3 style="text-align: center; color: darkgrey;">pusto :(((((((((</h3>#}
 
-        <div class="post">
-            <a href=" "><img id="project-avatar" src=" " width="70" height="70"></a>
-            <a class="project-title"
-               href=" ">tytul</a><br>
+    <div id="divide">
+        <h3 style="text-align: center; color: darkgrey;">Ogłoszenia, które mogą cie zainteresować</h3>
+    </div>
 
-                <a class="project-lang" href=" ">aasa</a>
+{# TO SA OGŁOSZENIA #}
+    <div class="post" id="usr-post">
+        <a href=" ">
+            <img id="project-avatar" src=" "
+                 width="70" height="70"></a>
+        <button class="reportico" onclick="reportPost(1)"><i
+                    class="fa fa-exclamation-circle"></i></button>
+        <a class="noticeIns">instrument</a>
+        <a class="NoticeAuthor" href=" ">
+           IMIE NAZWISKO</a>
+        ✽ DATA<br>
+        <p class="project-title" style="font-size: 22px;" > TYTUL</p>
+        <p class="comment-content">
+            DETAILS <p class="ExpandContent" style="text-align: justify;"></p>
 
+        <button class="buttonSend">
+            Wyślij wiadomość
+        </button>
+        <button class="buttonSeeMore">
+            <i class="far fa-caret-square-down"></i>
+        </button>
+    </div>
+
+{##}
+
+
+<div id="divide">
+    <h3 style="text-align: center; color: darkgrey;">Zespoły w twoim stylu</h3>
+</div>
+
+    {# TO SA BANDY #}
+
+    <div class="post">
+        <a href=" "><img id="project-avatar" src=" "  width="70" height="70"></a>
+        <a class="project-title" href=" ">NAZWA</a><br>
+
+            <a class="project-lang" href=" ">gatunek</a>
+
+    </div>
+
+    {##}
+
+
+
+    {# wiadomosci #}
+
+    <div id="modal-message" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <p>Napisz wiadomość do <a>ime naz </a></p>
+            <div class="photo-textarea">
+
+                <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
+
+                <input type="hidden" name="receiverId" value="">
+
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn button">Anuluj</button>
+                <input type="submit" id="send-btn" class="button" value="Wyślij">
+
+            </div>
         </div>
+    </div>
+
+    {# reportowanie #}
+    <div id="modal-report" class="modal">
+        <div class="modal-content">
+            <span class="close"></span>
+            <p>Dlaczego chcesz zgłosić ogłoszenie użytkownika <a>autor</a>?</p>
+            <div class="photo-textarea">
+
+                <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
+
+
+                <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
+                <input type="hidden" name="destination" >
+                <input type="hidden" name="username" >
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn button">Anuluj</button>
+                <input type="submit" id="send-btn" class="button" value="Zgłoś">
+
+            </div>
+        </div>
+    </div>
+    {#   #}
+
+
+<script>
+
+    $(".buttonSeeMore").on("click", function () {
+        event.preventDefault();
+
+        var parent_post_id = $(this).parent();
+        var height = parent_post_id.css('height');
+        if (height == '100px') {////expand
+            $(this).find('i').toggleClass('far fa-caret-square-up');
+            parent_post_id.find(".ExpandContent").text( parent_post_id.find(".comment-content").text());
+            parent_post_id.find(".comment-content").text("");
+            parent_post_id.css('height','100%');
+        } else{ ////collapse
+            $(this).find('i').toggleClass('far fa-caret-square-down');
+            parent_post_id.find(".comment-content").text( parent_post_id.find(".ExpandContent").text());
+            parent_post_id.find(".ExpandContent").text("");
+            parent_post_id.css('height','100px');}
+
+    });
+
+
+
+    //close modals
+    $(".cancel-btn").on("click", function () {
+        event.preventDefault();
+        $('#mssgtxt').val("");
+        $('#reptxt').val("");
+        $('#modal-message').hide();
+        $('#modal-report').hide();
+    });
+
+
+
+    ////popup message
+    $(".buttonSend").on("click", function () {
+        event.preventDefault();
+        $('#modal-message').show();
+    });
+
+
+    function reportPost(postId) {
+        event.preventDefault();
+        document.getElementById("postId").value = postId;
+        $('#modal-report').show();
+    }
+
+
+</script>
+
+
 {% endblock %}

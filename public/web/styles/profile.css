@@ -6,7 +6,8 @@
     background: rgba(235,235,235,0.4);
     border:1px solid #7DA2AA;
     min-height: 300px;
-    overflow: hidden;
+    max-height: 500px;
+    overflow: auto;
     text-align: justify;
 }
 
@@ -283,3 +284,8 @@ h4{float:left; size: 12px;
     width:50%;
     margin-left:5%;
 margin-top: 15px;}
+
+#descband{
+    white-space: pre-wrap;
+
+}
