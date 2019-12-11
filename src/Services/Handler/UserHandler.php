@@ -9,7 +9,6 @@ use App\Repository\CityRepository;
 use App\Security\UserProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\File;
 
 class UserHandler
 {
@@ -84,8 +83,11 @@ class UserHandler
         $user->setInfo($info);
         $newsletter ? $user->addOption(User::USER_NEWSLETTER) : $user->unsetOption(User::USER_NEWSLETTER);
 
-        $fileName = SavePhotoOnSeverHandler::savePhotoOnServer($photo, SavePhotoOnSeverHandler::USER_PROFILE_DIR);
-        $user->setPhoto($fileName);
+        if (!empty($fileName)) {
+            $fileName = SavePhotoOnSeverHandler::savePhotoOnServer($photo, SavePhotoOnSeverHandler::USER_PROFILE_DIR);
+            $user->setPhoto($fileName);
+        }
+
         if ($city = $this->cityRepository->findOneBy(['name' => $cityName])) {
             $user->setCity($city);
         }

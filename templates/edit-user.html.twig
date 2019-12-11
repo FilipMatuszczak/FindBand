@@ -265,7 +265,7 @@
 
                 } else {
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/userExists/' + element.val(), false)
+                    requestExistsTech.open('GET', location.protocol + '//127.0.0.1:8000/userExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
 
                         var dataE = JSON.parse(this.response)
@@ -332,7 +332,7 @@
 
                 } else {
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/cityExists/' + element.val(), false)
+                    requestExistsTech.open('GET', location.protocol + '//127.0.0.1:8000/cityExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
 
                         var dataE = JSON.parse(this.response)

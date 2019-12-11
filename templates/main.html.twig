@@ -18,47 +18,54 @@
         <h3 style="text-align: center; color: darkgrey;">Ogłoszenia, które mogą cie zainteresować</h3>
     </div>
 
-{# TO SA OGŁOSZENIA #}
-    <div class="post" id="usr-post">
-        <a href=" ">
-            <img id="project-avatar" src=" "
-                 width="70" height="70"></a>
-        <button class="reportico" onclick="reportPost(1)"><i
-                    class="fa fa-exclamation-circle"></i></button>
-        <a class="noticeIns">instrument</a>
-        <a class="NoticeAuthor" href=" ">
-           IMIE NAZWISKO</a>
-        ✽ DATA<br>
-        <p class="project-title" style="font-size: 22px;" > TYTUL</p>
-        <p class="comment-content">
-            DETAILS <p class="ExpandContent" style="text-align: justify;"></p>
+    {% for notice in notices %}
+        {#  testowy #}
+        <div class="post" id="usr-post">
+            <a href="{{ path('profileIndexAction', {'username': notice.user.username } ) }}">
+                <img id="project-avatar" src="{{ asset(photo_data_provider.PhotoById(notice.user.userId)) }}"
+                     width="70" height="70"></a>
 
-        <button class="buttonSend">
-            Wyślij wiadomość
-        </button>
-        <button class="buttonSeeMore">
-            <i class="far fa-caret-square-down"></i>
-        </button>
-    </div>
+            <button class="reportico" onclick="reportPost(1)"><i
+                        class="fa fa-exclamation-circle"></i></button>
 
-{##}
+            <a class="noticeIns">{{notice.instrument.name}}</a>
+            <a class="NoticeAuthor" href="{{ path('profileIndexAction', {'username': notice.user.username } ) }}">
+                {{notice.user.firstname}} {{notice.user.lastname}} {% if notice.band is not null %}({{ notice.band.title }}) {% endif %}</a>
+            ✽ {{notice.timestamp|date('Y-m-d')}}<br>
+
+            <p class="project-title" style="font-size: 22px;" > {{notice.title}}</p>
+
+
+
+            <p class="comment-content">
+                {{ notice.details }}</p>
+            <p class="ExpandContent" style="text-align: justify;"></p>
+
+            <button class="buttonSend">
+                Wyślij wiadomość
+            </button>
+            <button class="buttonSeeMore">
+                <i class="far fa-caret-square-down"></i>
+            </button>
+        </div>
+    {% endfor %}
 
 
 <div id="divide">
     <h3 style="text-align: center; color: darkgrey;">Zespoły w twoim stylu</h3>
 </div>
 
-    {# TO SA BANDY #}
-
-    <div class="post">
-        <a href=" "><img id="project-avatar" src=" "  width="70" height="70"></a>
-        <a class="project-title" href=" ">NAZWA</a><br>
-
-            <a class="project-lang" href=" ">gatunek</a>
-
-    </div>
-
-    {##}
+    {% for band in bands %}
+        <div class="post">
+            <a href="{{ path('bandProfileIndexAction', {'bandId':band.BandId}) }}"><img id="project-avatar"
+                                                                                        src="{{ asset(photo_data_provider.BandPhotoById(band.bandId)) }}"
+                                                                                        width="70" height="70"></a>
+            <a class="project-title" href="{{ path('bandProfileIndexAction', {'bandId':band.BandId}) }}">{{band.title}}</a><br>
+            {% for musicGenre in band.musicGenres %}
+                <a class="project-lang" href="{{ path('bandProfileIndexAction', {'bandId':band.BandId}) }}">{{musicGenre.name}}</a>
+            {% endfor %}
+        </div>
+    {% endfor %}
 
 
 

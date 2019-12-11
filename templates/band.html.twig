@@ -478,7 +478,7 @@
                     var requestTech = new XMLHttpRequest()
                     var exists = 0;
 
-                    requestTech.open('GET', 'http://127.0.0.1:8000/filter/musicGenre/' + tech, true)
+                    requestTech.open('GET', location.protocol + '//' + '127.0.0.1:8000/filter/musicGenre/' + tech, true)
                     requestTech.onload = function () {
 
                         var data = JSON.parse(this.response)

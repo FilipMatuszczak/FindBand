@@ -85,7 +85,7 @@
 
                 } else {
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/musicGenreExists/' + element.val(), false)
+                    requestExistsTech.open('GET', location.protocol + '//127.0.0.1:8000/musicGenreExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
 
                         var dataE = JSON.parse(this.response)
@@ -178,7 +178,7 @@
                 ///todo dodaje nowe okno formularza
 
 
-                $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" name = "technologies[]" maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
+                $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" name = "musicGenres[]" maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
 
 
                 ///////////
@@ -205,7 +205,7 @@
                         var requestTech = new XMLHttpRequest()
                         var exists = 0;
 
-                        requestTech.open('GET', 'http://127.0.0.1:8000/filter/musicGenre/' + tech, true)
+                        requestTech.open('GET', location.protocol + '//127.0.0.1:8000/filter/musicGenre/' + tech, true)
                         requestTech.onload = function () {
 
                             var data = JSON.parse(this.response)

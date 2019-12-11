@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 /////////////wczytywanie blokad uzytkownika
     var requestTechUser = new XMLHttpRequest();
-    requestTechUser.open('GET', 'http://' + window.location.host + '/profile/edit' + '/blockedUsers', true);
+    requestTechUser.open('GET', location.protocol + '//' + window.location.host + '/profile/edit' + '/blockedUsers', true);
     requestTechUser.onload = function () {
 
         //var data = JSON.parse(this.response);
@@ -47,7 +47,7 @@ $(document).ready(function() {
     var requestLangUser = new XMLHttpRequest()
 
 
-    requestLangUser.open('GET', 'http://' + window.location.host + '/profile/edit' + '/instruments', true)
+    requestLangUser.open('GET', location.protocol + '//' + window.location.host + '/profile/edit' + '/instruments', true)
     requestLangUser.onload = function () {
 
         instrumentData = JSON.parse(this.response)
@@ -94,7 +94,7 @@ $(document).ready(function() {
             var currentInstruments = $('form[name="instrument-form"]').serializeArray();
 
             $.ajax({
-                url: 'http://' + window.location.host + '/profile/edit' + '/update_instruments',
+                url: location.protocol + '//' + window.location.host + '/profile/edit' + '/update_instruments',
                 type: 'PUT',
                 data: {instruments: currentInstruments},
             });
@@ -112,7 +112,7 @@ $(document).ready(function() {
         var currentMusicGenres = $('form[name="musicgenres-form"]').serializeArray();
 
         $.ajax({
-            url: 'http://' + window.location.host + '/profile/edit' + '/update_genres',
+            url: location.protocol + '//' + window.location.host + '/profile/edit' + '/update_genres',
             type: 'PUT',
             data: { musicGenres: currentMusicGenres },
         });
@@ -128,7 +128,7 @@ $(document).ready(function() {
     var requestCityUser = new XMLHttpRequest()
 
 
-    requestCityUser.open('GET', 'http://' + window.location.host + '/profile/edit' + '/musicGenres', true)
+    requestCityUser.open('GET', location.protocol + '//' + window.location.host + '/profile/edit' + '/musicGenres', true)
     requestCityUser.onload = function () {
 
         var dataC = JSON.parse(this.response)
@@ -256,7 +256,7 @@ $(document).ready(function() {
             var requestLang = new XMLHttpRequest()
             var exists = 0;
 
-            requestLang.open('GET', 'http://' + window.location.host + '/filter/instrument/' + lang, true)
+            requestLang.open('GET', location.protocol + '//' + window.location.host + '/filter/instrument/' + lang, true)
             requestLang.onload = function () {
 
                 var data = JSON.parse(this.response)
@@ -305,7 +305,7 @@ $(document).ready(function() {
             var request = new XMLHttpRequest()
             var exists = 0;
 
-            request.open('GET', 'http://' + window.location.host + '/filter/musicGenre/' + city, true)
+            request.open('GET', location.protocol + '//' + window.location.host + '/filter/musicGenre/' + city, true)
             request.onload = function () {
 
                 var data = JSON.parse(this.response)
@@ -430,7 +430,7 @@ $(document).ready(function() {
 
             } else {
 
-                requestExistsInstr.open('GET', 'http://127.0.0.1:8000/filter/instrumentExists/' + element.val(), false)
+                requestExistsInstr.open('GET', location.protocol + '//127.0.0.1:8000/filter/instrumentExists/' + element.val(), false)
                 requestExistsInstr.onload = function () {
 
                     var dataE = JSON.parse(this.response)
@@ -491,7 +491,7 @@ $(document).ready(function() {
 
             } else {
 
-                requestExistsGenre.open('GET', 'http://127.0.0.1:8000/filter/musicGenreExists/' + element.val(), false)
+                requestExistsGenre.open('GET', location.protocol + '//127.0.0.1:8000/filter/musicGenreExists/' + element.val(), false)
                 requestExistsGenre.onload = function () {
 
                     var dataE = JSON.parse(this.response)

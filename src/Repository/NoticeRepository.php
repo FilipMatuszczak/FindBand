@@ -22,6 +22,22 @@ class NoticeRepository extends ServiceEntityRepository
         parent::__construct($registry, Notice::class);
     }
 
+    public function fetchNoticesByInstrumentsExcludingUser($instruments, User $user)
+    {
+        $queryBuilder =  $this->createQueryBuilder('n');
+
+        $queryBuilder->where('n.instrument in (:instruments)')
+            ->andWhere('n.user != :user')
+            ->orderBy('n.timestamp', 'DESC')
+            ->setMaxResults(5)
+            ->setParameters([
+                'instruments'=> $instruments,
+                'user' => $user,
+            ]);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     public function fetchNoticesByFilters($from, $max, $sorting, ?Instrument $instrument, ?User $user, ?Band $band)
     {
         $queryBuilder =  $this->createQueryBuilder('u');

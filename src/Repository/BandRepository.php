@@ -47,4 +47,22 @@ class BandRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function fetchBandsByMusicGenreExcludingUser($musicGenres, User $user)
+    {
+        $queryBuilder =  $this->createQueryBuilder('b');
+
+        $queryBuilder
+            ->select('b')
+            ->andWhere(':musicGenre MEMBER OF b.musicGenre')
+            ->andWhere(':user NOT MEMBER OF b.user')
+            ->orderBy('b.createdDate', 'DESC')
+            ->setMaxResults(5)
+            ->setParameters([
+                'musicGenre' => $musicGenres,
+                'user' => $user,
+            ]);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

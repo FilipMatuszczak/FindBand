@@ -80,7 +80,7 @@
 
                 } else {
 
-                    requestExistsTech.open('GET', 'http://127.0.0.1:8000/InstrumentExists/' + element.val(), false)
+                    requestExistsTech.open('GET', location.protocol + '//127.0.0.1:8000/InstrumentExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
 
                         var dataE = JSON.parse(this.response)
@@ -146,7 +146,7 @@
                         var requestTech = new XMLHttpRequest()
                         var exists = 0;
 
-                        requestTech.open('GET', 'http://127.0.0.1:8000/filter/instrument/' + tech, true)
+                        requestTech.open('GET', location.protocol + '//127.0.0.1:8000/filter/instrument/' + tech, true)
                         requestTech.onload = function () {
 
                             var data = JSON.parse(this.response)

@@ -66,6 +66,7 @@ class MusicGenre
     public function __construct()
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->band = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getMusicGenreId(): ?int

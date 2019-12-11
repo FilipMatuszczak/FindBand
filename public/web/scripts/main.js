@@ -36,7 +36,7 @@ $.fn.donetyping = function(callback){
         var request = new XMLHttpRequest()
         var exists = 0;
 
-request.open('GET', 'http://127.0.0.1:8000/userExists/'+username, true)
+request.open('GET', location.protocol +'//127.0.0.1:8000/userExists/'+username, true)
 request.onload = function() {
 
   var data = JSON.parse(this.response)
