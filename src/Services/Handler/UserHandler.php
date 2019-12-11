@@ -82,8 +82,7 @@ class UserHandler
         $user->setDateOfBirth(new \DateTime($dateOfBirth));
         $user->setInfo($info);
         $newsletter ? $user->addOption(User::USER_NEWSLETTER) : $user->unsetOption(User::USER_NEWSLETTER);
-
-        if (!empty($fileName)) {
+        if (!empty($photo)) {
             $fileName = SavePhotoOnSeverHandler::savePhotoOnServer($photo, SavePhotoOnSeverHandler::USER_PROFILE_DIR);
             $user->setPhoto($fileName);
         }
