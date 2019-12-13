@@ -7,6 +7,7 @@
     <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('web/scripts/linkify.min.js') }}"></script>
     <script src="{{ asset('web/scripts/linkify-jquery.min.js') }}"></script>
+    <title>{{ Band.Title }}</title>
 {% endblock %}
 
 
@@ -29,7 +30,7 @@
 
             </p>
 
-            <div id="modal-edit" class="modal" style="display: hidden;">
+            <div id="modal-edit" class="modal" style="display: none;">
                 <div class="modal-content">
                     <span class="close"></span>
                     {#       form         #}
