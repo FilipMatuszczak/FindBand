@@ -154,3 +154,10 @@ img {
 }
 button{
     outline:none;}
+input::placeholder{
+    font-family: Helvetica;
+    opacity: 0.8; /* Firefox */}
+textarea::placeholder{
+    font-family: Helvetica;
+    opacity: 0.8; /* Firefox */}
+textarea{ font-family: Helvetica;}
