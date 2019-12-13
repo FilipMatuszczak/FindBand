@@ -11,29 +11,6 @@
 {% block body %}
 
 
-    {# modal request technologii #}
-    <form name="ReqForm" onsubmit=" " method="post">
-        <div id="modal-req" class="modal">
-            <div class="modal-content">
-
-                <p style="margin-left: 2%;">Czy chcesz wysłać prośbę o dodanie nowej technologii?</p>
-                <br>
-                <input id="reqTitle" name="name" value="" placeholder="Nazwa" class="name"
-                       style="border-radius: 5px; margin-bottom: 2%; margin-top: 2%;">
-                <input type="hidden" name="destination" value="user_profile">
-                <textarea id="reqtxt" name="reason" class="form-control"
-                          placeholder="Napisz co to za technologia i dołącz linki do źródła." rows="5"
-                          cols="25"></textarea>
-                <div class="buttons" style="height: 40px;">
-                    <button class="cancel-btn button">Anuluj</button>
-
-                    <input type="submit" id="send-btn" class="button" value="Wyślij zgłoszenie">
-
-                </div>
-
-            </div>
-        </div>
-    </form>
 
 
     <div class="edit-profile">
@@ -65,10 +42,10 @@
                         </label>
 
 
-                        <input type="text" class="name" placeholder="Imię" name="firstname" maxlength="50"
+                        <input type="text" id="firstname" class="name" placeholder="Imię" name="firstname" maxlength="50"
                                value={{ app.user.firstname }}>
 
-                        <input type="text" class="name" placeholder="Nazwisko" name="lastname" maxlength="50"
+                        <input type="text" id="lastname" class="name" placeholder="Nazwisko" name="lastname" maxlength="50"
                                value={{ app.user.lastname }}><br>
 
 <br>

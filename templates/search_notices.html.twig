@@ -201,6 +201,25 @@
                 document.getElementById("postId").value = postId;
                 $('#modal-report').show();
             }
+
+            function isEllipsisActive(e) {
+                if (e.text().length<90) {
+                   return true;
+                } else {
+                    return false;
+                }
+            }
+
+            $(".post").each(function () {
+                var content = $(this).find(".comment-content");
+
+                if ( isEllipsisActive(content) ) {
+                    $(this).find(".buttonSeeMore").remove();
+                }
+            });
+
+
+
     </script>
 
 {% endblock %}

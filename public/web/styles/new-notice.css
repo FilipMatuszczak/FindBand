@@ -79,10 +79,14 @@ hr{
     float:right;
     margin: 1% 8% 1% 1%;
 }
-#name_div{
+.name_div{
     width: 100%;
-    margin:0;
+    margin: 0 0 0 5px;
 }
+.fl{
+    width: 39.8%;
+}
+
 option:checked { display:none; }
 
 .TechReq{width: 92%; margin-right:8%;}
