@@ -33,7 +33,7 @@ header{
     text-decoration: none;
     font-size: 30px;
     text-align: center;
-    
+    /*font-family: Helvetica;*/
 }
 
 .header-tab:hover{
@@ -46,6 +46,7 @@ header{
     text-decoration: none;
     font-size: 15px;
     text-align: center;
+    font-family: Helvetica;
 }
 
 
@@ -105,6 +106,7 @@ header{
   cursor: pointer;
     display: block;
     margin-bottom: 8px;
+    font-family: Helvetica;
 }
 
 
