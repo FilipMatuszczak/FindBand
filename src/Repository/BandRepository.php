@@ -31,7 +31,7 @@ class BandRepository extends ServiceEntityRepository
         }
 
         if (isset($member)) {
-            $queryBuilder->andWhere(':user MEMBER OF u.user')
+            $queryBuilder->andWhere(':user MEMBER OF u.users')
                 ->setParameter('user', $member);
         }
 
@@ -55,7 +55,7 @@ class BandRepository extends ServiceEntityRepository
         $queryBuilder
             ->select('b')
             ->andWhere(':musicGenre MEMBER OF b.musicGenre')
-            ->andWhere(':user NOT MEMBER OF b.user')
+            ->andWhere(':user NOT MEMBER OF b.users')
             ->orderBy('b.createdDate', 'DESC')
             ->setMaxResults(5)
             ->setParameters([

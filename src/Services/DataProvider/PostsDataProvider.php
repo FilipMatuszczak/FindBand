@@ -18,11 +18,11 @@ class PostsDataProvider
 
     public function getUserPosts(User $user)
     {
-        return $this->postRepository->findBy(['user' => $user, 'band' => null]);
+        return $this->postRepository->findBy(['user' => $user, 'band' => null], ['timestamp' => 'DESC']);
     }
 
     public function getBandPosts(Band $band)
     {
-        return $this->postRepository->findBy(['band' => $band]);
+        return $this->postRepository->findBy(['band' => $band], ['timestamp' => 'DESC']);
     }
 }

@@ -64,7 +64,7 @@ class Band
      *   }
      * )
      */
-    private $user;
+    private $users;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -78,7 +78,7 @@ class Band
      */
     public function __construct()
     {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->musicGenre = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -140,13 +140,13 @@ class Band
      */
     public function getUser(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
     public function addUser(User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
         }
 
         return $this;
@@ -154,8 +154,8 @@ class Band
 
     public function removeUser(User $user): self
     {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
         }
 
         return $this;

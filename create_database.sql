@@ -168,3 +168,17 @@ CREATE TABLE IF NOT EXISTS bands_music_genres (
         REFERENCES music_genres (music_genre_id),
     PRIMARY KEY (music_genre_id , band_id)
 )  ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS bans
+(
+    ban_id  INT AUTO_INCREMENT,
+    user_id   INT      NOT NULL,
+    subject_id INT      NOT NULL,
+    text        TEXT     NOT NULL,
+    timestamp   DATETIME NOT NULL,
+    PRIMARY KEY (ban_id),
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id),
+    FOREIGN KEY (subject_id)
+        REFERENCES users (user_id)
+) ENGINE = INNODB;

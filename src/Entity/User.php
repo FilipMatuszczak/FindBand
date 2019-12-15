@@ -24,9 +24,6 @@ class User implements UserInterface, \Serializable
     const USER_NEWSLETTER = 4;
     const USER_ADMIN = 8;
 
-    const COLUMN_EMAIL = 'email';
-    const COLUMN_AUTHENTICATION_LINK = 'authenticationLink';
-
     /**
      * @var int
      *
@@ -133,14 +130,14 @@ class User implements UserInterface, \Serializable
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="Band", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="Band", mappedBy="users")
      */
-    private $band;
+    private $bands;
 
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="Instrument", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="Instrument", mappedBy="users")
      */
     private $instruments;
 
@@ -177,7 +174,7 @@ class User implements UserInterface, \Serializable
      */
     public function __construct()
     {
-        $this->band = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->bands = new \Doctrine\Common\Collections\ArrayCollection();
         $this->instruments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->musicGenre = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -381,13 +378,13 @@ class User implements UserInterface, \Serializable
      */
     public function getBand(): Collection
     {
-        return $this->band;
+        return $this->bands;
     }
 
     public function addBand(Band $band): self
     {
-        if (!$this->band->contains($band)) {
-            $this->band[] = $band;
+        if (!$this->bands->contains($band)) {
+            $this->bands[] = $band;
             $band->addUser($this);
         }
 
@@ -396,8 +393,8 @@ class User implements UserInterface, \Serializable
 
     public function removeBand(Band $band): self
     {
-        if ($this->band->contains($band)) {
-            $this->band->removeElement($band);
+        if ($this->bands->contains($band)) {
+            $this->bands->removeElement($band);
             $band->removeUser($this);
         }
 
@@ -406,7 +403,7 @@ class User implements UserInterface, \Serializable
 
     public function isPartOfBand(Band $band)
     {
-        if ($this->band->contains($band)) {
+        if ($this->bands->contains($band)) {
             return true;
         }
 
