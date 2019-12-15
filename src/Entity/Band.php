@@ -54,7 +54,7 @@ class Band
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="band")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="bands")
      * @ORM\JoinTable(name="users_bands",
      *   joinColumns={
      *     @ORM\JoinColumn(name="band_id", referencedColumnName="band_id")
