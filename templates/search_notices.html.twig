@@ -76,8 +76,9 @@
 
         <button class="reportico" onclick="reportPost(1)"><i
                     class="fa fa-exclamation-circle"></i></button>
-
+        {% if  notice.instrument.name is defined %}
         <a class="noticeIns">{{notice.instrument.name}}</a>
+        {% endif %}
         <a class="NoticeAuthor" href="{{ path('profileIndexAction', {'username': notice.user.username } ) }}">
             {{notice.user.firstname}} {{notice.user.lastname}} {% if notice.band is not null %}({{ notice.band.title }}) {% endif %}</a>
         ✽ {{notice.timestamp|date('Y-m-d')}}<br>
