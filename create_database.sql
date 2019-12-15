@@ -174,7 +174,6 @@ CREATE TABLE IF NOT EXISTS bans
     ban_id  INT AUTO_INCREMENT,
     user_id   INT      NOT NULL,
     subject_id INT      NOT NULL,
-    text        TEXT     NOT NULL,
     timestamp   DATETIME NOT NULL,
     PRIMARY KEY (ban_id),
     FOREIGN KEY (user_id)

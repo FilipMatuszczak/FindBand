@@ -125,10 +125,10 @@
 
             <button type="button" id="button-moret" class="button-more">Dodaj <i class="fas fa-plus"></i></button>
             <br>
-
+            <form name="blocked-users-form">
             <div id="tech-forms" class="forms">
                 <div>
-                    <input type="TechList" class="bio tech" id="tech" placeholder="Nazwa użytkownika do zignorowania"
+                    <input type="text" class="bio tech" id="tech" placeholder="Nazwa użytkownika do zignorowania"
                            maxlength="50" name="usernames[]" list="TechList">
                     <datalist id="TechList">
 
@@ -136,10 +136,10 @@
                     <button type="button" id="button-less" class="less btad">-</button>
                     <br></div>
             </div>
-            <input type="submit" value="Zapisz blokady" name="submit" id="add-tech" class="upload smaller"/>
-            <div id="Technologies"></div>
+                <button type="button" id="add-blocked-users" class="upload smaller" >Zapisz blokady
+                </button>
 
-
+            </form>
         </div>
 
 

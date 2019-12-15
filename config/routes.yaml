@@ -79,6 +79,11 @@ filterMusicGenres:
   controller: App\Controller\FilterController:filterMusicGenresAction
   methods: GET
 
+filterCity:
+  path: /filter/city/{prefix}/{limit<\d+>?5}
+  controller: App\Controller\FilterController:filterCitysAction
+  methods: GET
+
 instrumentExists:
   path: /filter/instrumentExists/{name}
   controller: App\Controller\FilterController:instrumentExistsAction
@@ -87,6 +92,11 @@ instrumentExists:
 musicGenreExists:
   path: /filter/musicGenreExists/{name}
   controller: App\Controller\FilterController:musicGenreExistsAction
+  methods: GET
+
+cityExists:
+  path: /filter/cityExists/{name}
+  controller: App\Controller\FilterController:cityExistsAction
   methods: GET
 
 userExists:
@@ -143,3 +153,13 @@ createBandPostAction:
   path: /band/createPost
   controller: App\Controller\PostController:createPostOnBand
   methods: POST
+
+blockUsersAction:
+  path: /profile/edit/update_blockedUsers
+  controller: App\Controller\ProfileController:updateCurrentUserBlockedUsers
+  methods: PUT
+
+getCurrentUserBlockedUsers:
+  path: /profile/edit/blockedUsers
+  controller: App\Controller\ProfileController:getCurrentUserBlockedUsersAction
+  methods: GET

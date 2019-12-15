@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Ban;
 use App\Entity\User;
+use App\Repository\BanRepository;
 use App\Security\UserProvider;
 use App\Services\DataProvider\PostsDataProvider;
+use App\Services\Handler\BlockedUsersHandler;
 use App\Services\Handler\InstrumentHandler;
 use App\Services\Handler\MusicGenreHandler;
 use App\Services\Handler\UserHandler;
@@ -30,12 +33,20 @@ class ProfileController extends AbstractController
     /** @var PostsDataProvider */
     private $postsDataProvider;
 
+    /** @var BlockedUsersHandler */
+    private $blockedUsersHandler;
+
+    /** @var BanRepository */
+    private $banRepository;
+
     public function __construct(
         UserProvider $userProvider,
         UserHandler $userHandler,
         InstrumentHandler $instrumentHandler,
         MusicGenreHandler $musicGenreHandler,
-        PostsDataProvider $postsDataProvider
+        PostsDataProvider $postsDataProvider,
+        BlockedUsersHandler $blockedUsersHandler,
+        BanRepository $banRepository
     )
     {
         $this->userProvider = $userProvider;
@@ -43,6 +54,8 @@ class ProfileController extends AbstractController
         $this->userHandler = $userHandler;
         $this->musicGenreHandler = $musicGenreHandler;
         $this->postsDataProvider = $postsDataProvider;
+        $this->blockedUsersHandler = $blockedUsersHandler;
+        $this->banRepository = $banRepository;
     }
 
     public function indexAction($username)
@@ -79,6 +92,21 @@ class ProfileController extends AbstractController
         $this->userHandler->editCommonUserData($user, $firstname, $lastname, $dateOfBirth, $info, $newsletter, $photo, $cityName);
 
         return $this->redirectToRoute('profileEditAction', ['username' => $user->getUsername()]);
+    }
+
+    public function getCurrentUserBlockedUsersAction()
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $blockedUsers = $this->banRepository->findBy(['user' => $user]);
+        $usernames = [];
+
+        foreach ($blockedUsers as $blockedUser) {
+            $usernames[] = $blockedUser->getSubject()->getUsername();
+        }
+
+        return new JsonResponse($usernames);
     }
 
     public function getCurrentUserInstrumentsAction()
@@ -141,5 +169,23 @@ class ProfileController extends AbstractController
         }
 
         return new Response('Music genres updated for ' . $user->getUsername() . ': ' . implode(', ', $musicGenresNames), 200);
+    }
+
+    public function updateCurrentUserBlockedUsers(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        /** @var User [] $usernamesBlocked */
+        $blockedUsersData = $this->blockedUsersHandler->addBlockedUsersForUser($user, $request->get('usernames'));
+
+        $usernamesBlocked = [];
+
+        foreach ($blockedUsersData as $blockedUsersDatum)
+        {
+            $usernamesBlocked[] = $blockedUsersDatum->getUsername();
+        }
+
+        return new Response('Ids of blocked users for user ' . $user->getUsername() . ': ' . implode(', ', $usernamesBlocked), 200);
     }
 }

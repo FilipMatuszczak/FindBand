@@ -9,8 +9,6 @@
     <title>{{ user.firstname }} {{ user.lastname }}</title>
 {% endblock %}
 
-
-
 {% block body %}
     <div id="profile">
         <div class="profile-left">
@@ -20,7 +18,7 @@
         </div>
 
         <div class="profile-right">
-            <p id="name-profile">{{ user.firstname }} {{ user.lastname }}{% if user.ageInYears %}, {{ user.ageInYears }} {% endif %}{% if user.city %},{{ user.city.name }} {% endif %}
+            <p id="name-profile">{{ user.firstname }} {{ user.lastname }}{% if user.ageInYears %}, {{ user.ageInYears }}{% endif %}{% if user.city %}, {{ user.city.name }} {% endif %}
             </p>
             <p class="infos">Instrumenty </p>
             <p>
@@ -131,10 +129,10 @@
                href=""> {{post.user.firstname}} {{ post.user.lastname }}</p>
             ✽ {{post.timestamp|date('Y-m-d')}}
 
-
+            {% if post.user.username != app.user.username %}
             <button class="reportico" onclick="reportPost(1)"><i
                         class="fa fa-exclamation-circle"></i></button>
-
+            {% endif %}
 
             <p class="comment-content">{{post.text}}</p>
             {% if photo_data_provider.PostPhotoById(post.postId) is not null  %}

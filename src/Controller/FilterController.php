@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CityRepository;
 use App\Repository\InstrumentRepository;
 use App\Repository\MusicGenreRepository;
 use App\Security\UserProvider;
@@ -20,11 +21,41 @@ class FilterController
     /** @var UserProvider */
     private $userProvider;
 
-    public function __construct(InstrumentRepository $instrumentRepository, MusicGenreRepository $musicGenreReposior, UserProvider $userProvider)
+    /** @var CityRepository */
+    private $cityRepository;
+
+    public function __construct(
+        InstrumentRepository $instrumentRepository,
+        MusicGenreRepository $musicGenreReposior,
+        UserProvider $userProvider,
+        CityRepository $cityRepository
+    )
     {
         $this->instrumentRepository = $instrumentRepository;
         $this->musicGenresRepository = $musicGenreReposior;
         $this->userProvider = $userProvider;
+        $this->cityRepository = $cityRepository;
+    }
+
+    public function cityExistsAction($name)
+    {
+        $city = $this->cityRepository->findOneBy(['name' => $name]);
+
+        if ($city)
+        {
+            return new JsonResponse([true]);
+        }
+
+        return new JsonResponse([false]);
+    }
+
+    public function filterCitysAction($limit, $prefix)
+    {
+        $names = $this->cityRepository->fetchSimilarNamesByPrefix($prefix, $limit);
+
+        return new JsonResponse([
+            'names' => $names,
+        ]);
     }
 
     public function filterInstrumentsAction($limit, $prefix)

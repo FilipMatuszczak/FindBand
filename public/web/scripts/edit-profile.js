@@ -9,15 +9,15 @@ $(document).ready(function() {
     requestTechUser.open('GET', location.protocol + '//' + window.location.host + '/profile/edit' + '/blockedUsers', true);
     requestTechUser.onload = function () {
 
-        //var data = JSON.parse(this.response);
+        var data = JSON.parse(this.response);
 
 
         if (requestTechUser.status >= 200 && requestTechUser.status < 400) {
             //console.log(userID);
             for (i = 1; i < data.length; i++) {
-                //console.log(data[i]);
+                console.log(data[i]);
 
-                $('#tech-forms').append('<div> <input type="TechList" class="bio tech" id="tech" placeholder="Nazwa użytkownika do zignorowania" name = "usernames[]"  maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
+                $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Nazwa użytkownika do zignorowania" maxlength="50" name="usernames[]" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
 
             }
             if (data.length > 0) {
@@ -120,6 +120,23 @@ $(document).ready(function() {
         else
         {
             $.growl.error({ message: "Gatunki nie zostały zapisane." });
+        }
+    }
+    document.getElementById("add-blocked-users").onclick = function() {updateBlockerUsers()};
+
+    function updateBlockerUsers() {
+        if (validateformCreateGenres()) {
+            var currentBlockedUsers = $('form[name="blocked-users-form"]').serializeArray();
+
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/profile/edit' + '/update_blockedUsers',
+                type: 'PUT',
+                data: { usernames: currentBlockedUsers },
+            });
+            $.growl.notice({ message: "Zablokowani użytkownicy zostali zapisani." });}
+        else
+        {
+            $.growl.error({ message: "Zablokowani użytkownicy nie zostali zapisani." });
         }
     }
 
