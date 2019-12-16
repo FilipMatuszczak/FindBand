@@ -54,8 +54,11 @@
                                    value={{ date_time_provider.dateTimeAsString(app.user.dateOfBirth) }} name="dateOfBirth">
 
 
-                            <input type="text" class="name ct" placeholder="Miasto" name="city" maxlength="50"
-                                   {% if app.user.city is not null %}  value={{ app.user.city.name }} {% endif %}>
+                            <input type="text" id="ct" class="name ct" placeholder="Miasto" name="city" maxlength="50"
+                                   {% if app.user.city is not null %}  value={{ app.user.city.name }} {% endif %} list="CityList">
+                        <datalist id="CtList">
+
+                        </datalist>
 
                       <br>
 
@@ -70,7 +73,7 @@
                         <br>
 
                     </div>
-                    <input type="submit" value="Zapisz zmiany" name="submit" class="upload smaller"/>
+                    <input type="submit" value="Zapisz zmiany" name="submit" class="upload smaller" onclick="return validateForm1()"/>
 
                 </div>
             </div>
@@ -155,30 +158,92 @@
 
         ///////////////////////
 
+        function validateformCity() {
+
+
+            var isValid;
+            $(".ct").each(function () {
+
+                var element = $(this);
+//////
+                element.css("border", "1px solid #7DA2AA");
+                var requestExistsCity = new XMLHttpRequest()
+
+                if ((element.val() == "") || (element.val() == null)) {
+                    isValid = false;
+                    element.css("border", "1px solid red");
+
+                } else {
+
+                    requestExistsCity.open('GET', location.protocol + '//127.0.0.1:8000/filter/cityExists/' + element.val(), false)
+                    requestExistsCity.onload = function () {
+
+                        var dataE = JSON.parse(this.response)
+
+
+                        if (requestExistsCity.status >= 200 && requestExistsCity.status < 400) {
+                            ///console.log(dataE);
+
+
+                            if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
+                                ////console.log("NOPEEEE" + element.val());
+                                isValid = false;
+                                element.css("border", "1px solid red");
+                            }
+
+
+                        } else {
+                            isValid = false;
+                            //console.log('error')
+                        }
+
+
+                    }
+
+                    requestExistsCity.send()
+                }
+            });
+
+
+//////
+
+
+            if (isValid == false) {
+                return false;
+            } else {
+                return true;
+            }
+
+
+        }
+
+
+
         ////validateform
 
 
         function validateForm1() {
-
+            var validated = true;
             var firstname = document.FormUser.firstname.value;
             var lastname = document.FormUser.lastname.value;
             document.FormUser.firstname.style.border = "1px solid #7DA2AA";
             document.FormUser.lastname.style.border = "1px solid #7DA2AA";
 
-            if (firstname == null || firstname == "") {
-
-                document.FormUser.firstname.style.border = "1px solid red";
-
-                if (lastname == null || lastname == "") {
-                    document.FormUser.lastname.style.border = "1px solid red";}
-
-                return false;
-            } else if (lastname == null || lastname == "") {
-                document.FormUser.lastname.style.border = "1px solid red";
-                return false;
-            } else {
-                return true;
+            if (validateformCity()==false) {
+                document.FormUser.city.style.border="1px solid red";
+                validated = false;
             }
+
+            if (firstname == null || firstname == "") {
+                validated = false;
+                document.FormUser.firstname.style.border = "1px solid red";
+            }
+                if (lastname == null || lastname == "") {
+                    document.FormUser.lastname.style.border = "1px solid red";
+                    validated = false
+                }
+                return validated;
+
         }
 
         ////validateform

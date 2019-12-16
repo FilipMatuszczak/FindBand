@@ -79,7 +79,7 @@
 
 
         {%  for user in users %}
-        <div class="post" id="usr-post">
+        <div class="post" style="height: 75px;" id="usr-post">
             <a href="{{ path('profileIndexAction', {'username': user.username } ) }}"><img id="user-avatar"  src="{{ asset(photo_data_provider.PhotoById(user.userId)) }}" width="70" height="70"></a>
 
             <a  href="{{ path('profileIndexAction', {'username': user.username } ) }}" class="project-title">{{user.firstname}} {{ user.lastname }}</a><br>

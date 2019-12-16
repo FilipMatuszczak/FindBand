@@ -102,7 +102,7 @@ $(document).ready(function() {
 
         } else
     {
-        $.growl.error({ message: "Instrumenty nie zostały zapisane." });
+        $.growl.error({ message: "Podane instrumenty nie znajdują się w bazie!" });
     }
 }
     document.getElementById("add-genres").onclick = function() {updateGenres()};
@@ -119,13 +119,13 @@ $(document).ready(function() {
         $.growl.notice({ message: "Gatunki zostały zapisane." });}
         else
         {
-            $.growl.error({ message: "Gatunki nie zostały zapisane." });
+            $.growl.error({ message: "Podane gatunki nie znajdują się w bazie!" });
         }
     }
     document.getElementById("add-blocked-users").onclick = function() {updateBlockerUsers()};
 
     function updateBlockerUsers() {
-        if (validateformCreateGenres()) {
+        if (validateformCreateBan()) {
             var currentBlockedUsers = $('form[name="blocked-users-form"]').serializeArray();
 
             $.ajax({
@@ -136,7 +136,7 @@ $(document).ready(function() {
             $.growl.notice({ message: "Zablokowani użytkownicy zostali zapisani." });}
         else
         {
-            $.growl.error({ message: "Zablokowani użytkownicy nie zostali zapisani." });
+            $.growl.error({ message: "Podani użytkownicy nie istnieją!" });
         }
     }
 
@@ -356,6 +356,57 @@ $(document).ready(function() {
     });
     /////////////////////////////
 
+/////////////////////////////
+
+    var changeTimer3 = false;
+    ////getting genres
+    $('#names-container').on("input", ".ct", function (callback) {
+
+        if(changeTimer2 !== false) clearTimeout(changeTimer2);
+        changeTimer2 = setTimeout(function(){
+            var ct = $(callback.target).val();
+            ///console.log(city);
+            if (ct != '') {
+
+
+                var request = new XMLHttpRequest()
+                var exists = 0;
+
+                request.open('GET', location.protocol + '//' + window.location.host + '/filter/city/' + ct, true)
+                request.onload = function () {
+
+                    var data = JSON.parse(this.response)
+                    $('#CityList').html('');
+
+                    if (request.status >= 200 && request.status < 400) {
+
+                        for (i = 0; i < data.names.length; i++) {
+                            ////console.log(data.names[i].name);
+
+                            if (data.names[i].name != ct) {
+
+                                $('#CtList').append('<option value="' + data.names[i].name + '">');
+                            }
+                        }
+                    } else {
+                        ///console.log('error')
+                    }
+
+
+                }
+
+                request.send()
+
+
+            } else {
+
+            }
+            changeTimer2 = false;
+        },500);
+    });
+    /////////////////////////////
+
+
 
 
 
@@ -550,7 +601,67 @@ $(document).ready(function() {
 
     }
 
+    //////////////////////////////
 
+    function validateformCreateBan() {
+
+
+        var isValid;
+        $(".tech").each(function () {
+
+            var element = $(this);
+//////
+            element.css("border", "1px solid #7DA2AA");
+            var requestExistsBan= new XMLHttpRequest()
+
+            if ((element.val() == "") || (element.val() == null)) {
+                isValid = false;
+                element.css("border", "1px solid red");
+
+            } else {
+
+                requestExistsBan.open('GET', location.protocol + '//127.0.0.1:8000/userExists/' + element.val(), false)
+                requestExistsBan.onload = function () {
+
+                    var dataE = JSON.parse(this.response)
+
+
+                    if (requestExistsBan.status >= 200 && requestExistsBan.status < 400) {
+                        ///console.log(dataE);
+
+
+                        if ((element.val() == "") || dataE == "false" || (element.val() == null)) {
+                            ////console.log("NOPEEEE" + element.val());
+                            isValid = false;
+                            element.css("border", "1px solid red");
+                        }
+
+
+                    } else {
+                        isValid = false;
+                        //console.log('error')
+                    }
+
+
+                }
+
+                requestExistsBan.send()
+            }
+        });
+
+
+//////
+
+
+        if (isValid == false) {
+            return false;
+        } else {
+            return true;
+        }
+
+
+    }
+////////////////////////////////////////////////////////////////////////
 });
 
 
