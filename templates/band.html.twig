@@ -65,8 +65,7 @@
                                            value="{{ Band.title }}"/>
                                 </div>
                             </div>
-                            <div class="info"
-                                 style="text-align: left; margin-left:1%; margin-top: 1%; margin-bottom:1%;">
+                            <div class="info bi">
                                         <textarea name="text" class="bio" placeholder="Opis" rows="10"
                                                   cols="25">{{ Band.description }}</textarea>
                                 <input type="hidden" class="bio" placeholder="Opis" name="description"
@@ -109,16 +108,18 @@
 
 
             <p class="infos">CZŁONKOWIE</p>
+            <ul style="list-style-type:circle;">
             {% for user in Band.user %}
-                <li>{{ user.firstname }} {{ user.username }} {{ user.lastname }}</li>
-            {% endfor %}
+                <li>{{ user.firstname }} '{{ user.username }}' {{ user.lastname }}</li>
+            {% endfor %}</ul>
             <hr>
 
 
             <p class="infos">GATUNKI</p>
+                <ul style="list-style-type:circle;">
             {% for musicGenre in Band.musicGenres %}
                 <li>{{ musicGenre.name }}</li>
-            {% endfor %}
+            {% endfor %}</ul>
             <hr>
             <p  id="descband">{{ Band.description }}</p>
         </div>

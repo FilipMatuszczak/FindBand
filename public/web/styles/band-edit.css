@@ -8,7 +8,7 @@
 
 
 .name {
-  width: 250px;
+  width: 270px;
   background-color: white;
   border: 1px solid #7DA2AA;
   padding: 4px;
@@ -53,7 +53,8 @@
 
 
 #photo-edit{
-    margin-left: 2%;
+    margin-left: 0%;
+    margin-bottom: 2%;
     float:left;
     -webkit-transition: .3s ease-in-out;
 	transition: .3s ease-in-out;
@@ -99,7 +100,11 @@
     height: 25px;
     color: white;
     font-size: 14px;
+    font-weight: normal;
 }
 .button-moret:hover{
     opacity:0.9;
+}
+.bi{
+    text-align: left; margin-left:1%; margin-top: 1%; margin-bottom:1%; width: 425px;
 }
