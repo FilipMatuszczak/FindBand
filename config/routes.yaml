@@ -163,3 +163,13 @@ getCurrentUserBlockedUsers:
   path: /profile/edit/blockedUsers
   controller: App\Controller\ProfileController:getCurrentUserBlockedUsersAction
   methods: GET
+
+reportNoticeAction:
+  path: /report/reportNotice
+  controller: App\Controller\ReportController:reportNoticeAction
+  methods: POST
+
+reportPostAction:
+  path: /report/reportPost
+  controller: App\Controller\ReportController:reportPostAction
+  methods: POST

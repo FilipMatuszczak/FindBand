@@ -7,6 +7,7 @@
     <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('web/scripts/linkify.min.js') }}"></script>
     <script src="{{ asset('web/scripts/linkify-jquery.min.js') }}"></script>
+    <script src="{{ asset('web/scripts/jquery.growl.js') }}"></script>
     <title>{{ Band.Title }}</title>
 {% endblock %}
 
@@ -109,19 +110,19 @@
 
             <p class="infos">CZŁONKOWIE</p>
             <ul style="list-style-type:circle;">
-            {% for user in Band.user %}
-                <li>{{ user.firstname }} '{{ user.username }}' {{ user.lastname }}</li>
-            {% endfor %}</ul>
+                {% for user in Band.user %}
+                    <li>{{ user.firstname }} '{{ user.username }}' {{ user.lastname }}</li>
+                {% endfor %}</ul>
             <hr>
 
 
             <p class="infos">GATUNKI</p>
-                <ul style="list-style-type:circle;">
-            {% for musicGenre in Band.musicGenres %}
-                <li>{{ musicGenre.name }}</li>
-            {% endfor %}</ul>
+            <ul style="list-style-type:circle;">
+                {% for musicGenre in Band.musicGenres %}
+                    <li>{{ musicGenre.name }}</li>
+                {% endfor %}</ul>
             <hr>
-            <p  id="descband">{{ Band.description }}</p>
+            <p id="descband">{{ Band.description }}</p>
         </div>
     </div>
 
@@ -179,18 +180,16 @@
     <div id="modal-report" class="modal">
         <div class="modal-content">
             <span class="close"></span>
-            <p>Dlaczego chcesz zgłosić post użytkownika <a>AUTOR</a>?</p>
+            <p>Dlaczego chcesz zgłosić ogłoszenie użytkownika <a> <span id="reportUsername"></span></a>?</p>
             <div class="photo-textarea">
 
                 <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
 
                 <input id="postId" type="hidden" name="postId" value='default'>
-                <input type="hidden" name="destination" value=>
-                <input type="hidden" name="projectId" value=>
             </div>
             <div class="buttons">
                 <button class="cancel-btn button">Anuluj</button>
-                <input type="submit" id="send-btn" class="button" value="Zgłoś">
+                <button type="submit" id="send-btn" class="report-btn button" value="">Zgłoś</button>
 
             </div>
         </div>
@@ -199,7 +198,7 @@
     {% if app.user.PartOfBand(Band) %}
         <form action="{{ path('createBandPostAction') }}" method="post" enctype="multipart/form-data">
 
-        <div class="form-post">
+            <div class="form-post">
                 <img id="post-avatar" src="{{ asset(photo_data_provider.PhotoById(app.user.userId)) }}"
                      width="70" height="70">
 
@@ -212,7 +211,7 @@
                         <span><i class="fa fa-image"></i></span>
                     </label>
 
-                    <input type="hidden" name="bandId" value={{Band.BandId}}>
+                    <input type="hidden" name="bandId" value={{ Band.BandId }}>
                     <input type="submit" id="button-rem" class="button-post" value="Opublikuj"></div>
                 <br>
 
@@ -230,31 +229,35 @@
                      height="70"></a>
 
             <p class="project-title"
-               href=""> {{post.user.firstname}} {{ post.user.lastname }}</p>
-            ✽ {{post.timestamp|date('Y-m-d')}}
+               href=""> {{ post.user.firstname }} {{ post.user.lastname }}</p>
+            ✽ {{ post.timestamp|date('Y-m-d') }}
 
+            {% if post.user.username != app.user.username %}
+                <button class="reportico" onclick="reportPost('{{ post.user.username }}', '{{ post.postId }}')"><i
+                            class="fa fa-exclamation-circle"></i></button>
+            {% endif %}
 
-            <button class="reportico" onclick="reportPost(1)"><i
-                        class="fa fa-exclamation-circle"></i></button>
-
-
-            <p class="comment-content">{{post.text}}</p>
-            {% if photo_data_provider.PostPhotoById(post.postId) is not null  %}
-                <div class="comment-image"><a target="_blank" href="{{ asset(photo_data_provider.PostPhotoById(post.postId)) }}" ><img image-zoom
-                                                src="{{ asset(photo_data_provider.PostPhotoById(post.postId)) }}"
-                                                width="250"
-                    ></a></div>
+            <p class="comment-content">{{ post.text }}</p>
+            {% if photo_data_provider.PostPhotoById(post.postId) is not null %}
+                <div class="comment-image"><a target="_blank"
+                                              href="{{ asset(photo_data_provider.PostPhotoById(post.postId)) }}"><img
+                                image-zoom
+                                src="{{ asset(photo_data_provider.PostPhotoById(post.postId)) }}"
+                                width="250"
+                        ></a></div>
             {% endif %}
         </div>
     {% endfor %}
 
 
     <script>
-        function reportPost(postId) {
+        function reportPost(username, postId) {
             event.preventDefault();
-            document.getElementById("postId").value = postId;
+            document.getElementById('postId').value = postId;
+            document.getElementById("reportUsername").innerHTML = username;
             $('#modal-report').show();
         }
+
 
         $(document).ready(function () {
 
@@ -333,8 +336,6 @@
             });
 
             ///////photo preview comment
-
-
 
 
         });
@@ -508,7 +509,7 @@
             var content = $(this).find(".comment-content").text();
             var ytLink = content.match(/^.*(http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?).*/);
 
-            if(ytLink!=null){
+            if (ytLink != null) {
 
                 // console.log("link: " + ytLink[1]);
                 $(this).find(".comment-content").append('<div id="video"><iframe width="500" height="300" src="https://www.youtube.com/embed/' + ytLink[2] + '" frameborder="0" allowfullscreen></iframe></iframe></div>');
@@ -516,14 +517,29 @@
             }
 
 
-
         });
 
         $('p').linkify();
 
+        $(".report-btn").on("click", function () {
+            var inputNotice = document.getElementById("postId");
+            var postId = inputNotice.value;
 
+            var reptxt = document.getElementById("reptxt");
+            var reason = reptxt.value;
 
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/report/reportPost',
+                type: 'POST',
+                data: {postId: postId, reason: reason},
+            });
+            $.growl.notice({message: "Zgłoszenie zostao przyjęte, dziękujemy za ulepszenie społczeństwa FindBand"});
 
+            $('#mssgtxt').val("");
+            $('#reptxt').val("");
+            $('#modal-message').hide();
+            $('#modal-report').hide();
+        });
 
     </script>
 

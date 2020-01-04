@@ -6,6 +6,7 @@
     <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('web/scripts/linkify.min.js') }}"></script>
     <script src="{{ asset('web/scripts/linkify-jquery.min.js') }}"></script>
+    <script src="{{ asset('web/scripts/jquery.growl.js') }}"></script>
     <title>{{ user.firstname }} {{ user.lastname }}</title>
 {% endblock %}
 
@@ -75,19 +76,17 @@
     <div id="modal-report" class="modal">
         <div class="modal-content">
             <span class="close"></span>
-            <p>Dlaczego chcesz zgłosić post użytkownika <a>autor</a>?</p>
+            <p>Dlaczego chcesz zgłosić ogłoszenie użytkownika <a>  <span id="reportUsername"></span></a>?</p>
             <div class="photo-textarea">
 
                 <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
 
 
                 <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
-                <input type="hidden" name="destination">
-                <input type="hidden" name="username">
             </div>
             <div class="buttons">
                 <button class="cancel-btn button">Anuluj</button>
-                <input type="submit" id="send-btn" class="button" value="Zgłoś">
+                <button type="submit" id="send-btn" class="report-btn button" value="">Zgłoś</button>
 
             </div>
         </div>
@@ -130,7 +129,7 @@
             ✽ {{post.timestamp|date('Y-m-d')}}
 
             {% if post.user.username != app.user.username %}
-            <button class="reportico" onclick="reportPost(1)"><i
+                <button class="reportico" onclick="reportPost('{{post.user.username}}', '{{ post.postId }}')"><i
                         class="fa fa-exclamation-circle"></i></button>
             {% endif %}
 
@@ -145,9 +144,10 @@
     {% endfor %}
 
 
-    <script>function reportPost(postId) {
+    <script>function reportPost(username, postId) {
             event.preventDefault();
-            document.getElementById("postId").value = postId;
+            document.getElementById('postId').value=postId ;
+            document.getElementById("reportUsername").innerHTML = username;
             $('#modal-report').show();
         }
 
@@ -256,7 +256,25 @@
         });
 
         $('p').linkify();
+        $(".report-btn").on("click", function () {
+            var inputNotice = document.getElementById("postId");
+            var postId = inputNotice.value;
 
+            var reptxt = document.getElementById("reptxt");
+            var reason = reptxt.value;
+
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/report/reportPost',
+                type: 'POST',
+                data: {postId: postId, reason: reason},
+            });
+            $.growl.notice({ message: "Zgłoszenie zostao przyjęte, dziękujemy za ulepszenie społczeństwa FindBand" });
+
+            $('#mssgtxt').val("");
+            $('#reptxt').val("");
+            $('#modal-message').hide();
+            $('#modal-report').hide();
+        });
     </script>
 
 

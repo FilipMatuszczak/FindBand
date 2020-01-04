@@ -6,6 +6,7 @@
         <link href="{{ asset('web/styles/search_bands.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
         <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+        <script src="{{ asset('web/scripts/jquery.growl.js') }}"></script>
         <title>fBand</title>
     {% endblock %}
 
@@ -26,7 +27,7 @@
                 <img id="project-avatar" src="{{ asset(photo_data_provider.PhotoById(notice.user.userId)) }}"
                      width="70" height="70"></a>
 
-            <button class="reportico" onclick="reportPost(1)"><i
+            <button class="reportico" onclick="reportPost('{{notice.user.username}}', '{{ notice.noticeId }}')"><i
                         class="fa fa-exclamation-circle"></i></button>
 
             <a class="noticeIns">{{notice.instrument.name}}</a>
@@ -95,19 +96,17 @@
     <div id="modal-report" class="modal">
         <div class="modal-content">
             <span class="close"></span>
-            <p>Dlaczego chcesz zgłosić ogłoszenie użytkownika <a>autor</a>?</p>
+            <p>Dlaczego chcesz zgłosić ogłoszenie użytkownika <a>  <span id="reportUsername"></span></a>?</p>
             <div class="photo-textarea">
 
                 <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
 
 
-                <input id="postId" type="hidden" name="postId" value='default'> {#idpostu?#}
-                <input type="hidden" name="destination" >
-                <input type="hidden" name="username" >
+                <input id="noticeId" type="hidden" name="noticeId" value='default'> {#idpostu?#}
             </div>
             <div class="buttons">
                 <button class="cancel-btn button">Anuluj</button>
-                <input type="submit" id="send-btn" class="button" value="Zgłoś">
+                <button type="submit" id="send-btn" class="report-btn button" value="">Zgłoś</button>
 
             </div>
         </div>
@@ -155,12 +154,33 @@
     });
 
 
-    function reportPost(postId) {
+    function reportPost(username, noticeId) {
         event.preventDefault();
-        document.getElementById("postId").value = postId;
+        //document.getElementById("postId").value = postId;
+        document.getElementById('noticeId').value=noticeId ;
+        document.getElementById("reportUsername").innerHTML = username;
         $('#modal-report').show();
     }
 
+    $(".report-btn").on("click", function () {
+        var inputNotice = document.getElementById("noticeId");
+        var noticeId = inputNotice.value;
+
+        var reptxt = document.getElementById("reptxt");
+        var reason = reptxt.value;
+
+        $.ajax({
+            url: location.protocol + '//' + window.location.host + '/report/reportNotice',
+            type: 'POST',
+            data: {noticeId: noticeId, reason: reason},
+        });
+        $.growl.notice({ message: "Zgłoszenie zostao przyjęte, dziękujemy za ulepszenie społczeństwa FindBand" });
+
+        $('#mssgtxt').val("");
+        $('#reptxt').val("");
+        $('#modal-message').hide();
+        $('#modal-report').hide();
+    });
 
 </script>
 
