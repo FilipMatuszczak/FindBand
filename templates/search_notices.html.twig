@@ -7,6 +7,7 @@
         <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
         <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
         <script src="{{ asset('web/scripts/jquery.growl.js') }}"></script>
+        <link href="{{ asset('web/styles/jquery.growl.css') }}" rel="stylesheet" type="text/css"/>
         <title>Ogłoszenia</title>
     {% endblock %}
 
@@ -234,7 +235,7 @@
                     type: 'POST',
                     data: {noticeId: noticeId, reason: reason},
                 });
-                $.growl.notice({ message: "Zgłoszenie zostao przyjęte, dziękujemy za ulepszenie społczeństwa FindBand" });
+                $.growl.notice({ message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand" });
 
                 $('#mssgtxt').val("");
                 $('#reptxt').val("");
