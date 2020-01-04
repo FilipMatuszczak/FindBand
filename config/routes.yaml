@@ -173,3 +173,13 @@ reportPostAction:
   path: /report/reportPost
   controller: App\Controller\ReportController:reportPostAction
   methods: POST
+
+sendMessageAction:
+  path: /messages/send
+  controller: App\Controller\MessageController:sendMessageToUserAction
+  methods: POST
+
+blockUserAction:
+  path: /profile/blockUser
+  controller: App\Controller\ProfileController:blockUserAction
+  methods: POST

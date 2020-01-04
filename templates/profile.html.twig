@@ -48,8 +48,12 @@
     <div id="mess">
 
         {% if app.user.username != user.username %}
-            <button class="navico message-ico"><i class="fa fa-envelope"></i> Wyślij wiadomość</button>
-            <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj</button>
+            <button class="navico message-ico" onclick="sendMessage('{{user.username}}')"><i class="fa fa-envelope"></i> Wyślij wiadomość</button>
+            <button class="navico ban-ico" onclick="banUser()" id="ban-usr-btn"><i class="fa fa-ban"></i>
+                {% if app.user.UserBannedForUser(user) %}Odblokuj
+                {% else %}Zablokuj
+                {% endif %}
+            </button>
         {% endif %}
     </div>
 
@@ -57,17 +61,17 @@
     <div id="modal-message" class="modal">
         <div class="modal-content">
             <span class="close"></span>
-            <p>Napisz wiadomość do <a>ime naz </a></p>
+            <p>Napisz wiadomość do <a> <span id="receiverUsername"></span></a></p>
             <div class="photo-textarea">
 
-                <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
+                <textarea id="mssgtxt" name="text" class="form-control" rows="5" cols="25"></textarea>
 
-                <input type="hidden" name="receiverId" value="">
+                <input type="hidden" name="receiverId" id="receiverId" value={{ user.userId }}>
 
             </div>
             <div class="buttons">
                 <button class="cancel-btn button">Anuluj</button>
-                <input type="submit" id="send-btn" class="button" value="Wyślij">
+                <button type="submit" id="send-btn" class="button" value="">Wyślij</button>
 
             </div>
         </div>
@@ -145,21 +149,32 @@
     {% endfor %}
 
 
-    <script>function reportPost(username, postId) {
+    <script>function banUser() {
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/profile/blockUser',
+                type: 'POST',
+                data: {subjectId: {{user.userId}}},
+                success: function() {
+                    location.reload();
+                }
+            });
+
+
+
+        }
+
+        function reportPost(username, postId) {
             event.preventDefault();
             document.getElementById('postId').value=postId ;
             document.getElementById("reportUsername").innerHTML = username;
             $('#modal-report').show();
         }
 
-        $(document).ready(function () {
-
-
-            ////popup message
-            $(".message-ico").on("click", function () {
+        function sendMessage(username) {
                 event.preventDefault();
+                document.getElementById("receiverUsername").innerHTML = username;
                 $('#modal-message').show();
-            });
+            }
 
             //close modals
             $(".cancel-btn").on("click", function () {
@@ -180,7 +195,7 @@
                     reader.onload = function (e) {
                         $('#file-cancel').html(filename + " x");
                         $('#file-cancel').show();
-                    }
+                    };
 
                     reader.readAsDataURL(input.files[0]);
                 }
@@ -198,7 +213,7 @@
             });
 
 
-        });
+
 
         ////////////////////////////validate forms
 
@@ -270,6 +285,26 @@
                 data: {postId: postId, reason: reason},
             });
             $.growl.notice({ message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand" });
+
+            $('#mssgtxt').val("");
+            $('#reptxt').val("");
+            $('#modal-message').hide();
+            $('#modal-report').hide();
+        });
+
+        $(".button").on("click", function () {
+            var inputNotice = document.getElementById("receiverId");
+            var receiverId = inputNotice.value;
+
+            var messageText = document.getElementById("mssgtxt");
+            var text = messageText.value;
+
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/messages/send',
+                type: 'POST',
+                data: {receiverId: receiverId, text: text},
+            });
+            $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
 
             $('#mssgtxt').val("");
             $('#reptxt').val("");

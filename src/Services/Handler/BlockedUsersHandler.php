@@ -31,6 +31,25 @@ class BlockedUsersHandler
         $this->userRepository = $userRepository;
     }
 
+    public function handleBlockUser(User $user, $blockedUserId)
+    {
+        $subject = $this->userRepository->findOneBy(['userId' => $blockedUserId]);
+        $ban = $this->banRepository->findOneBy(['user' => $user, 'subject' => $subject]);
+
+        if ($ban) {
+            $this->entityManager->remove($ban);
+        } else {
+            $ban = new Ban();
+            $ban->setUser($user);
+            $ban->setSubject($subject);
+            $ban->setTimestamp(new \DateTime());
+
+            $this->entityManager->persist($ban);
+        }
+
+        $this->entityManager->flush();
+    }
+
     public function addBlockedUsersForUser(User $user, $blockedUsersData)
     {
         $users = $this->userRepository->findBy(['username' => $this->decorateRawData($blockedUsersData)]);

@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ProfileController extends AbstractController
 {
@@ -169,6 +170,21 @@ class ProfileController extends AbstractController
         }
 
         return new Response('Music genres updated for ' . $user->getUsername() . ': ' . implode(', ', $musicGenresNames), 200);
+    }
+
+    public function blockUserAction(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $subjectId = $request->get('subjectId');
+
+        if ($user->getUserId() === $subjectId) {
+            throw new BadRequestHttpException('You cannot ban yourself');
+        }
+
+        $this->blockedUsersHandler->handleBlockUser($user, $subjectId);
+
+        return new Response('Action successful');
     }
 
     public function updateCurrentUserBlockedUsers(Request $request)

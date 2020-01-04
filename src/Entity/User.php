@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -147,6 +148,13 @@ class User implements UserInterface, \Serializable
      * @ORM\ManyToMany(targetEntity="MusicGenre", mappedBy="user")
      */
     private $musicGenre;
+
+    /**
+     * @var Collection
+     *
+     * @OneToMany(targetEntity="App\Entity\Ban", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    public $bans;
 
     /**
      * @var \DateTime|null
@@ -464,6 +472,25 @@ class User implements UserInterface, \Serializable
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Ban[]
+     */
+    public function getBans(): Collection
+    {
+        return $this->bans;
+    }
+
+    public function isUserBannedForUser(User $subject)
+    {
+        foreach ($this->bans as $ban) {
+            if ($ban->getSubject()->getUserId() === $subject->getUserId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getChangePasswordLinkExpirationDate(): ?\DateTimeInterface
