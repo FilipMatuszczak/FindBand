@@ -102,7 +102,7 @@
                         <div class="buttons">
                             <button id="cancel-edit" class="button">Anuluj</button>
                             <input id="bandId" type="hidden" name="bandId" value={{ Band.bandId }}>
-                            <input type="submit" id="send-btn" class="button" value="Zapisz">
+                            <input type="submit"  class="btn-save button" value="Zapisz">
                         </div>
                     </div>
                 </div>
@@ -134,16 +134,14 @@
         <div id="modal-message" class="modal">
             <div class="modal-content">
                 <span class="close"></span>
-                <p>Napisz wiadomość do <a href=""> autor </a></p>
+                <p>Napisz wiadomość do <a href=""> {{author.username}} </a></p>
                 <div class="photo-textarea">
 
                     <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
-
-                    <input type="hidden" name="receiverId" value=>
                 </div>
                 <div class="buttons">
                     <button class="cancel-btn button">Anuluj</button>
-                    <input type="submit" id="send-btn" class="button" value="Wyślij">
+                    <button id="send-btn" class="button">Wyślij</button>
 
                 </div>
             </div>
@@ -164,7 +162,7 @@
                 <div class="buttons" style="height: 40px;">
                     <button class="cancel-btn button">Anuluj</button>
                     <input type="hidden" name="projectId" value=>
-                    <input type="submit" id="send-btn" class="button" value="Wyślij prośbę">
+                    <button id="add-usr-btn" class="btn-save button" >Wyślij prośbę</button>
 
                 </div>
 
@@ -189,7 +187,7 @@
             </div>
             <div class="buttons">
                 <button class="cancel-btn button">Anuluj</button>
-                <button type="submit" id="send-btn" class="report-btn button" value="">Zgłoś</button>
+                <button type="submit" id="report-btn" class="report-btn button" value="">Zgłoś</button>
 
             </div>
         </div>
@@ -541,6 +539,24 @@
             $('#modal-report').hide();
         });
 
+        $("#send-btn").on("click", function () {
+            var receiverId = {{author.userId}};
+
+            var messageText = document.getElementById("mssgtxt");
+            var text = messageText.value;
+
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/messages/send',
+                type: 'POST',
+                data: {receiverId: receiverId, text: text},
+            });
+            $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
+
+            $('#mssgtxt').val("");
+            $('#reptxt').val("");
+            $('#modal-message').hide();
+            $('#modal-report').hide();
+        });
     </script>
 
     <script src="{{ asset('web/scripts/edit-band.js') }}"></script>

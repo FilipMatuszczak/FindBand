@@ -264,6 +264,17 @@ hr{
     float:right;
      background-color: #254e58;
 }
+
+.btn-save{
+    float:right;
+    background-color: #254e58;
+}
+
+#add-usr-btn{
+    float:right;
+    background-color: #254e58;
+}
+
 .modal p{
     margin-bottom: -12px;
     margin-left: -20px;

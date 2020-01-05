@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\BandRepository;
 use App\Repository\UserBandRepository;
+use App\Security\UserProvider;
 use App\Services\DataProvider\BandsPageDataProvider;
 use App\Services\DataProvider\PostsDataProvider;
 use App\Services\Factory\BandFactory;
@@ -35,13 +36,17 @@ class BandController extends AbstractController
     /** @var BandHandler */
     private $bandHandler;
 
+    /** @var UserProvider */
+    private $userProvider;
+
     public function __construct(
         BandFactory $bandFactory,
         BandRepository $bandRepository,
         BandsPageDataProvider $bandsPageDataProvider,
         PostsDataProvider $postsDataProvider,
         UserBandRepository $userBandRepository,
-        BandHandler $bandHandler
+        BandHandler $bandHandler,
+        UserProvider $userProvider
     )
     {
         $this->bandFactory = $bandFactory;
@@ -50,6 +55,7 @@ class BandController extends AbstractController
         $this->postsDataProvider = $postsDataProvider;
         $this->userBandRepository = $userBandRepository;
         $this->bandHandler = $bandHandler;
+        $this->userProvider = $userProvider;
     }
 
     public function createIndexAction()
@@ -81,8 +87,9 @@ class BandController extends AbstractController
         }
 
         $posts = $this->postsDataProvider->getBandPosts($band);
+        $authorId = $this->userBandRepository->getAuthorId($bandId);
 
-        return $this->render('band.html.twig', ['Band' => $band, 'posts' => $posts]);
+        return $this->render('band.html.twig', ['Band' => $band, 'posts' => $posts, 'author' => $this->userProvider->loadUserById($authorId)]);
     }
 
     public function bandsIndexAction(Request $request)
