@@ -31,11 +31,11 @@
                 {% endif %}
 
             </p>
-
+            <form action="{{ path('editBandAction') }}" method="post" enctype="multipart/form-data" >
             <div id="modal-edit" class="modal" style="display: none;">
                 <div class="modal-content">
                     <span class="close"></span>
-                    {#       form         #}
+
 
                     <div class="edit-profile">
 
@@ -83,7 +83,7 @@
                                 <div>
                                     <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny"
                                            maxlength="50"
-                                           name="technologies[]" list="TechList">
+                                           name="musicGenres[]" list="TechList">
                                     <datalist id="TechList">
 
                                     </datalist>
@@ -101,14 +101,13 @@
                         <br>
                         <div class="buttons">
                             <button id="cancel-edit" class="button">Anuluj</button>
-                            <input type="hidden" name="projectId" value=>
+                            <input id="bandId" type="hidden" name="bandId" value={{ Band.bandId }}>
                             <input type="submit" id="send-btn" class="button" value="Zapisz">
                         </div>
                     </div>
                 </div>
             </div>
-
-
+            </form>
             <p class="infos">CZŁONKOWIE</p>
             <ul style="list-style-type:circle;">
                 {% for user in Band.user %}

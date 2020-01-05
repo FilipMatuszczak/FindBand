@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\BandRepository;
+use App\Repository\UserBandRepository;
 use App\Services\DataProvider\BandsPageDataProvider;
 use App\Services\DataProvider\PostsDataProvider;
 use App\Services\Factory\BandFactory;
+use App\Services\Handler\BandHandler;
 use App\Services\Handler\PaginationHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class BandController extends AbstractController
 {
@@ -25,17 +29,27 @@ class BandController extends AbstractController
     /** @var PostsDataProvider */
     private $postsDataProvider;
 
+    /** @var UserBandRepository */
+    private $userBandRepository;
+
+    /** @var BandHandler */
+    private $bandHandler;
+
     public function __construct(
         BandFactory $bandFactory,
         BandRepository $bandRepository,
         BandsPageDataProvider $bandsPageDataProvider,
-        PostsDataProvider $postsDataProvider
+        PostsDataProvider $postsDataProvider,
+        UserBandRepository $userBandRepository,
+        BandHandler $bandHandler
     )
     {
         $this->bandFactory = $bandFactory;
         $this->bandRepository = $bandRepository;
         $this->bandsPageDataProvider = $bandsPageDataProvider;
         $this->postsDataProvider = $postsDataProvider;
+        $this->userBandRepository = $userBandRepository;
+        $this->bandHandler = $bandHandler;
     }
 
     public function createIndexAction()
@@ -108,6 +122,38 @@ class BandController extends AbstractController
             'nextPageUrl' => $nextPageUrl,
             'previousPageUrl' => $previousPageUrl
         ]);
+    }
+
+    public function editBandAction(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $bandId = $request->get('bandId');
+
+        if ((int) ($this->userBandRepository->getAuthorId($bandId)) !== $user->getUserId()) {
+            throw new BadRequestHttpException('User is not author');
+        }
+
+        $this->bandHandler->editBand(
+            $bandId,
+            $request->get('title'),
+            $request->get('text'),
+            $request->files->get('photo'),
+            $request->get('musicGenres')
+        );
+
+        return $this->redirectToRoute('bandProfileIndexAction', ['bandId' => $bandId]);
+    }
+
+    public function getCurrentBandMusicGenres($bandId)
+    {
+        $musicGenres = [];
+
+        foreach ($this->bandRepository->findOneBy(['bandId' => $bandId])->getMusicGenres() as $musicGenre) {
+            $musicGenres[] = $musicGenre->getName();
+        }
+
+        return new JsonResponse($musicGenres);
     }
 
     private function isNextPageNeeded(&$bands)

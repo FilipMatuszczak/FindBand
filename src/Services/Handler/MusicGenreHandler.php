@@ -2,6 +2,7 @@
 
 namespace App\Services\Handler;
 
+use App\Entity\Band;
 use App\Entity\User;
 use App\Repository\MusicGenreRepository;
 use Doctrine\ORM\EntityManager;
@@ -41,6 +42,25 @@ class MusicGenreHandler
         }
 
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $musicGenres;
+    }
+
+    public function addMusicGenresToBand(Band $band, $musicGenres)
+    {
+        foreach ($band->getMusicGenres() as $musicGenre) {
+            $band->removeMusicGenre($musicGenre);
+        }
+
+        $this->entityManager->persist($band);
+        $this->entityManager->flush();
+
+        foreach ($musicGenres as $musicGenre) {
+            $band->addMusicGenre($this->musicGenreRepository->findOneBy(['name' => $musicGenre]));
+        }
+
+        $this->entityManager->persist($band);
         $this->entityManager->flush();
 
         return $musicGenres;

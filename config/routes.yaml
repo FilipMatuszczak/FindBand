@@ -183,3 +183,13 @@ blockUserAction:
   path: /profile/blockUser
   controller: App\Controller\ProfileController:blockUserAction
   methods: POST
+
+editBandAction:
+  path: /band/edit
+  controller: App\Controller\BandController:editBandAction
+  methods: POST
+
+getCurrentBandMusicGenres:
+  path: /band/edit/musicGenres/{bandId}
+  controller: App\Controller\BandController:getCurrentBandMusicGenres
+  methods: GET

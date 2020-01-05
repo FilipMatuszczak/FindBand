@@ -1,12 +1,12 @@
 $(document).ready(function () {
-/*
+
 /////////////wczytywanie technologii projektu
-    var ProjectID=document.getElementById('ProjectID').value;
+    var bandId=document.getElementById('bandId').value;
 
     var requestTechProject = new XMLHttpRequest()
 
 
-    requestTechProject.open('GET', 'http://127.0.0.1:8000/project/technologies/' + ProjectID, true)
+    requestTechProject.open('GET', location.protocol + '//' + window.location.host + '/band/edit' + '/musicGenres/' + bandId, true)
     requestTechProject.onload = function () {
 
         var data = JSON.parse(this.response)
@@ -17,7 +17,7 @@ $(document).ready(function () {
             for (i = 1; i < data.length; i++) {
                 //console.log(data[i]);
 
-                $('#tech-forms').append('<div> <input type="TechList" class="bio tech" id="tech" placeholder="Gatunek muzyczny" name = "technologies[]"  maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
+                $('#tech-forms').append('<div> <input type="TechList" class="bio tech" id="tech" placeholder="Gatunek muzyczny" name = "musicGenres[]"  maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
 
             }
             if (data.length>0) {
@@ -37,9 +37,9 @@ $(document).ready(function () {
 
     }
 
-    requestTechProject.send();*/
+    requestTechProject.send();
             $('#button-moret').click(function () {
-                $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" name = "technologies[]" maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
+                $('#tech-forms').append('<div> <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny" name = "musicGenres[]" maxlength="50" list="TechList"><datalist id="TechList"></datalist> <button type="button" id="button-less" class="less btad">-</button></div>');
             });
 
 
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
             })
 
-/*
+
             //////////////////////////////////
             //////Function for getting genres
              var changeTimer = false;
@@ -63,7 +63,7 @@ $(document).ready(function () {
                     var requestTech = new XMLHttpRequest()
                     var exists = 0;
 
-                    requestTech.open('GET', 'http://127.0.0.1:8000/filter/musicGenre/' + tech, true)
+                    requestTech.open('GET', location.protocol + '//' + window.location.host + '/filter/musicGenre/' + tech, true)
                     requestTech.onload = function () {
 
                         var data = JSON.parse(this.response)
@@ -93,7 +93,7 @@ $(document).ready(function () {
             });
 //////
 
-*/
+
             //////////////photo preview
             function readURL(input) {
 
