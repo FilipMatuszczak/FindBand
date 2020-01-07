@@ -93,10 +93,12 @@
         <p class="comment-content">
             {{ notice.details }}</p>
         <p class="ExpandContent" style="text-align: justify;"></p>
+        {% if notice.user.username != app.user.username %}
 
-        <button class="buttonSend">
+        <button class="buttonSend" onclick="openSendMessage('{{notice.user.firstname}}', '{{ notice.user.lastname }}', '{{ notice.user.userId }}')">
             Wyślij wiadomość
         </button>
+        {% endif %}
         <button class="buttonSeeMore">
             <i class="far fa-caret-square-down"></i>
         </button>
@@ -121,12 +123,12 @@
     <div id="modal-message" class="modal">
         <div class="modal-content">
             <span class="close"></span>
-            <p>Napisz wiadomość do <a>ime naz </a></p>
+            <p>Napisz wiadomość do <a> <span id="firstnameSpan"></span> <span id="lastnameSpan"></span> </a></p>
             <div class="photo-textarea">
 
                 <textarea id="mssgtxt" name="messageText" class="form-control" rows="5" cols="25"></textarea>
 
-                <input type="hidden" name="receiverId" value="">
+                <input type="hidden" name="receiverId" id="receiverId" value="">
 
             </div>
             <div class="buttons">
@@ -242,7 +244,31 @@
                 $('#modal-message').hide();
                 $('#modal-report').hide();
             });
+            function openSendMessage(firstname, lastname, userId) {
+                document.getElementById('receiverId').value=userId ;
+                document.getElementById("firstnameSpan").innerHTML = firstname;
+                document.getElementById("lastnameSpan").innerHTML = lastname;
+            }
 
+            $("#send-btn").on("click", function () {
+                var inputNotice = document.getElementById("receiverId");
+                var receiverId = inputNotice.value;
+
+                var messageText = document.getElementById("mssgtxt");
+                var text = messageText.value;
+
+                $.ajax({
+                    url: location.protocol + '//' + window.location.host + '/messages/send',
+                    type: 'POST',
+                    data: {receiverId: receiverId, text: text},
+                });
+                $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
+
+                $('#mssgtxt').val("");
+                $('#reptxt').val("");
+                $('#modal-message').hide();
+                $('#modal-report').hide();
+            });
     </script>
 
 {% endblock %}

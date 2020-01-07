@@ -193,3 +193,8 @@ getCurrentBandMusicGenres:
   path: /band/edit/musicGenres/{bandId}
   controller: App\Controller\BandController:getCurrentBandMusicGenres
   methods: GET
+
+allMessagesIndexAction:
+  path: /messages
+  controller: App\Controller\MessageController:allMessagesIndexAction
+  methods: GET

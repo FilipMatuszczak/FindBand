@@ -19,6 +19,11 @@ class MessageController extends AbstractController
         $this->messageFactory = $messageFactory;
     }
 
+    public function allMessagesIndexAction()
+    {
+        return $this->render('AllMessages.html.twig');
+    }
+
     public function sendMessageToUserAction(Request $request)
     {
         /** @var User $user */
