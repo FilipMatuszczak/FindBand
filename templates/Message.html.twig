@@ -11,79 +11,77 @@
 
 {% block body %}
 
-    <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj </button>
+    <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj</button>
     <div id="Chat-Content">
 
         <div id="chat-container">
-
+            {% for message in messages %}
                 {#Od kogoś #}
+                {% if message.sender.userId != app.user.userId %}
                     <div class="I-message">
-                        <a href="  "> <img
+                        <a href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}"><img
                                     id="comment-avatar-left"
-                                    src=""
-
-
-                                    width="70" height="70"></a>
+                                    src="{{ asset(photo_data_provider.PhotoById(message.sender.userId)) }}" width="70"
+                                    height="70"></a>
 
 
                         <a class="project-title"
-                 href="">
-                teskst
-                          </a>
-                        ✽ czas
+                           href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}">
+                            {{message.sender.username}}
+                        </a>
+                        ✽ {{ message.timestamp|date('Y-m-d h:m:s') }}
 
 
-                        <p class="message-content">tekst</p>
+                        <p class="message-content">{{ message.text }}</p>
 
 
                     </div>
                     {# #}
 
-                {#Ode mnie #}
+                    {#Ode mnie #}
 
-
+                {% else %}
                     <div class="YOU-message">
-                        <a href=" "> <img
+                        <a href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}"> <img
                                     id="comment-avatar-right"
-                                    src=""
+                                    src="{{ asset(photo_data_provider.PhotoById(message.sender.userId)) }}"
 
                                     width="70" height="70"></a>
                         <div id="cos">
                             <div class="title-right">
                                 <a class="project-title"
-                                   href=" ">autor</a>
-                                ✽ czas
+                                   href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}">
+                                    {{message.sender.username}}</a>
+                                ✽ {{ message.timestamp|date('Y-m-d h:m:s') }}
                             </div>
                         </div>
 
-                        <p class="message-content youmessc">tekst</p>
-
+                        <p class="message-content">{{ message.text }}</p>
 
                     </div>
 
-
+                {% endif %}
                 {# #}
-
+            {% endfor %}
 
 
         </div>
 
         <div class="form-post">
 
-            <img id="post-avatar" src="" width="70" height="70">
+            <img id="post-avatar" src="{{ asset(photo_data_provider.PhotoById(app.user.userId)) }}" width="70" height="70">
+            <form action="{{ path('sendMessageAndRedirectAction') }}" method="post">
+            <div class="photo-textarea">
+                <textarea name="text" class="form-control" rows="5" cols="25"></textarea>
+
+                <input type="hidden" name="receiverId" value={{ app.request.get('userId')
+                }}>
+
+                <button style="display:none;" id="file-cancel"></button>
 
 
-
-                <div class="photo-textarea">
-                    <textarea name="messageText" class="form-control" rows="5" cols="25"></textarea>
-
-                    <input type="hidden" name="receiverId" value=>
-
-                    <button style="display:none;" id="file-cancel"></button>
-
-
-                    <input type="submit" id="button-rem" class="button-post" value="Wyślij"></div>
-                <br>
+                <input type="submit" id="button-rem" class="button-post" value="Wyślij"></div>
+            <br>
 
             </form>
         </div>

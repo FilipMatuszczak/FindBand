@@ -11,37 +11,35 @@
 
 {% block body %}
 
-
+    {% if shortcuts is empty %}
     <h3 style="text-align: center; color: darkgrey;">Nie posiadasz żadnych wiadomości.</h3>
-
-
+    {% endif %}
+    {% for shortcut in shortcuts %}
     <div class="comment">
-        <a href=" "> <img id="comment-avatar-left"
-                          src=""
-                          width="70"
-                          height="70"></a>
+        <a href="{{ path('profileIndexAction', {'username': shortcut.username } ) }}"><img id="comment-avatar-left"  src="{{ asset(photo_data_provider.PhotoByUsername(shortcut.username)) }}" width="70" height="70"></a>
+
 
 
         <p class="project-title"
-           href=" ">usernam</p>
-        ✽ data
+           href=" ">{{ shortcut.username }}</p>
+        ✽ {{ shortcut.date }}
 
 
         <p class="comment-content">
 
-            Ty:
+            {{ shortcut.lastMessageUsername }}:
 
-            wiadomosc
+            {{ shortcut.lastMessageText }}
 
         </p>
 
-        <button class="button"
+        <button class="button" onclick="location.href='{{ path('messagesIndexAction', {'userId':  shortcut.userId }) }}'"
         >
             Przejdź do konwersacji
         </button>
 
     </div>
-
+    {% endfor %}
 
 
 

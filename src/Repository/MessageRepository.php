@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Message;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,32 +20,41 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    // /**
-    //  * @return Message[] Returns an array of Message objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getAllReceiversBySender(User $sender)
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('m');
 
-    /*
-    public function findOneBySomeField($value): ?Message
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+        /** @var Message[] $messages */
+        $messages = $qb->select('m')->distinct()
+            ->where('m.sender = :sender')
+            ->setParameter('sender', $sender)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->execute();
+        $receivers = [];
+
+        foreach ($messages as $message) {
+            $receivers[] = $message->getReceiver();
+        }
+
+        return $receivers;
     }
-    */
+
+    public function getAllSendersByReceiver(User $receiver)
+    {
+        $qb = $this->createQueryBuilder('m');
+
+        /** @var Message[] $messages */
+        $messages = $qb->select('m')->distinct()
+            ->where('m.receiver = :receiver')
+            ->setParameter('receiver', $receiver)
+            ->getQuery()
+            ->execute();
+        $senders = [];
+
+        foreach ($messages as $message) {
+            $senders[] = $message->getSender();
+        }
+
+        return $senders;
+    }
 }

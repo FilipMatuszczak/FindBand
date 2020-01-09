@@ -198,3 +198,13 @@ allMessagesIndexAction:
   path: /messages
   controller: App\Controller\MessageController:allMessagesIndexAction
   methods: GET
+
+messagesIndexAction:
+  path: /messages/{userId}
+  controller: App\Controller\MessageController:messagesIndexAction
+  methods: GET
+
+sendMessageAndRedirectAction:
+  path: /messages/send/redirect
+  controller: App\Controller\MessageController:sendMessageAndRedirectAction
+  methods: POST
