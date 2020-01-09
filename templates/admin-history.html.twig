@@ -1,5 +1,5 @@
 
-   {% extends 'parent-admin.html.twig' %}
+{% extends 'parent-admin.html.twig' %}
 {% block body %}
 
     <div id="modal-ban" class="modal">
@@ -45,36 +45,20 @@
 
 
     {#start post#}
-        <div class="post">
-            <h6 style="margin: 0px;">ID:  </h6>
-            <h5 style="margin-top: 5px;"><a style="color:red;">username</a>
-                ↔ czas</h5>
-            <p>Treść:
-
-            <div class="photo"><img image-zoom
-                                    {# src="data:image/jpeg;base64,{{ photo_data_provider.getPhotoByPostId(report.post.postId) }}" #}
-                                    width="250"
-                ></div>
-
-
-            </p>
-
-            <hr>
-            <h5 style="margin-top: 5px;"> <a style="color:blue;">username</a>
-                ↔ czas</h5>
-            <p> powod</p>
-            <div class="buttons">
-
-                <button class="cancel">Anuluj zgłoszenie</button>
-                <button class="delete">Usuń post</button>
-                <button class="block" >Zablokuj użytkownika</button>
-            </div>
-
-
+    <div class="post">
+        <h6 style="margin: 0px;">ID:  </h6>
+        <h5 style="margin-top: 5px;"><a style="color:red;">username</a>
+            ↔ czas</h5>
+        <p> powod? Jak nie przzecowujemy to mozesz wywalić</p>
+        <div class="buttons">
+            <button class="block" >Odblokuj użytkownika</button>
         </div>
 
-        <br>
 
+    </div>
+    <br>
+
+    {#end post#}
 
     <script>
 
