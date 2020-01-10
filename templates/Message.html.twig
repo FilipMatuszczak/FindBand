@@ -4,6 +4,8 @@
     <link href="{{ asset('web/styles/messages.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('web/styles/style.css') }}" rel="stylesheet" type="text/css"/>
     <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('web/scripts/jquery.growl.js') }}"></script>
+    <link href="{{ asset('web/styles/jquery.growl.css') }}" rel="stylesheet" type="text/css"/>
     <title>fBand</title>
 {% endblock %}
 
@@ -11,7 +13,13 @@
 
 {% block body %}
 
-    <button class="navico ban-ico"><i class="fa fa-ban"></i> Zablokuj</button>
+    {% if app.user.username != user.username %}
+        <button class="navico ban-ico" onclick="banUser()" id="ban-usr-btn"><i class="fa fa-ban"></i>
+            {% if app.user.UserBannedForUser(user) %}Odblokuj
+            {% else %}Zablokuj
+            {% endif %}
+        </button>
+    {% endif %}
     <div id="Chat-Content">
 
         <div id="chat-container">
@@ -110,7 +118,26 @@
 
         });
 
+        function banUser() {
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/profile/blockUser',
+                type: 'POST',
+                data: {subjectId: {{app.request.get('userId')}}},
+                success: function() {
+                    location.reload();
+                }
+            });
 
+
+
+        }
+
+        $(document).ready(function () {
+
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+            $.growl.error({ message:   "{{ flashMessage }}" });
+            {% endfor %}
+        });
     </script>
 
 

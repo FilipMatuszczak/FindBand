@@ -6,7 +6,6 @@ use App\Entity\Message;
 use App\Entity\Dto\MessageShorcutDto;
 use App\Entity\User;
 use App\Repository\MessageRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class MessagesDataProvider
 {
@@ -53,20 +52,6 @@ class MessagesDataProvider
         usort($messages, function(Message $a, Message $b) {return ($a->getTimestamp() > $b->getTimestamp());});
 
         return $messages;
-    }
-
-    /**
-     * @param Message    $senderMessage
-     * @param ArrayCollection $receiverMessages
-     *
-     * @return Message
-     */
-    private function getMessageWithReceiver($senderMessage, $receiverMessages)
-    {
-        return $receiverMessages->filter(function (Message $receiverMessage) use ($senderMessage) {
-           return $receiverMessage->getReceiver()->getUserId() === $senderMessage->getSender()->getUserId() &&
-               $receiverMessage->getSender()->getUserId() === $senderMessage->getReceiver()->getUserId();
-        })->first();
     }
 
     private function createSenderShortcutFromMessage(Message $message)
