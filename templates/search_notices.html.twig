@@ -261,13 +261,28 @@
                     url: location.protocol + '//' + window.location.host + '/messages/send',
                     type: 'POST',
                     data: {receiverId: receiverId, text: text},
+                    success : function(text)
+                    {
+                        response = text;
+                        if (response === "Blocked") {
+                            location.reload();
+                        } else {
+                            $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
+                        }
+                    }
                 });
-                $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
 
                 $('#mssgtxt').val("");
                 $('#reptxt').val("");
                 $('#modal-message').hide();
                 $('#modal-report').hide();
+            });
+
+            $(document).ready(function () {
+
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                $.growl.error({ message:   "{{ flashMessage }}" });
+                {% endfor %}
             });
     </script>
 

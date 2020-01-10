@@ -10,6 +10,7 @@ use App\Services\Factory\MessageFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class MessageController extends AbstractController
@@ -62,9 +63,11 @@ class MessageController extends AbstractController
 
     public function sendMessageToUserAction(Request $request)
     {
-        $this->sendMessage($request);
+        if ($this->sendMessage($request)) {
+            return new Response('Message was successfully sent');
+        }
 
-        return new JsonResponse('Message was successfully sent');
+        return new Response('Blocked');
     }
 
     public function sendMessageAndRedirectAction(Request $request)
@@ -77,8 +80,10 @@ class MessageController extends AbstractController
 
     /**
      * @param Request $request
+     *
+     * @return bool
      */
-    private function sendMessage(Request $request): void
+    private function sendMessage(Request $request)
     {
         /** @var User $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -94,8 +99,12 @@ class MessageController extends AbstractController
         if ($ban) {
             $session = $this->container->get('session');
             $session->getFlashBag()->add('notice', 'Użytkownik zablokował twoje konto, nie możesz wysyłać mu żadnych wiadomości');
+
+            return false;
         } else {
             $this->messageFactory->createMessage($user, $receiverId, $request->get('text'));
+
+            return true;
         }
     }
 }
