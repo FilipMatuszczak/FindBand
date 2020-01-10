@@ -6,9 +6,10 @@ use App\Entity\User;
 use App\Repository\BanRepository;
 use App\Security\UserProvider;
 use App\Services\DataProvider\MessagesDataProvider;
+use App\Services\Factory\AddUserToBandMessageFactory;
 use App\Services\Factory\MessageFactory;
+use App\Services\Handler\AddUserToBandHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -27,17 +28,27 @@ class MessageController extends AbstractController
     /** @var BanRepository */
     private $banRepository;
 
+    /** @var AddUserToBandMessageFactory */
+    private $addUsetToBandMessageFactory;
+
+    /** @var AddUserToBandHandler */
+    private $addUserToBandHandler;
+
     public function __construct(
         MessageFactory $messageFactory,
         MessagesDataProvider $messagesDataProvider,
         UserProvider $userProvider,
-        BanRepository $banRepository
+        BanRepository $banRepository,
+        AddUserToBandMessageFactory $addUserToBandMessageFactory,
+        AddUserToBandHandler $addUserToBandHandler
     )
     {
         $this->messageFactory = $messageFactory;
         $this->messagesDataProvider = $messagesDataProvider;
         $this->userProvider = $userProvider;
         $this->banRepository = $banRepository;
+        $this->addUsetToBandMessageFactory = $addUserToBandMessageFactory;
+        $this->addUserToBandHandler = $addUserToBandHandler;
     }
 
     public function allMessagesIndexAction()
@@ -46,8 +57,9 @@ class MessageController extends AbstractController
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $shortcuts = $this->messagesDataProvider->getUsersMessagesShortcuts($user);
+        $addUserToBandMessages = $this->messagesDataProvider->getAddUserToBandMessagesForUser($user);
 
-        return $this->render('AllMessages.html.twig', ['shortcuts' => $shortcuts]);
+        return $this->render('AllMessages.html.twig', ['shortcuts' => $shortcuts, 'addUserToBandMessages' => $addUserToBandMessages]);
     }
 
     public function messagesIndexAction($userId)
@@ -76,6 +88,28 @@ class MessageController extends AbstractController
         $receiverId = $request->get('receiverId');
 
         return $this->redirectToRoute('messagesIndexAction', ['userId' => $receiverId]);
+    }
+
+    public function sendAddUserToBandMessage(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $bandId = $request->get('bandId');
+        $text = $request->get('text');
+
+        $this->addUsetToBandMessageFactory->createAddUserToBandMessage($bandId, $user, $text);
+
+        return new Response('Success');
+    }
+
+    public function decideAddUserToBandMessage(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $this->addUserToBandHandler->decideAddUserToBand($request->get('messageId'), $request->get('decision'));
+
+        return $this->redirectToRoute('allMessagesIndexAction');
     }
 
     /**

@@ -194,6 +194,11 @@ getCurrentBandMusicGenres:
   controller: App\Controller\BandController:getCurrentBandMusicGenres
   methods: GET
 
+sendAddUserToBandMessageAction:
+  path: /messages/sendAddUserToBand
+  controller: App\Controller\MessageController:sendAddUserToBandMessage
+  methods: POST
+
 allMessagesIndexAction:
   path: /messages
   controller: App\Controller\MessageController:allMessagesIndexAction
@@ -207,4 +212,9 @@ messagesIndexAction:
 sendMessageAndRedirectAction:
   path: /messages/send/redirect
   controller: App\Controller\MessageController:sendMessageAndRedirectAction
+  methods: POST
+
+addUserToBandAction:
+  path: /messages/addUserToBand
+  controller: App\Controller\MessageController:decideAddUserToBandMessage
   methods: POST

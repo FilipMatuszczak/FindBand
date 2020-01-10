@@ -65,4 +65,16 @@ class BandRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function fetchBandsById($bandIds)
+    {
+        $queryBuilder =  $this->createQueryBuilder('b');
+
+        $queryBuilder
+            ->select('b')
+            ->andWhere('b.bandId in (:bandIds)')
+            ->setParameter('bandIds', $bandIds);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

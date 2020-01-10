@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AddUserToBandMessage
 {
+    const OPTION_NEW = 1;
+    const OPTION_ACCEPTED = 2;
+    const OPTION_DECLINED = 4;
+
     /**
      * @var int
      *
@@ -29,16 +33,16 @@ class AddUserToBandMessage
     private $reason;
 
     /**
-     * @var bool
+     * @var int
      *
-     * @ORM\Column(name="options", type="boolean", nullable=false)
+     * @ORM\Column(name="options", type="integer", nullable=false)
      */
     private $options = '0';
 
     /**
-     * @var \Users
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      * })
@@ -46,14 +50,84 @@ class AddUserToBandMessage
     private $user;
 
     /**
-     * @var \Bands
+     * @var Band
      *
-     * @ORM\ManyToOne(targetEntity="Bands")
+     * @ORM\ManyToOne(targetEntity="Band")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="band_id", referencedColumnName="band_id")
      * })
      */
     private $band;
 
+    /**
+     * @return int
+     */
+    public function getAddUserToBandMessageId(): int
+    {
+        return $this->addUserToBandMessageId;
+    }
 
+    /**
+     * @return Band
+     */
+    public function getBand(): Band
+    {
+        return $this->band;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReason(): string
+    {
+        return $this->reason;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param int $addUserToBandMessageId
+     */
+    public function setAddUserToBandMessageId(int $addUserToBandMessageId): void
+    {
+        $this->addUserToBandMessageId = $addUserToBandMessageId;
+    }
+
+    /**
+     * @param Band $band
+     */
+    public function setBand(Band $band): void
+    {
+        $this->band = $band;
+    }
+
+    /**
+     * @param int $options
+     */
+    public function setOptions(int $options): void
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @param string $reason
+     */
+    public function setReason(string $reason): void
+    {
+        $this->reason = $reason;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
 }

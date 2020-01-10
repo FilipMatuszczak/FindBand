@@ -14,6 +14,35 @@
     {% if shortcuts is empty %}
     <h3 style="text-align: center; color: darkgrey;">Nie posiadasz żadnych wiadomości.</h3>
     {% endif %}
+
+
+    {% for addUserToBandMessage in addUserToBandMessages %}
+        <div class="comment">
+            <a href=" "> <img id="comment-avatar-left"  src="{{ asset(photo_data_provider.PhotoById(addUserToBandMessage.user.userId)) }}" width="70" height="70"></a>
+
+
+            <a class="project-title"
+               href="  ">{{ addUserToBandMessage.user.username }}</a>
+            prosi o dodanie do <a class="project-title"
+                                  href="  ">{{ addUserToBandMessage.band.title }}</a>
+
+
+            <p class="request-content">{{ addUserToBandMessage.reason }}</p>
+
+            <form action="{{ path('addUserToBandAction') }}" method="post">
+                <input type="hidden" name="decision" value="decline">
+                <input type="hidden" name="messageId" value={{ addUserToBandMessage.addUserToBandMessageId }}>
+                <input type="submit" class="button" style="Background-color: darkred;" value="Odrzuć">
+            </form>
+
+            <form action="{{ path('addUserToBandAction') }}" method="post">
+                <input type="hidden" name="decision" value="accept">
+                <input type="hidden" name="messageId" value={{ addUserToBandMessage.addUserToBandMessageId }}>
+                <input type="submit" class="button" style="background-color: darkgreen;" value="Zaakceptuj">
+            </form>
+        </div>
+    {% endfor %}
+
     {% for shortcut in shortcuts %}
     <div class="comment">
         <a href="{{ path('profileIndexAction', {'username': shortcut.username } ) }}"><img id="comment-avatar-left"  src="{{ asset(photo_data_provider.PhotoByUsername(shortcut.username)) }}" width="70" height="70"></a>
@@ -40,37 +69,6 @@
 
     </div>
     {% endfor %}
-
-
-
-    <div class="comment">
-        <a href=" "> <img id="comment-avatar-left" src="" width="70" height="70"></a>
-
-
-        <a class="project-title"
-           href="  ">username</a>
-        prosi o dodanie do <a class="project-title"
-                              href="  ">nazwa zespolu</a>
-        ✽ czas
-
-
-        <p class="request-content">tekst</p>
-
-        <input type="hidden" name="decision" value="decline">
-        <input type="hidden" name="userId" value="">
-        <input type="hidden" name="projectId" value="">
-        <input type="hidden" name="addUserToProjectRequestId" value="">
-
-        <button class="button" type="submit" style="Background-color: darkred;"> Odrzuć</button>
-
-
-        <input type="hidden" name="decision" value="accept">
-        <input type="hidden" name="userId" value="">
-        <input type="hidden" name="projectId" value="">
-        <input type="hidden" name="addUserToProjectRequestId" value="">
-        <button class="button" style="background-color: darkgreen;"> Zaakceptuj</button>
-        </form>
-    </div>
 
     <script>
         $(document).ready(function () {

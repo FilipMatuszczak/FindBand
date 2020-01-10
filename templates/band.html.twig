@@ -155,13 +155,13 @@
         <div id="modal-add" class="modal">
             <div class="modal-content">
 
-                <p>Czy chcesz wysłać prośbę o dołączenie do zespołu <a>tytul</a>?</p>
+                <p>Czy chcesz wysłać prośbę o dołączenie do zespołu <a>{{ Band.title }}</a>?</p>
 
-                <textarea id="addtxt" name="messageText" class="form-control"
+                <textarea id="addtxt" name="text" class="form-control"
                           placeholder="Napisz dlaczego chcesz dołączyć." rows="5" cols="25"></textarea>
                 <div class="buttons" style="height: 40px;">
                     <button class="cancel-btn button">Anuluj</button>
-                    <input type="hidden" name="projectId" value=>
+                    <input type="hidden" name="bandId" value={{ Band.bandId }}>
                     <button id="add-usr-btn" class="btn-save button" >Wyślij prośbę</button>
 
                 </div>
@@ -556,6 +556,23 @@
             $('#reptxt').val("");
             $('#modal-message').hide();
             $('#modal-report').hide();
+        });
+
+        $("#add-usr-btn").on("click", function () {
+            var bandId = {{Band.bandId}};
+
+            var messageText = document.getElementById("addtxt");
+            var text = messageText.value;
+
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/messages/sendAddUserToBand',
+                type: 'POST',
+                data: {bandId: bandId, text: text},
+            });
+            $.growl.notice({ message: "Zgłoszenie zostało poprawnie wysłane!" });
+
+            $('#addtxt').val("");
+            $('#modal-add').hide();
         });
     </script>
 

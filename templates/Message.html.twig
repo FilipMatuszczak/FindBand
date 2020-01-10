@@ -13,13 +13,11 @@
 
 {% block body %}
 
-    {% if app.user.username != user.username %}
         <button class="navico ban-ico" onclick="banUser()" id="ban-usr-btn"><i class="fa fa-ban"></i>
             {% if app.user.UserBannedForUser(user) %}Odblokuj
             {% else %}Zablokuj
             {% endif %}
         </button>
-    {% endif %}
     <div id="Chat-Content">
 
         <div id="chat-container">

@@ -19,32 +19,13 @@ class AddUserToBandMessageRepository extends ServiceEntityRepository
         parent::__construct($registry, AddUserToBandMessage::class);
     }
 
-    // /**
-    //  * @return AddUserToBandMessage[] Returns an array of AddUserToBandMessage objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function fetchNewMessagesByBands($bands)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('m')
+            ->where('m.band in (:bands)')
+            ->andWhere('m.options = ' . AddUserToBandMessage::OPTION_NEW)
+            ->setParameter('bands', $bands)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?AddUserToBandMessage
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

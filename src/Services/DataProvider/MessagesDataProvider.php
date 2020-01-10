@@ -5,16 +5,36 @@ namespace App\Services\DataProvider;
 use App\Entity\Message;
 use App\Entity\Dto\MessageShorcutDto;
 use App\Entity\User;
+use App\Repository\AddUserToBandMessageRepository;
+use App\Repository\BandRepository;
 use App\Repository\MessageRepository;
+use App\Repository\UserBandRepository;
 
 class MessagesDataProvider
 {
     /** @var MessageRepository */
     private $messagesRepository;
 
-    public function __construct(MessageRepository $messageRepository)
+    /** @var AddUserToBandMessageRepository */
+    private $addUserToBandMessageRepository;
+
+    /** @var UserBandRepository */
+    private $userBandRepository;
+
+    /** @var BandRepository */
+    private $bandRepository;
+
+    public function __construct(
+        MessageRepository $messageRepository,
+        AddUserToBandMessageRepository $addUserToBandMessageRepository,
+        UserBandRepository $userBandRepository,
+        BandRepository $bandRepository
+    )
     {
         $this->messagesRepository = $messageRepository;
+        $this->addUserToBandMessageRepository = $addUserToBandMessageRepository;
+        $this->userBandRepository = $userBandRepository;
+        $this->bandRepository = $bandRepository;
     }
 
     public function getUsersMessagesShortcuts(User $user)
@@ -52,6 +72,14 @@ class MessagesDataProvider
         usort($messages, function(Message $a, Message $b) {return ($a->getTimestamp() > $b->getTimestamp());});
 
         return $messages;
+    }
+
+    public function getAddUserToBandMessagesForUser(User $user)
+    {
+        $bandIds = $this->userBandRepository->getBandsByAuthorId($user->getUserId());
+        $bands = $this->bandRepository->fetchBandsById($bandIds);
+
+        return $this->addUserToBandMessageRepository->fetchNewMessagesByBands($bands);
     }
 
     private function createSenderShortcutFromMessage(Message $message)
