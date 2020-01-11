@@ -24,6 +24,7 @@ class User implements UserInterface, \Serializable
     const USER_CHANGING_PASSWORD = 2;
     const USER_NEWSLETTER = 4;
     const USER_ADMIN = 8;
+    const USER_BANNED = 16;
 
     /**
      * @var int
@@ -548,6 +549,10 @@ class User implements UserInterface, \Serializable
     public function getRoles()
     {
         $roles[] = 'ROLE_USER';
+
+        if ($this->hasOption(self::USER_ADMIN)) {
+            $roles[] = 'ROLE_ADMIN';
+        }
 
         return array_unique($roles);
     }

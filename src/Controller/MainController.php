@@ -22,6 +22,10 @@ class MainController extends AbstractController
         /** @var User $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
+        if ($user->hasOption(User::USER_ADMIN)) {
+            return $this->redirectToRoute('adminReportsIndexAction');
+        }
+
         $bands = $this->mainPageItemsDataProvider->getBandsForUser($user);
         $notices = $this->mainPageItemsDataProvider->getNoticesForUser($user);
 

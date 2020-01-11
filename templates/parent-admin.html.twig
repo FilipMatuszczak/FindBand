@@ -15,19 +15,19 @@
       <script src="{{ asset('web/scripts/jquery-3.4.1.min.js') }}"></script>
       <script src="{{ asset('web/scripts/admin.js') }}"></script>
       
-    <title>S COUT - ADMIN</title>
+    <title>FindBand - ADMIN</title>
   </head>
   <body>
 
  <div class="row">
         <div class="left">
       
-  <a href=" ">Zgłoszenia</a>
+  <a href="{{ path('adminReportsIndexAction') }}">Zgłoszenia</a>
 
-   <a href=" ">Bany</a>
+   <a href="{{ path('adminBansIndexAction') }}">Bany</a>
  <a id="newsletter" href="">Newsletter</a>
   <br> <br> <br>
-  <a href=" ">Wyloguj</a>
+  <a href="{{ path('app_logout') }}">Wyloguj</a>
 </div>
         
         <div class="right">

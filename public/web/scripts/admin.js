@@ -1,15 +1,4 @@
 $(document).ready(function(){
-      
-      
-      
-      
-             ////popup delete
-            $(".delete").on("click", function () {
-                event.preventDefault();
-                $('#modal-delete').show();
-            });
-
-
             //close modals
             $(".cancel-btn").on("click", function () {
                 event.preventDefault();

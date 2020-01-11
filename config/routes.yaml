@@ -218,3 +218,28 @@ addUserToBandAction:
   path: /messages/addUserToBand
   controller: App\Controller\MessageController:decideAddUserToBandMessage
   methods: POST
+
+adminReportsIndexAction:
+  path: /admin/reports
+  controller: App\Controller\AdminController:adminReportsIndexAction
+  methods: GET
+
+adminBansIndexAction:
+  path: /admin/bans
+  controller: App\Controller\AdminController:adminBansIndexAction
+  methods: GET
+
+adminCancelReportAction:
+  path: /admin/cancelReport
+  controller: App\Controller\AdminController:cancelReportAction
+  methods: PATCH
+
+adminBanUserAction:
+  path: /admin/banUser
+  controller: App\Controller\AdminController:blockUserAction
+  methods: PATCH
+
+deleteItemAction:
+  path: /admin/deleteItem
+  controller: App\Controller\AdminController:deleteItemAction
+  methods: POST

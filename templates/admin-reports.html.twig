@@ -1,84 +1,142 @@
-
-   {% extends 'parent-admin.html.twig' %}
+{% extends 'parent-admin.html.twig' %}
 {% block body %}
 
-    <div id="modal-ban" class="modal">
-        <div class="modal-content">
-            <span class="close"></span>
+<div id="modal-ban" class="modal">
+    <div class="modal-content">
+        <span class="close"></span>
 
-            <form action="   " method="post">
-                <input type="hidden" name="" id=""/>
+        <form action="   " method="post">
+            <input type="hidden" name="" id=""/>
 
-                <textarea id="mssgtxt" name="text" class="form-control" rows="5" cols="25"
-                          placeholder="Powód zbanowania użytkownika..."></textarea>
+            <textarea id="mssgtxt" name="text" class="form-control" rows="5" cols="25"
+                      placeholder="Powód zbanowania użytkownika..."></textarea>
 
-                <div class="modal-buttons">
-                    <button class="cancel-btn">Anuluj</button>
-                    <input id="reportId" type="hidden" name="reportId" value="default">
-                    <input id="userId" type="hidden" name="userId" value="default">
+            <div class="modal-buttons">
+                <button class="cancel-btn">Anuluj</button>
+                <input id="reportId" type="hidden" name="reportId" value="default">
+                <input id="userId" type="hidden" name="userId" value="default">
 
-                    <input type="submit" id="ban-btn" class="button sb block" value="Zbanuj"></div>
-            </form>
-        </div>
+                <input type="submit" id="ban-btn" class="button sb block" value="Zbanuj"></div>
+        </form>
     </div>
+</div>
 
-    <div id="modal-delete" class="modal">
-        <div class="modal-content">
-            <span class="close"></span>
-            <form action="   " method="post">
+<div id="modal-delete" class="modal">
+    <div class="modal-content">
+        <span class="close"></span>
+        <form action="{{ path('deleteItemAction') }}" method="post">
 
                 <textarea id="mssgtxt" name="text" class="form-control" rows="5" cols="25"
                           placeholder="Powód usunięcia postu..."></textarea>
 
-                <label style="display: block; margin-left: 250px; "><input type="checkbox" name="checkbox">Zbanuj dodatkowo
-                    użytkownika</label>
+            <label style="display: block; margin-left: 250px; "><input type="checkbox" name="banUser">Zbanuj
+                dodatkowo
+                użytkownika</label>
 
-                <div class="modal-buttons">
-                    <button class="cancel-btn">Anuluj</button>
-                    <input id="report" type="hidden" name="reportId" value="default">
-                    <input id="user" type="hidden" name="userId" value="default">
-                    <input type="submit" id="ban-btn" class="button sb block" value="Usuń"></div>
-            </form>
+            <div class="modal-buttons">
+                <button class="cancel-btn">Anuluj</button>
+                <input id="report" type="hidden" name="reportId" value="default">
+                <input id="user" type="hidden" name="userId" value="default">
+                <input type="submit" id="ban-btn" class="button sb block" value="Usuń"></div>
+        </form>
 
-        </div>
+    </div>
+</div>
+
+
+{#start post#}
+    {% for report in reports %}
+<div class="post">
+    {% if report.notice is not null %}
+        <h6 style="margin: 0px;">ID: {{ report.reportId }}</h6>
+        <h5 style="margin-top: 5px;"><a style="color:red;">{{ report.notice.user.username }}</a>
+            ↔ {{ report.notice.timestamp|date('Y-m-d h:m:s') }}</h5>
+        <p>Tytuł: {{ report.notice.title }} <br>
+            Treść: {{ report.notice.details }}
+
+        <div class="photo"><img image-zoom
+                    {# src="data:image/jpeg;base64,{{ photo_data_provider.getPhotoByPostId(report.post.postId) }}" #}
+                                width="250"
+            ></div>
+
+
+        </p>
+    {% endif %}
+    {% if report.post is not null %}
+        <h6 style="margin: 0px;">ID: {{ report.reportId }}</h6>
+        <h5 style="margin-top: 5px;"><a style="color:red;">{{ report.post.user.username }}</a>
+            ↔ {{ report.post.timestamp|date('Y-m-d h:m:s') }}</h5>
+        <p>Treść: {{ report.post.text }}
+
+        <div class="photo"><img image-zoom
+                    {# src="data:image/jpeg;base64,{{ photo_data_provider.getPhotoByPostId(report.post.postId) }}" #}
+                                width="250"
+            ></div>
+
+
+        </p>
+    {% endif %}
+
+    <hr>
+    <h5 style="margin-top: 5px;"><a style="color:blue;">{{ report.user.username }}</a>
+        ↔ {{ report.timestamp|date('Y-m-d h:m:s') }}</h5>
+    <p> {{ report.reason }}</p>
+    <div class="buttons">
+
+        <button class="cancel" id="cancel-btn" onclick="cancelReport({{ report.reportId }})">Anuluj zgłoszenie
+        </button>
+        <button class="delete" onclick="popupDelete({{ report.reportId }},
+        {% if report.post is not null %}
+            {{ report.post.user.userId }}
+        {% else %}
+        {{ report.notice.user.userId }}
+                {% endif %} )">Usuń post
+        </button>
+        <button class="block" onclick="banUser({{ report.reportId }},
+        {% if report.post is not null %}
+            {{ report.post.user.userId }}
+        {% else %}
+            {{ report.notice.user.userId }}
+        {% endif %}
+                )">Zablokuj użytkownika
+        </button>
     </div>
 
 
-    {#start post#}
-        <div class="post">
-            <h6 style="margin: 0px;">ID:  </h6>
-            <h5 style="margin-top: 5px;"><a style="color:red;">username</a>
-                ↔ czas</h5>
-            <p>Treść:
-
-            <div class="photo"><img image-zoom
-                                    {# src="data:image/jpeg;base64,{{ photo_data_provider.getPhotoByPostId(report.post.postId) }}" #}
-                                    width="250"
-                ></div>
+</div>
+{% endfor %}
+<br>
 
 
-            </p>
+<script>
+    function banUser(reportId, userId) {
+        $.ajax({
+            url: location.protocol + '//' + window.location.host + '/admin/banUser',
+            type: 'PATCH',
+            data: {reportId: reportId, userId: userId},
+        });
 
-            <hr>
-            <h5 style="margin-top: 5px;"> <a style="color:blue;">username</a>
-                ↔ czas</h5>
-            <p> powod</p>
-            <div class="buttons">
+        location.reload()
+    }
 
-                <button class="cancel">Anuluj zgłoszenie</button>
-                <button class="delete">Usuń post</button>
-                <button class="block" >Zablokuj użytkownika</button>
-            </div>
+    function cancelReport(reportId) {
+        $.ajax({
+            url: location.protocol + '//' + window.location.host + '/admin/cancelReport',
+            type: 'PATCH',
+            data: {reportId: reportId},
+        });
 
+        location.reload()
+    }
 
-        </div>
+    function popupDelete(reportId, userId) {
+        event.preventDefault();
+        $('input[name="reportId"]').val(reportId);
+        $('input[name="userId"]').val(userId);
 
-        <br>
-
-
-    <script>
-
-    </script>
+        $('#modal-delete').show();
+    }
+</script>
 
 
 {% endblock %}

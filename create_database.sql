@@ -123,11 +123,11 @@ CREATE TABLE IF NOT EXISTS reports (
     options TINYINT(4) DEFAULT 0,
     PRIMARY KEY (report_id),
     FOREIGN KEY (notice_id)
-        REFERENCES notices (notice_id),
+        REFERENCES notices (notice_id) ON DELETE SET NULL,
     FOREIGN KEY (user_id)
         REFERENCES users (user_id),
     FOREIGN KEY (post_id)
-        REFERENCES posts (post_id)
+        REFERENCES posts (post_id) ON DELETE SET NULL
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS add_user_to_band_message (

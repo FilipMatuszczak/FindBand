@@ -16,6 +16,6 @@ security:
                 authenticators:
                     - App\Security\LoginAuthenticator
     access_control:
-      # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/main|/profile|/filter|/band, roles: ROLE_USER }
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
