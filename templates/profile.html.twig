@@ -99,13 +99,13 @@
     {#   #}
 
     {% if user.username == app.user.username %}
-        <form action="{{ path('createProfilePostAction') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ path('createProfilePostAction') }}" method="post" enctype="multipart/form-data" name="FormPost" onsubmit="return validateformPost()">
             <div class="form-post">
                 <img id="post-avatar" src="{{ asset(photo_data_provider.PhotoById(user.userId)) }}" width="70"
                      height="70">
 
                 <div class="photo-textarea">
-                    <textarea name="text" class="form-control" rows="5" cols="25"></textarea>
+                    <textarea id="textarea" name="text" class="form-control" rows="5" cols="25"></textarea>
 
                     <button style="display:none;" id="file-cancel"></button>
                     <label>
@@ -181,6 +181,8 @@
                 event.preventDefault();
                 $('#mssgtxt').val("");
                 $('#reptxt').val("");
+                document.getElementById("reptxt").style.border = "0.5px solid grey";
+                document.getElementById("mssgtxt").style.border = "0.5px solid grey";
                 $('#modal-message').hide();
                 $('#modal-report').hide();
             });
@@ -242,12 +244,12 @@
         }
 
         function validateformPost() {
-            var content = document.postForm.text.value;
-            var photo = document.postForm.photo.value;
+            var content = document.FormPost.text.value;
+            var photo = document.FormPost.photo.value;
 
             if ((content == null || content == "") && (photo == null || photo == "")) {
                 //console.log(reason);
-                document.postForm.text.style.border = "0.5px solid red";
+                document.FormPost.text.style.border = "0.5px solid red";
                 return false;
             } else {
                 return true;
@@ -278,18 +280,23 @@
 
             var reptxt = document.getElementById("reptxt");
             var reason = reptxt.value;
+            if(reason==null||reason==""){
 
-            $.ajax({
-                url: location.protocol + '//' + window.location.host + '/report/reportPost',
-                type: 'POST',
-                data: {postId: postId, reason: reason},
-            });
-            $.growl.notice({ message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand" });
+                reptxt.style.border = "0.5px solid red";
 
-            $('#mssgtxt').val("");
-            $('#reptxt').val("");
-            $('#modal-message').hide();
-            $('#modal-report').hide();
+            }else {
+                $.ajax({
+                    url: location.protocol + '//' + window.location.host + '/report/reportPost',
+                    type: 'POST',
+                    data: {postId: postId, reason: reason},
+                });
+                $.growl.notice({message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand"});
+
+                $('#mssgtxt').val("");
+                $('#reptxt').val("");
+                $('#modal-message').hide();
+                $('#modal-report').hide();
+            }
         });
 
         $("#send-btn").on("click", function () {
@@ -298,18 +305,23 @@
 
             var messageText = document.getElementById("mssgtxt");
             var text = messageText.value;
+            if(text==null||text==""){
 
-            $.ajax({
-                url: location.protocol + '//' + window.location.host + '/messages/send',
-                type: 'POST',
-                data: {receiverId: receiverId, text: text},
-            });
-            $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
+                messageText.style.border = "0.5px solid red";
 
-            $('#mssgtxt').val("");
-            $('#reptxt').val("");
-            $('#modal-message').hide();
-            $('#modal-report').hide();
+            }else {
+                $.ajax({
+                    url: location.protocol + '//' + window.location.host + '/messages/send',
+                    type: 'POST',
+                    data: {receiverId: receiverId, text: text},
+                });
+                $.growl.notice({message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć"});
+
+                $('#mssgtxt').val("");
+                $('#reptxt').val("");
+                $('#modal-message').hide();
+                $('#modal-report').hide();
+            }
         });
     </script>
 

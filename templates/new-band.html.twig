@@ -12,7 +12,7 @@
 
     <div class="edit-profile">
         <h1>Załóż zespół:</h1>
-        <form action="{{ path('createBandAction') }}" method="post" enctype="multipart/form-data" name="FormBand">
+        <form action="{{ path('createBandAction') }}" method="post" enctype="multipart/form-data" name="FormBand" onsubmit="return validateformCreate()">
 
             <div class="edit-container">
                 <div id="up">
@@ -68,8 +68,8 @@
 
         ////validateform
         function validateformCreate() {
-            var title = document.postCreate.title.value;
-            document.postCreate.title.style.border = "1px solid #7DA2AA";
+            var title = document.FormBand.title.value;
+            document.FormBand.title.style.border = "1px solid #7DA2AA";
 
             var isValid;
             $(".tech").each(function () {
@@ -85,7 +85,7 @@
 
                 } else {
 
-                    requestExistsTech.open('GET', location.protocol + '//127.0.0.1:8000/musicGenreExists/' + element.val(), false)
+                    requestExistsTech.open('GET', location.protocol + '//127.0.0.1:8000/filter/musicGenreExists/' + element.val(), false)
                     requestExistsTech.onload = function () {
 
                         var dataE = JSON.parse(this.response)
@@ -118,7 +118,7 @@
 //////
             if (title == null || title == "") {
                 //console.log(reason);
-                document.postCreate.title.style.border = "1px solid red";
+                document.FormBand.title.style.border = "1px solid red";
                 return false;
             }
 

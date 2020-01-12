@@ -131,7 +131,7 @@ hr{
   background-color: rgba(255,255,255,0.8);
   border: 1px solid #7DA2AA;
   padding: 10px;
-  min-height: 600px;     /* to tylko do testowania czy sie scrolluje ladnie */
+  min-height: 610px;     /* to tylko do testowania czy sie scrolluje ladnie */
     
 }
     

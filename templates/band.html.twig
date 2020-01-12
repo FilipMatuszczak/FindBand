@@ -31,82 +31,82 @@
                 {% endif %}
 
             </p>
-            <form action="{{ path('editBandAction') }}" method="post" enctype="multipart/form-data" >
-            <div id="modal-edit" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span class="close"></span>
+            <form action="{{ path('editBandAction') }}" method="post" enctype="multipart/form-data" name="postCreate" onsubmit="return validateformCreate()">
+                <div id="modal-edit" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close"></span>
 
 
-                    <div class="edit-profile">
+                        <div class="edit-profile">
 
-                        <div class="edit-container">
-                            <div id="up">
-                                <div id="photo">
-
-
-                                    <br>
-
-                                    <label for="image">
-                                        <input type="file" name="photo" id="image"
-                                               accept="image/jpeg, image/png"
-                                               class="fileToUpload" style="display:none;"/>
-                                        <img id="photo-edit"
-                                             src="{{ asset(photo_data_provider.BandPhotoById(Band.bandId)) }}"
-                                             width="120"
-                                             height="160" style="object-fit: cover;"/>
-                                    </label>
-
-                                    <br><br><br>
+                            <div class="edit-container">
+                                <div id="up">
+                                    <div id="photo">
 
 
+                                        <br>
+
+                                        <label for="image">
+                                            <input type="file" name="photo" id="image"
+                                                   accept="image/jpeg, image/png"
+                                                   class="fileToUpload" style="display:none;"/>
+                                            <img id="photo-edit"
+                                                 src="{{ asset(photo_data_provider.BandPhotoById(Band.bandId)) }}"
+                                                 width="120"
+                                                 height="160" style="object-fit: cover;"/>
+                                        </label>
+
+                                        <br><br><br>
+
+
+                                    </div>
+
+                                    <div class="name_div">
+                                        <input type="text" class="name" placeholder="Tytuł" name="title"
+                                               maxlength="50"
+                                               value="{{ Band.title }}"/>
+                                    </div>
                                 </div>
-
-                                <div class="name_div">
-                                    <input type="text" class="name" placeholder="Tytuł" name="title"
-                                           maxlength="50"
-                                           value="{{ Band.title }}"/>
-                                </div>
-                            </div>
-                            <div class="info bi">
+                                <div class="info bi">
                                         <textarea name="text" class="bio" placeholder="Opis" rows="10"
                                                   cols="25">{{ Band.description }}</textarea>
-                                <input type="hidden" class="bio" placeholder="Opis" name="description"
-                                       maxlength="250"/><br>
+                                    <input type="hidden" class="bio" placeholder="Opis" name="description"
+                                           maxlength="250"/><br>
 
+                                    <br>
+                                </div>
+                                <button type="button" id="button-moret" class="button-moret btad">Dodaj <i
+                                            class="fas fa-plus"></i></button>
                                 <br>
+
+                                <div id="tech-forms" class="forms">
+                                    <div>
+                                        <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny"
+                                               maxlength="50"
+                                               name="musicGenres[]" list="TechList">
+                                        <datalist id="TechList">
+
+                                        </datalist>
+                                        <button type="button" id="button-less" class="less btad">-</button>
+                                        <br></div>
+                                </div>
+
+
+                                <div id="Technologies"></div>
+
+
                             </div>
-                            <button type="button" id="button-moret" class="button-moret btad">Dodaj <i
-                                        class="fas fa-plus"></i></button>
+
+
                             <br>
-
-                            <div id="tech-forms" class="forms">
-                                <div>
-                                    <input type="text" class="bio tech" id="tech" placeholder="Gatunek muzyczny"
-                                           maxlength="50"
-                                           name="musicGenres[]" list="TechList">
-                                    <datalist id="TechList">
-
-                                    </datalist>
-                                    <button type="button" id="button-less" class="less btad">-</button>
-                                    <br></div>
+                            <div class="buttons">
+                                <button id="cancel-edit" class="button">Anuluj</button>
+                                <input id="bandId" type="hidden" name="bandId" value={{ Band.bandId }}>
+                                <input type="submit"  class="btn-save button" value="Zapisz">
                             </div>
-
-
-                            <div id="Technologies"></div>
-
-
-                        </div>
-
-
-                        <br>
-                        <div class="buttons">
-                            <button id="cancel-edit" class="button">Anuluj</button>
-                            <input id="bandId" type="hidden" name="bandId" value={{ Band.bandId }}>
-                            <input type="submit"  class="btn-save button" value="Zapisz">
                         </div>
                     </div>
                 </div>
-            </div>
             </form>
             <p class="infos">CZŁONKOWIE</p>
             <ul style="list-style-type:circle;">
@@ -178,7 +178,7 @@
     <div id="modal-report" class="modal">
         <div class="modal-content">
             <span class="close"></span>
-            <p>Dlaczego chcesz zgłosić ogłoszenie użytkownika <a> <span id="reportUsername"></span></a>?</p>
+            <p>Dlaczego chcesz zgłosić wypowiedź użytkownika <a> <span id="reportUsername"></span></a>?</p>
             <div class="photo-textarea">
 
                 <textarea id="reptxt" name="reason" class="form-control" rows="5" cols="25"></textarea>
@@ -194,7 +194,7 @@
     </div>
 
     {% if app.user.PartOfBand(Band) %}
-        <form action="{{ path('createBandPostAction') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ path('createBandPostAction') }}" method="post" enctype="multipart/form-data" name="FormPost" onsubmit="return validateformPost()">
 
             <div class="form-post">
                 <img id="post-avatar" src="{{ asset(photo_data_provider.PhotoById(app.user.userId)) }}"
@@ -287,6 +287,9 @@
                 $('#reptxt').val("");
                 $('#reqtxt').val("");
                 $('#reqTitle').val("");
+                document.getElementById("addtxt").style.border = "0.5px solid grey";
+                document.getElementById("reptxt").style.border = "0.5px solid grey";
+                document.getElementById("mssgtxt").style.border = "0.5px solid grey";
                 $('#modal-add').hide();
                 $('#modal-message').hide();
                 $('#modal-report').hide();
@@ -367,12 +370,12 @@
 
 
         function validateformPost() {
-            var content = document.postForm.text.value;
-            var photo = document.postForm.photo.value;
+            var content = document.FormPost.text.value;
+            var photo = document.FormPost.photo.value;
 
             if ((content == null || content == "") && (photo == null || photo == "")) {
                 //console.log(reason);
-                document.postForm.text.style.border = "0.5px solid red";
+                document.FormPost.text.style.border = "0.5px solid red";
                 return false;
             } else {
                 return true;
@@ -392,7 +395,7 @@
         }
 
 
-        /*
+
                 ////validateform
                 function validateformCreate(){
                     var title=document.postCreate.title.value;
@@ -412,7 +415,7 @@
 
                         }else{
 
-                            requestExistsTech.open('GET', 'http://127.0.0.1:8000/technologyExists/' + element.val(), false)
+                            requestExistsTech.open('GET', location.protocol + '//127.0.0.1:8000/filter/musicGenreExists/' + element.val(), false)
                             requestExistsTech.onload = function () {
 
                                 var dataE = JSON.parse(this.response)
@@ -453,7 +456,7 @@
                     else{  return true; }
 
 
-                }*/
+                }
 
 
         //////////////////////////////////
@@ -519,24 +522,30 @@
 
         $('p').linkify();
 
-        $(".report-btn").on("click", function () {
+        $("#report-btn").on("click", function () {
+
             var inputNotice = document.getElementById("postId");
             var postId = inputNotice.value;
 
             var reptxt = document.getElementById("reptxt");
             var reason = reptxt.value;
+            if(reason==null||reason==""){
 
-            $.ajax({
-                url: location.protocol + '//' + window.location.host + '/report/reportPost',
-                type: 'POST',
-                data: {postId: postId, reason: reason},
-            });
-            $.growl.notice({message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand"});
+                reptxt.style.border = "0.5px solid red";
 
-            $('#mssgtxt').val("");
-            $('#reptxt').val("");
-            $('#modal-message').hide();
-            $('#modal-report').hide();
+            }else {
+                $.ajax({
+                    url: location.protocol + '//' + window.location.host + '/report/reportPost',
+                    type: 'POST',
+                    data: {postId: postId, reason: reason},
+                });
+                $.growl.notice({message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand"});
+
+                $('#mssgtxt').val("");
+                $('#reptxt').val("");
+                $('#modal-message').hide();
+                $('#modal-report').hide();
+            }
         });
 
         $("#send-btn").on("click", function () {
@@ -544,18 +553,22 @@
 
             var messageText = document.getElementById("mssgtxt");
             var text = messageText.value;
+            if(text==null||text==""){
 
-            $.ajax({
-                url: location.protocol + '//' + window.location.host + '/messages/send',
-                type: 'POST',
-                data: {receiverId: receiverId, text: text},
-            });
-            $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
+                messageText.style.border = "0.5px solid red";
 
-            $('#mssgtxt').val("");
-            $('#reptxt').val("");
-            $('#modal-message').hide();
-            $('#modal-report').hide();
+            }else {
+                $.ajax({
+                    url: location.protocol + '//' + window.location.host + '/messages/send',
+                    type: 'POST',
+                    data: {receiverId: receiverId, text: text},
+                });
+                $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
+
+                $('#mssgtxt').val("");
+                $('#reptxt').val("");
+                $('#modal-message').hide();
+                $('#modal-report').hide();}
         });
 
         $("#add-usr-btn").on("click", function () {
@@ -564,15 +577,21 @@
             var messageText = document.getElementById("addtxt");
             var text = messageText.value;
 
-            $.ajax({
-                url: location.protocol + '//' + window.location.host + '/messages/sendAddUserToBand',
-                type: 'POST',
-                data: {bandId: bandId, text: text},
-            });
-            $.growl.notice({ message: "Zgłoszenie zostało poprawnie wysłane!" });
 
-            $('#addtxt').val("");
-            $('#modal-add').hide();
+            if(text==null||text==""){
+
+                messageText.style.border = "0.5px solid red";
+
+            }else {
+                $.ajax({
+                    url: location.protocol + '//' + window.location.host + '/messages/sendAddUserToBand',
+                    type: 'POST',
+                    data: {bandId: bandId, text: text},
+                });
+                $.growl.notice({ message: "Zgłoszenie zostało poprawnie wysłane!" });
+
+                $('#addtxt').val("");
+                $('#modal-add').hide();}
         });
     </script>
 

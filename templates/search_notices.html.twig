@@ -188,6 +188,8 @@
                 event.preventDefault();
                 $('#mssgtxt').val("");
                 $('#reptxt').val("");
+                document.getElementById("reptxt").style.border = "0.5px solid grey";
+                document.getElementById("mssgtxt").style.border = "0.5px solid grey";
                 $('#modal-message').hide();
                 $('#modal-report').hide();
             });
@@ -232,17 +234,24 @@
                 var reptxt = document.getElementById("reptxt");
                 var reason = reptxt.value;
 
-                $.ajax({
-                    url: location.protocol + '//' + window.location.host + '/report/reportNotice',
-                    type: 'POST',
-                    data: {noticeId: noticeId, reason: reason},
-                });
-                $.growl.notice({ message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand" });
+                if(reason==null||reason==""){
 
-                $('#mssgtxt').val("");
-                $('#reptxt').val("");
-                $('#modal-message').hide();
-                $('#modal-report').hide();
+                    reptxt.style.border = "0.5px solid red";
+
+                }else {
+
+                    $.ajax({
+                        url: location.protocol + '//' + window.location.host + '/report/reportNotice',
+                        type: 'POST',
+                        data: {noticeId: noticeId, reason: reason},
+                    });
+                    $.growl.notice({message: "Zgłoszenie zostało przyjęte, dziękujemy za ulepszenie społczeństwa FindBand"});
+
+                    $('#mssgtxt').val("");
+                    $('#reptxt').val("");
+                    $('#modal-message').hide();
+                    $('#modal-report').hide();
+                }
             });
             function openSendMessage(firstname, lastname, userId) {
                 document.getElementById('receiverId').value=userId ;
@@ -256,26 +265,30 @@
 
                 var messageText = document.getElementById("mssgtxt");
                 var text = messageText.value;
+                if(text==null||text==""){
 
-                $.ajax({
-                    url: location.protocol + '//' + window.location.host + '/messages/send',
-                    type: 'POST',
-                    data: {receiverId: receiverId, text: text},
-                    success : function(text)
-                    {
-                        response = text;
-                        if (response === "Blocked") {
-                            location.reload();
-                        } else {
-                            $.growl.notice({ message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć" });
+                    messageText.style.border = "0.5px solid red";
+
+                }else {
+                    $.ajax({
+                        url: location.protocol + '//' + window.location.host + '/messages/send',
+                        type: 'POST',
+                        data: {receiverId: receiverId, text: text},
+                        success: function (text) {
+                            response = text;
+                            if (response === "Blocked") {
+                                location.reload();
+                            } else {
+                                $.growl.notice({message: "Wiadomość została wysłana do użytkownika, wejdź w zakładkę wiadomości, żeby ją zobaczyć"});
+                            }
                         }
-                    }
-                });
+                    });
 
-                $('#mssgtxt').val("");
-                $('#reptxt').val("");
-                $('#modal-message').hide();
-                $('#modal-report').hide();
+                    $('#mssgtxt').val("");
+                    $('#reptxt').val("");
+                    $('#modal-message').hide();
+                    $('#modal-report').hide();
+                }
             });
 
             $(document).ready(function () {

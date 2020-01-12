@@ -147,6 +147,8 @@
         event.preventDefault();
         $('#mssgtxt').val("");
         $('#reptxt').val("");
+        document.getElementById("reptxt").style.border = "0.5px solid grey";
+        document.getElementById("mssgtxt").style.border = "0.5px solid grey";
         $('#modal-message').hide();
         $('#modal-report').hide();
     });
@@ -174,7 +176,11 @@
 
         var reptxt = document.getElementById("reptxt");
         var reason = reptxt.value;
+        if(reason==null||reason==""){
 
+            reptxt.style.border = "0.5px solid red";
+
+        }else {
         $.ajax({
             url: location.protocol + '//' + window.location.host + '/report/reportNotice',
             type: 'POST',
@@ -185,7 +191,7 @@
         $('#mssgtxt').val("");
         $('#reptxt').val("");
         $('#modal-message').hide();
-        $('#modal-report').hide();
+        $('#modal-report').hide();}
     });
     $("#send-btn").on("click", function () {
         var inputNotice = document.getElementById("receiverId");
@@ -193,7 +199,11 @@
 
         var messageText = document.getElementById("mssgtxt");
         var text = messageText.value;
+        if(text==null||text==""){
 
+            messageText.style.border = "0.5px solid red";
+
+        }else {
         $.ajax({
             url: location.protocol + '//' + window.location.host + '/messages/send',
             type: 'POST',
@@ -212,7 +222,7 @@
         $('#mssgtxt').val("");
         $('#reptxt').val("");
         $('#modal-message').hide();
-        $('#modal-report').hide();
+        $('#modal-report').hide();}
     });
 
     $(document).ready(function () {

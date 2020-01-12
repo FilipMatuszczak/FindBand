@@ -86,9 +86,9 @@
         <div class="form-post">
 
             <img id="post-avatar" src="{{ asset(photo_data_provider.PhotoById(app.user.userId)) }}" width="70" height="70">
-            <form action="{{ path('sendMessageAndRedirectAction') }}" method="post">
+            <form action="{{ path('sendMessageAndRedirectAction') }}" method="post" name="FormMess" onsubmit="return validateformPost()">
             <div class="photo-textarea">
-                <textarea name="text" class="form-control" rows="5" cols="25"></textarea>
+                <textarea id="textarea" name="text" class="form-control" rows="5" cols="25"></textarea>
 
                 <input type="hidden" name="receiverId" value={{ app.request.get('userId')
                 }}>
@@ -106,11 +106,11 @@
     <script>
 
         function validateformPost() {
-            var content = document.postForm.text.value;
+            var content = document.getElementById('textarea').value;
 
             if (content == null || content == "") {
-                //console.log(reason);
-                document.postForm.text.style.border = "0.5px solid red";
+               // console.log('a');
+               document.getElementById('textarea').style.border = "0.5px solid red";
                 return false;
             } else {
                 return true;
