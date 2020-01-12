@@ -58,6 +58,7 @@ class MessagesDataProvider
                 $shortcuts[] = $this->createReceiverShortcutFromMessage($message);
             }
         }
+        usort($shortcuts, function(MessageShorcutDto $a, MessageShorcutDto $b) {return ($a->getDate() < $b->getDate());});
 
         return $shortcuts;
     }

@@ -248,3 +248,8 @@ unbanUserAction:
   path: /admin/unbanUser
   controller: App\Controller\AdminController:unbanUserAction
   methods: PATCH
+
+adminSendNewsletter:
+  path: /admin/newsletter
+  controller: App\Controller\AdminController:adminSendNewsletterAction
+  methods: POST

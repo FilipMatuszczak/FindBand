@@ -76,4 +76,12 @@ class UserRepository extends ServiceEntityRepository
         return $queryBuilder->select('u')->where('BIT_AND(u.options, ' . User::USER_BANNED .') = 16')
             ->getQuery()->execute();
     }
+
+    public function fetchAllNewsletterUsers()
+    {
+        $queryBuilder =  $this->createQueryBuilder('u');
+
+        return $queryBuilder->select('u')->where('BIT_AND(u.options, ' . User::USER_NEWSLETTER .') = 4')
+            ->getQuery()->execute();
+    }
 }

@@ -41,9 +41,9 @@
                 <div class="modal-content">
             <span class="close"></span>
                     
-       <form action=" " method="post">
+       <form action="{{ path('adminSendNewsletter') }}" method="post">
            
-                    <textarea id="mssgtxt"name="message" class="form-control" rows="5" cols="25" placeholder="Wiadomość dla wszystkich użytkowników..."></textarea>
+                    <textarea id="mssgtxt" name="text" class="form-control" rows="5" cols="25" placeholder="Wiadomość dla wszystkich użytkowników..."></textarea>
            
            <div class="modal-buttons">
                     <button class="cancel-btn">Anuluj</button>

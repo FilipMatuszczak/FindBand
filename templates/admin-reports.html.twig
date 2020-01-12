@@ -50,7 +50,7 @@
     {% if report.notice is not null %}
         <h6 style="margin: 0px;">ID: {{ report.reportId }}</h6>
         <h5 style="margin-top: 5px;"><a style="color:red;">{{ report.notice.user.username }}</a>
-            ↔ {{ report.notice.timestamp|date('Y-m-d h:m:s') }}</h5>
+            ↔ {{ report.notice.timestamp|date('Y-m-d h:i:s') }}</h5>
         <p>Tytuł: {{ report.notice.title }} <br>
             Treść: {{ report.notice.details }}
 
@@ -65,7 +65,7 @@
     {% if report.post is not null %}
         <h6 style="margin: 0px;">ID: {{ report.reportId }}</h6>
         <h5 style="margin-top: 5px;"><a style="color:red;">{{ report.post.user.username }}</a>
-            ↔ {{ report.post.timestamp|date('Y-m-d h:m:s') }}</h5>
+            ↔ {{ report.post.timestamp|date('Y-m-d h:i:s') }}</h5>
         <p>Treść: {{ report.post.text }}
 
         <div class="photo"><img image-zoom
@@ -79,7 +79,7 @@
 
     <hr>
     <h5 style="margin-top: 5px;"><a style="color:blue;">{{ report.user.username }}</a>
-        ↔ {{ report.timestamp|date('Y-m-d h:m:s') }}</h5>
+        ↔ {{ report.timestamp|date('Y-m-d h:i:s') }}</h5>
     <p> {{ report.reason }}</p>
     <div class="buttons">
 

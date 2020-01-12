@@ -12,12 +12,15 @@
 
 
 {% block body %}
-
+    {% if user.username != 'admin' %}
         <button class="navico ban-ico" onclick="banUser()" id="ban-usr-btn"><i class="fa fa-ban"></i>
+
             {% if app.user.UserBannedForUser(user) %}Odblokuj
             {% else %}Zablokuj
             {% endif %}
+
         </button>
+    {% endif %}
     <div id="Chat-Content">
 
         <div id="chat-container">
@@ -30,12 +33,18 @@
                                     src="{{ asset(photo_data_provider.PhotoById(message.sender.userId)) }}" width="70"
                                     height="70"></a>
 
+                {% if user.username != 'admin' %}
 
                         <a class="project-title"
                            href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}">
                             {{message.sender.username}}
                         </a>
-                        ✽ {{ message.timestamp|date('Y-m-d h:m:s') }}
+                    {% else %}
+                        <a class="project-title">
+                            FindBand Newsletter
+                        </a>
+                {% endif %}
+                        ✽ {{ message.timestamp|date('Y-m-d h:i:s') }}
 
 
                         <p class="message-content">{{ message.text }}</p>
@@ -58,7 +67,7 @@
                                 <a class="project-title"
                                    href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}">
                                     {{message.sender.username}}</a>
-                                ✽ {{ message.timestamp|date('Y-m-d h:m:s') }}
+                                ✽ {{ message.timestamp|date('Y-m-d h:i:s') }}
                             </div>
                         </div>
 
@@ -72,6 +81,7 @@
 
 
         </div>
+        {% if user.username != 'admin' %}
 
         <div class="form-post">
 
@@ -91,7 +101,7 @@
 
             </form>
         </div>
-
+{% endif %}
     </div>
     <script>
 
