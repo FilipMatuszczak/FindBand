@@ -24,7 +24,42 @@
 
 
 <div class="row">
+    <div id="modal-regulamin" class="modal">
+        <div class="modal-contentR">
+            <span class="close"></span>
 
+<p>
+
+    <a>Regulamin portalu </a><a style="color:#EBB3B4; font-weight: bold;">FindBand</a>
+<br><br>
+
+    <a>Definicje:</a>
+            <ol>
+                <li> <a>Administrator</a> - podmiot świadczący usługę udostępnienia zasobów Portalu na rzecz Użytkowników Portalu oraz pełniący funkcje utrzymywania porządku na Portalu.</li>
+                <li>  <a>Portal</a> - społecznościowy portal internetowy o nazwie FindBand.</li>
+                <li>  <a>Użytkownik </a>Portalu, zwany dalej Użytkownikiem – osoba, która posiada aktywne konto na Portalu i za jego pomocą otrzymuje dostęp do treści zamieszczanych na Portalu.</li>
+                <li>  <a>Konto</a> – dostępne dla Użytkownika miejsce w Portalu, za pośrednictwem którego wprowadza on dane i zarządza nimi.</li>
+                <li> <a>Profil </a>- strona Użytkownika Portalu zawierająca dane, zdjęcia, wpisy na tablicy udostępnione przez niego dobrowolnie na Portalu, do których dostęp mają inni Użytkownicy Portalu.</li>
+            </ol><br>
+            <a>Warunki korzystania z Portalu:</a>
+            <ol>
+            <li>  Użytkownik logując się do Portalu, oświadcza, że zapoznał się z Regulaminem i akceptuje jego warunki.</li>
+            <li>  Portal służy do nawiązywania kontaktów pomiędzy Użytkownikami poprzez prowadzenie Profili oraz publikowanie treści.</li>
+            <li>  Utworzenie Konta na Portalu jest dobrowolne i bezpłatne oraz oznacza akceptację niniejszego Regulaminu.</li>
+            <li>  Rejestracja oraz utworzenie Konta polega poprzez wypełnienie formularza rejestracyjnego znajdującego się na stronie Portalu.</li>
+            <li>  Portal nie ponosi odpowiedzialności za treść publikowane przez Użytkowników treści.</li>
+            <li>  Zabrania się Użytkownikowi zamieszczania na Portalu treści nieodpowiednich i niezgodnych z głównym przeznaczeniem Portalu, jakim jest funkcja społecznościowa. W szczególności niedozwolone są treści i zdjęcia o charakterze pornograficznym, naruszającym zarówno normy prawne, morale, obrazujące lub namawiające do przemocy, nienawiści, dyskryminacji, naruszające dobra oraz godność osobistą.</li>
+            <li>  Administrator nie redaguje treści zamieszczanych na Portalu, ale zastrzega sobie prawo do usuwania treści niespełniających wymagań regulaminu.</li>
+            <li>  Administrator zastrzega sobie prawo do odbierania dostępu do Portalu Kontom Użytkowników, którzy łamią punkty niniejszego Regulaminu.</li>
+            <li>  Administrator zastrzega sobie prawo do zmiany Regulaminu, powiadamiając o tym Użytkowników poprzez wewnętrzną skrzynkę pocztową.</li>
+            </ol>
+
+            </p>
+
+            <div class="modal-buttons">
+            <button id="reg-btn" class="button">Zamknij</button></div>
+        </div>
+    </div>
     <div class="columnLeft">
         <div id="ilogo">
             {# <a href="{{ path('main') }}"><img src="{{ asset('web/images/logov22.png') }}"  width="100"
@@ -44,7 +79,7 @@ Jesteś pełnym zapału artystą i potrzebujesz okazji by zabłysnąć? Szukasz 
 Dołącz do tysięcy zadowolonych użytkowników, aby móc przeglądać nowości w świecie muzycznym. Rejestracja jest darmowa, a to doskonała cena!</p>
             <div class="navigs">
 
-
+            <button id="regShow" class="buttonR">Regulamin</button>
             </div>
 
 
@@ -202,9 +237,20 @@ Dołącz do tysięcy zadowolonych użytkowników, aby móc przeglądać nowości
     confirm_password.onkeyup = validatePassword;
 
 
+//////////////
 
 
+    $("#regShow").on("click", function () {
 
+            $('#modal-regulamin').show();
+
+    });
+
+    $("#reg-btn").on("click", function () {
+
+        $('#modal-regulamin').hide();
+
+    });
 
 
 </script>
