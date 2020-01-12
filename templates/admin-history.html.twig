@@ -45,23 +45,32 @@
 
 
     {#start post#}
+    {% for ban in bans %}
     <div class="post">
-        <h6 style="margin: 0px;">ID:  </h6>
-        <h5 style="margin-top: 5px;"><a style="color:red;">username</a>
-            ↔ czas</h5>
-        <p> powod? Jak nie przzecowujemy to mozesz wywalić</p>
+        <h10 style="margin: 0px;">ID: {{ ban.reportId }} </h10>
+        <h12 style="margin-top: 5px;"><a style="color:red;">{{ ban.user.username }}</a>
+            ↔ {{ban.timestamp|date('Y-m-d h:m:s')}}</h12>
         <div class="buttons">
-            <button class="block" >Odblokuj użytkownika</button>
+            <button class="cancel" onclick="unbanUser({{ ban.user.userId }})">Odblokuj użytkownika</button>
         </div>
 
 
     </div>
+    {% endfor %}
     <br>
 
     {#end post#}
 
     <script>
+        function unbanUser(userId) {
+            $.ajax({
+                url: location.protocol + '//' + window.location.host + '/admin/unbanUser',
+                type: 'PATCH',
+                data: {userId: userId},
+            });
 
+            location.reload()
+        }
     </script>
 
 

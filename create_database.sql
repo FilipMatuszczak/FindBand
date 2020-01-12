@@ -181,3 +181,5 @@ CREATE TABLE IF NOT EXISTS bans
     FOREIGN KEY (subject_id)
         REFERENCES users (user_id)
 ) ENGINE = INNODB;
+
+INSERT INTO findband.users (user_id, city_id, firstname, lastname, username, email, password, salt, date_of_birth, info, photo, authentication_link, change_password_link, change_password_link_expiration_date, login_attempts_failed, last_login_failed_date, options) VALUES (12, null, 'admin', 'admin', 'admin', 'chips1331@gmail.com', '8d454961c6d8783d80567df4a345a9eb02b3901318112a242b366c04828bc2b4c911300a180f552b7f368ad1dc75dd4b194c050b585c4338bb3a2729a7f058e4', 'ajLFawhsUEgKAOccCWXme0KXPPprDmbN', null, null, null, null, null, null, 0, null, 9);

@@ -151,13 +151,6 @@ class User implements UserInterface, \Serializable
     private $musicGenre;
 
     /**
-     * @var Collection
-     *
-     * @OneToMany(targetEntity="App\Entity\Ban", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
-     */
-    public $bans;
-
-    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="change_password_link_expiration_date", type="datetime", nullable=true)

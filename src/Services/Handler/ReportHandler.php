@@ -47,16 +47,17 @@ class ReportHandler
     {
         $report = $this->reportRepository->findOneBy(['reportId' => $reportId]);
 
-        $report->setOptions(Report::OPTIONS_CANCELLED);
+        $report->addOption(Report::OPTIONS_CANCELLED);
         $this->entityManager->flush();
     }
 
     public function banUser($reportId, $userId)
     {
         $report = $this->reportRepository->findOneBy(['reportId' => $reportId]);
-        $report->setOptions(Report::OPTIONS_USER_BANNED);
+        $report->addOption(Report::OPTIONS_USER_BANNED);
         $user = $this->userProvider->loadUserById($userId);
         $user->addOption(User::USER_BANNED);
+        $report->setUser($user);
 
         $this->entityManager->flush();
     }
@@ -64,13 +65,29 @@ class ReportHandler
     public function deleteItem($reportId)
     {
         $report = $this->reportRepository->findOneBy(['reportId' => $reportId]);
-        $report->setOptions(Report::OPTIONS_DELETED);
-        if ($report->getNotice()) {
-            $this->entityManager->remove($report->getNotice());
+        $report->addOption(Report::OPTIONS_DELETED);
+        $reports = [];
+        if ($notice = $report->getNotice()) {
+            $reports = $this->reportRepository->findBy(['notice' => $notice]);
+
+            $this->entityManager->remove($notice);
         } else {
-            $this->entityManager->remove($report->getPost());
+            $post = $report->getPost();
+            $reports = $this->reportRepository->findBy(['post' => $post]);
+
+            $this->entityManager->remove($post);
         }
 
+        foreach ($reports as $report) {
+            $report->addOption(Report::OPTIONS_DELETED);
+        }
+        $this->entityManager->flush();
+    }
+
+    public function unbanUser($userId)
+    {
+        $user = $this->userProvider->loadUserById($userId);
+        $user->unsetOption(User::USER_BANNED);
         $this->entityManager->flush();
     }
 

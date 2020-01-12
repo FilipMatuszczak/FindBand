@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Ban;
 use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -18,33 +19,15 @@ class ReportRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Report::class);
     }
-
-    // /**
-    //  * @return Report[] Returns an array of Report objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function fetchBansByUsers($users)
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $queryBuilder =  $this->createQueryBuilder('b');
 
-    /*
-    public function findOneBySomeField($value): ?Report
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $queryBuilder
+            ->select('b')
+            ->where('BIT_AND(b.options, ' . Report::OPTIONS_USER_BANNED .') = 1')
+            ->andWhere('b.user in (:users)')
+            ->setParameter('users', $users)
+            ->getQuery()->execute();
     }
-    */
 }

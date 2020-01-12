@@ -69,4 +69,11 @@ class UserRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function fetchAllBannedUsers()
+    {
+        $queryBuilder =  $this->createQueryBuilder('u');
+
+        return $queryBuilder->select('u')->where('BIT_AND(u.options, ' . User::USER_BANNED .') = 16')
+            ->getQuery()->execute();
+    }
 }

@@ -154,5 +154,13 @@ class Report
         return $this;
     }
 
+    public function addOption($option)
+    {
+        $this->options = $this->options | $option;
+    }
 
+    public function hasOption($option)
+    {
+        return boolval($this->options & $option);
+    }
 }

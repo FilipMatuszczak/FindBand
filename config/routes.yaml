@@ -243,3 +243,8 @@ deleteItemAction:
   path: /admin/deleteItem
   controller: App\Controller\AdminController:deleteItemAction
   methods: POST
+
+unbanUserAction:
+  path: /admin/unbanUser
+  controller: App\Controller\AdminController:unbanUserAction
+  methods: PATCH

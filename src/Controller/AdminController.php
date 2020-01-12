@@ -46,10 +46,8 @@ class AdminController extends AbstractController
     public function deleteItemAction(Request $request)
     {
         $reportId = $request->get('reportId');
-        $banUser = $request->get('banUser');
 
         $this->reportHandler->deleteItem($reportId);
-        $request->setMethod('PATCH');
         $this->reportHandler->banUser($request->get('reportId'), $request->get('userId'));
 
         return $this->redirectToRoute('adminReportsIndexAction');
@@ -57,6 +55,13 @@ class AdminController extends AbstractController
 
     public function adminBansIndexAction()
     {
-        return $this->render('admin-history.html.twig');
+        return $this->render('admin-history.html.twig', ['bans' => $this->reportDataProvider->getAllBannedUsers()]);
+    }
+
+    public function unbanUserAction(Request $request)
+    {
+        $this->reportHandler->unbanUser($request->get('userId'));
+
+        return $this->redirectToRoute('adminBanUserAction');
     }
 }
