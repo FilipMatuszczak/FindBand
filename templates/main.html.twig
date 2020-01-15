@@ -16,7 +16,21 @@
 
 
         {#<h3 style="text-align: center; color: darkgrey;">pusto :(((((((((</h3>#}
-
+    {% if  notices is empty and bands is empty %}
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    {% endif %}
+    {% if notices is not empty %}
     <div id="divide">
         <h3 style="text-align: center; color: darkgrey;">Ogłoszenia, które mogą cie zainteresować</h3>
     </div>
@@ -52,8 +66,12 @@
             </button>
         </div>
     {% endfor %}
-
-
+        {% else %}
+            <div id="divide">
+                <h3 style="text-align: center; color: darkgrey;">Nie znaleźliśmy ogłoszeń, które mogłyby Cię zainteresować, spróbuj uzupełnić swój profil o dodatkowe instrumenty.</h3>
+            </div>
+    {% endif %}
+{% if bands is not empty %}
 <div id="divide">
     <h3 style="text-align: center; color: darkgrey;">Zespoły w twoim stylu</h3>
 </div>
@@ -69,7 +87,11 @@
             {% endfor %}
         </div>
     {% endfor %}
-
+    {% else %}
+        <div id="divide">
+            <h3 style="text-align: center; color: darkgrey;">Nie znaleźliśmy zespołów, które mogłyby Cię zainteresować, spróbuj uzupełnić swój profil o dodatkowe style muzyczne.</h3>
+        </div>
+{% endif %}
 
 
     {# wiadomosci #}

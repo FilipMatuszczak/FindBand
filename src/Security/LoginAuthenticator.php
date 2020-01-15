@@ -95,13 +95,13 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
             throw new UnauthorizedHttpException('', 'You were banned due to your behaviour');
         }
 
-        /*
         if ($userEntity->getOptions() & User::USER_CHANGING_PASSWORD)
         {
-            $userEntity->setOptions($userEntity->getOptions() ^ User::USER_CHANGING_PASSWORD);
+            $userEntity->unsetOption( User::USER_CHANGING_PASSWORD);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-        }*/
+        }
+
         $this->handleUserLock($userEntity);
 
         if (!$userEntity->getOptions() & User::USER_VERIFIED)
