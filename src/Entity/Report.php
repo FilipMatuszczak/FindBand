@@ -41,7 +41,7 @@ class Report
     private $timestamp;
 
     /**
-     * @var bool|null
+     * @var int|null
      *
      * @ORM\Column(name="options", type="integer", nullable=true)
      */
@@ -162,5 +162,10 @@ class Report
     public function hasOption($option)
     {
         return boolval($this->options & $option);
+    }
+
+    public function unsetOption($option)
+    {
+        $this->options = $this->options - $option;
     }
 }

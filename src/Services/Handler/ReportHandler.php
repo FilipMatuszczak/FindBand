@@ -55,6 +55,8 @@ class ReportHandler
     {
         $report = $this->reportRepository->findOneBy(['reportId' => $reportId]);
         $report->addOption(Report::OPTIONS_USER_BANNED);
+        $report->setNotice(null);
+        $report->setPost(null);
         $user = $this->userProvider->loadUserById($userId);
         $user->addOption(User::USER_BANNED);
         $report->setUser($user);
@@ -88,6 +90,12 @@ class ReportHandler
     {
         $user = $this->userProvider->loadUserById($userId);
         $user->unsetOption(User::USER_BANNED);
+        $reports = $this->reportRepository->findBy(['user' => $user, 'post' => null, 'notice' => null]);
+        foreach ($reports as $report) {
+            $report->unsetOption(Report::OPTIONS_USER_BANNED);
+            $report->addOption(Report::OPTIONS_CANCELLED);
+        }
+
         $this->entityManager->flush();
     }
 

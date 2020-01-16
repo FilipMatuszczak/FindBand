@@ -19,6 +19,7 @@ class ReportRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Report::class);
     }
+
     public function fetchBansByUsers($users)
     {
         $queryBuilder =  $this->createQueryBuilder('b');
@@ -27,6 +28,7 @@ class ReportRepository extends ServiceEntityRepository
             ->select('b')
             ->where('BIT_AND(b.options, ' . Report::OPTIONS_USER_BANNED .') = 1')
             ->andWhere('b.user in (:users)')
+            ->groupBy('b.user')
             ->setParameter('users', $users)
             ->getQuery()->execute();
     }

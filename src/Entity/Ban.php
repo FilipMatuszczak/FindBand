@@ -41,7 +41,7 @@ class Ban
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="bans")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="subjectBans")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="subject_id", referencedColumnName="user_id")
      * })

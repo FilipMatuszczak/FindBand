@@ -158,6 +158,13 @@ class User implements UserInterface, \Serializable
     public $bans;
 
     /**
+     * @var Collection
+     *
+     * @OneToMany(targetEntity="App\Entity\Ban", mappedBy="subject", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    public $subjectBans;
+
+    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="change_password_link_expiration_date", type="datetime", nullable=true)
