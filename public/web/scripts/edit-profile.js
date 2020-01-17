@@ -362,10 +362,10 @@ $(document).ready(function() {
     ////getting genres
     $('#names-container').on("input", ".ct", function (callback) {
 
-        if(changeTimer2 !== false) clearTimeout(changeTimer2);
-        changeTimer2 = setTimeout(function(){
+        if(changeTimer3 !== false) clearTimeout(changeTimer3);
+        changeTimer3 = setTimeout(function(){
             var ct = $(callback.target).val();
-            ///console.log(city);
+            ///console.log(ct);
             if (ct != '') {
 
 
@@ -376,7 +376,7 @@ $(document).ready(function() {
                 request.onload = function () {
 
                     var data = JSON.parse(this.response)
-                    $('#CityList').html('');
+                    $('#CtList').html('');
 
                     if (request.status >= 200 && request.status < 400) {
 
@@ -401,7 +401,7 @@ $(document).ready(function() {
             } else {
 
             }
-            changeTimer2 = false;
+            changeTimer3 = false;
         },500);
     });
     /////////////////////////////
