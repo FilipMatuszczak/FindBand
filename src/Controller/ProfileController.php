@@ -62,6 +62,9 @@ class ProfileController extends AbstractController
     public function indexAction($username)
     {
         $user = $this->userProvider->loadUserByUsername($username);
+        if (!$user) {
+            throw $this->createNotFoundException('No user with such username');
+        }
         $posts = $this->postsDataProvider->getUserPosts($user);
 
         return $this->render('profile.html.twig', ['user' => $user, 'posts' => $posts]);

@@ -5,8 +5,10 @@ namespace App\Security;
 use App\Entity\User;
 use App\Services\Handler\PasswordHandler;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -92,7 +94,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
 
         if ($userEntity->getOptions() & User::USER_BANNED)
         {
-            throw new UnauthorizedHttpException('', 'You were banned due to your behaviour');
+            throw new HttpException(403, 'You were banned due to your behaviour');
         }
 
         if ($userEntity->getOptions() & User::USER_CHANGING_PASSWORD)

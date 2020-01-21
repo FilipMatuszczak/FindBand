@@ -60,7 +60,9 @@ class AdminController extends AbstractController
         $reportId = $request->get('reportId');
 
         $this->reportHandler->deleteItem($reportId);
-        $this->reportHandler->banUser($request->get('reportId'), $request->get('userId'));
+        if ($request->get('banUser')) {
+            $this->reportHandler->banUser($request->get('reportId'), $request->get('userId'));
+        }
 
         return $this->redirectToRoute('adminReportsIndexAction');
     }
