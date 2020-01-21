@@ -28,7 +28,7 @@
                 {#Od kogoś #}
                 {% if message.sender.userId != app.user.userId %}
                     <div class="I-message">
-                        <a href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}"><img
+                        <a {% if user.username != 'admin' %} href="{{ path('profileIndexAction', {'username': message.sender.username } ) }}" {% endif %}><img
                                     id="comment-avatar-left"
                                     src="{{ asset(photo_data_provider.PhotoById(message.sender.userId)) }}" width="70"
                                     height="70"></a>

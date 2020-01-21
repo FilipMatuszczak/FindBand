@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MessageController extends AbstractController
 {
@@ -67,7 +68,9 @@ class MessageController extends AbstractController
         /** @var User $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $subject = $this->userProvider->loadUserById((int) $userId);
-
+        if (!$subject) {
+            throw new NotFoundHttpException();
+        }
         $messages = $this->messagesDataProvider->getMessagesForUser($user, $subject);
 
         return $this->render('Message.html.twig', ['messages' => $messages, 'user' => $subject]);

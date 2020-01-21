@@ -45,18 +45,19 @@
 
     {% for shortcut in shortcuts %}
     <div class="comment">
-        <a href="{{ path('profileIndexAction', {'username': shortcut.username } ) }}"><img id="comment-avatar-left"  src="{{ asset(photo_data_provider.PhotoByUsername(shortcut.username)) }}" width="70" height="70"></a>
+        <a {% if shortcut.username != 'admin' %}href="{{ path('profileIndexAction', {'username': shortcut.username } ) }}" {% endif %}><img id="comment-avatar-left"  src="{{ asset(photo_data_provider.PhotoByUsername(shortcut.username)) }}" width="70" height="70"></a>
 
 
 
         <p class="project-title"
-           href=" ">{{ shortcut.username }}</p>
+           href=" ">{% if shortcut.username != 'admin' %}{{ shortcut.username }} {% else %}FindBand Newsletter{% endif %}</p>
         ✽ {{ shortcut.date }}
 
 
         <p class="comment-content">
-
+            {% if shortcut.username != 'admin' %}
             {{ shortcut.lastMessageUsername }}:
+            {% endif %}
 
             {{ shortcut.lastMessageText }}
 
