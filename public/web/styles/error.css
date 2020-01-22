@@ -1,7 +1,7 @@
 
 body {
-	background-color: #39bbdb;
-	color: #fff;
+	background-color: #ECF0F1;
+	color: yellow;
 	padding-bottom: 0;
 	min-height: 100%;
 	font-family: 'Open Sans','Segoe UI';
@@ -9,61 +9,57 @@ body {
 }
 
 .error-header {
-	background: #fff;
-	height: 180px;
+	background: #7DA2AA;
+	height: 40px;
+	margin: -8px;
+	border-bottom: 2px solid white;
 }
 
 .error-container {
-	background: rgba(0,0,0,.05);
 	text-align: center;
 }
 
 .error-container h1 {
-	color: #39bbdb;
+	color: #EDBDBE;
+	text-shadow: black 0px 0px 4px;
 }
-
+.container{
+	background-color: rgba(255,255,255,0.8);
+	border: 1px solid #7DA2AA;
+	margin-right: 20%;
+	margin-left: 20%;
+}
 .error-container h1 {
 	font-size: 110px;
 	font-weight: 300;
-	margin: -103px 0 0 0;
+	margin: -3px 0 0 0;
 	text-align: center;
 }
 
-.error-divider {
-	margin-top: -27px;
-	padding: 30px 0;
-}
-
-.error-container h2 {
-	font-size: 58px;
-	font-weight: 300;
-	margin: 0;
-	text-transform: uppercase;
-}
-
 .error-container p.description {
-	color: #e5e5e5;
+	color: black;
 	font-size: 40px;
 	margin: 0;
 }
 
 .return-btn, .return-btn:hover {
-	border: 1px solid rgba(255,255,255,.3);
+	border: 1px solid #7DA2AA;
+	border-radius: 10px;
 	padding: 10px 15px;
 	margin-top: 100px;
 	margin-bottom: 30px;
 	display: inline-block;
-	-webkit-border-radius: 5px;
-	-webkit-background-clip: padding-box;
-	-moz-border-radius: 5px;
-	-moz-background-clip: padding;
-	border-radius: 5px;
-	background-clip: padding-box;
-	color: #fff;
-	font-size: 16px;
+
+	color: black;
+	font-size: 32px;
 	font-weight: 300;
+	text-decoration: none;
 }
 
 a:hover {
-	text-decoration: none;}
+	text-decoration: none;
+	background-color: rgba(0,0,0,0.05);
+	color: #EDBDBE;
+
+}
  

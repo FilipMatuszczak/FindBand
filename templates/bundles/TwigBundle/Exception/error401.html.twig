@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block stylesheets %}
+        <link href="{{ asset('web/styles/error.css') }}" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone/babel.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>FindBand</title>
+</head>
+<body>
+<div class="error-header">
+</div>
+<br><br><br><br><br><br>
+<div class="container ">
+    <section class="error-container text-center">
+        <h1>401</h1>
+        <div class="error-divider">
+
+            <p class="description">Brak dostępu</p>
+        </div>
+        <a href=" " class="return-btn"><i class="fa fa-home"></i> Strona główna </a>
+    </section>
+</div>
+
+</body>
+</html>
